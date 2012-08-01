@@ -2,7 +2,7 @@
 
 This is a simple library to match POJO against LDAP-like filters.
 
-## Maven Compilation
+## Maven compilation
 
 LDAP Filter is a [Maven](http://maven.apache.org "Maven") managed project. All you have to do is to invoke the `install` command from the root directory (`LDAP_FILTER_DIR`):
 
@@ -12,7 +12,7 @@ mvn install
 ```
 
 
-## Maven Artefact
+## Maven artefact
 
 Once installed, the LDAP Filter artefacts is available as:
 
@@ -24,7 +24,7 @@ Once installed, the LDAP Filter artefacts is available as:
 </dependency>
 ```
 
-## API Usage
+## API usage
 
 ``` java
 public class Person {
@@ -45,7 +45,14 @@ public class Person {
 }
 ```
 
+Currently, the LDAP Filter library supports the following operators:
 
+| Operator | Description  | Supported types        |
+|:--------:|:------------:|:-----------------------|
+| =        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |
+| ~        | differs form | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |
+| >        | more than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) |
+| <        | less than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) |
 
 ## Licence
 

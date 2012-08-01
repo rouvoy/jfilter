@@ -1,6 +1,14 @@
+# Can ignore specific files
+.DS_Store
+.cache
+.classpath
+.project
+.settings
+target
+
+# Use wildcards as well
+*~
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# Can also ignore all directories and files in a directory.
+target/**/* 
