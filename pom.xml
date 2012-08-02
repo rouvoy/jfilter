@@ -12,7 +12,7 @@
 
   <licenses>
   <license>
-      <name>The GNU Lesser General Public License, Version 2</name>
+    <name>The GNU Lesser General Public License, Version 2</name>
     <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
   </license>
   </licenses>
@@ -30,19 +30,17 @@
     </dependency>
   </dependencies>
 
-    <developers>
-  <developer>
-    <id>rouvoy</id>
-    <name>Romain Rouvoy</name>
-    <email>romain.rouvoy@univ-lille1.fr</email>
-    <organization>University Lille 1 / Inria</organization>
-    <organizationUrl>http://www.univ-lille1.fr</organizationUrl>
-    <roles>
-      <role>Architect</role>
-      <role>Developer</role>
-    </roles>
-  </developer>
-  </developer>
-
+  <developers>
+    <developer>
+      <id>rouvoy</id>
+      <name>Romain Rouvoy</name>
+      <email>romain.rouvoy@univ-lille1.fr</email>
+      <organization>University Lille 1 / Inria</organization>
+      <organizationUrl>http://www.univ-lille1.fr</organizationUrl>
+      <roles>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+    </developer>
   </developers>
 </project>

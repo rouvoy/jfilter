@@ -19,7 +19,7 @@ Once installed, the LDAP Filter artefacts is available as:
 ``` xml
 <dependency>
     <groupId>org.ldap.filter</groupId>
-    <artefactId>ldap-filter</artefactId>
+    <artifactId>ldap-filter</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -47,12 +47,12 @@ public class Person {
 
 Currently, the LDAP Filter library supports the following operators:
 
-| Operator | Description  | Supported types        |
-|:--------:|:------------:|:-----------------------|
-| =        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |
-| ~        | differs form | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |
-| >        | more than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) |
-| <        | less than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) |
+| Operator | Description  | Supported types | Filter example |
+|:--------:|:------------:|:----------------| --------------:|
+| =        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname=John)` |
+| ~        | differs form | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
+| >        | more than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(heigth>1.6)` |
+| <        | less than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
 
 ## Licence
 

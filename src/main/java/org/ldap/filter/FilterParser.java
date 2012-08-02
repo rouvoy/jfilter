@@ -6,13 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ldap.filter.lib.EqualsFilter;
-import org.ldap.filter.lib.FalseFilter;
 import org.ldap.filter.lib.LessThanFilter;
 import org.ldap.filter.lib.MoreThanFilter;
 import org.ldap.filter.lib.NotFilter;
 
 public class FilterParser {
 	// filter = "(" filtercomp ")"
+	private final Pattern filterRule = Pattern.compile("^\\x28(.+)\\x29$");
+
 	// filtercomp = and / or / not / item
 	// and = "&" filterlist
 	// or = "|" filterlist
@@ -25,7 +26,8 @@ public class FilterParser {
 	// approx = "~="
 	// greater = ">="
 	// less = "<="
-	//
+	private final Pattern simpleRule = Pattern.compile("(\\w*)([=|~|>|<])(.+)");
+
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
 	// / [":dn"] ":" matchingrule ":=" value
 	// present = attr "=*"
@@ -49,7 +51,6 @@ public class FilterParser {
 		return filter(filter);
 	}
 
-	private final Pattern filterRule = Pattern.compile("^\\x28(.+)\\x29$");
 
 	private final Filter filter(String filter) throws FilterException {
 		final Matcher m = filterRule.matcher(filter);
@@ -62,7 +63,6 @@ public class FilterParser {
 		return simple(m.group(1));
 	}
 
-	private final Pattern simpleRule = Pattern.compile("(\\w*)([=|~|>|<])(.+)");
 
 	private final Filter simple(String filter) throws FilterException {
 		Matcher m = simpleRule.matcher(filter);
