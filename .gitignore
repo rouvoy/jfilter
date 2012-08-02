@@ -4,11 +4,13 @@
 .classpath
 .project
 .settings
+.idea
 target
 
 # Use wildcards as well
 *~
 *.class
+*.iml
 
 # Can also ignore all directories and files in a directory.
 target/**/* 

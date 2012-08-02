@@ -34,13 +34,13 @@ public class Person {
 	double height = 1.8 ; 
 
     public static void main(String[] args) {
-    Person x = new Person();
+        Person x = new Person();
 
-    // Creates a POJO filter from the LDAP syntax
-    Filter filter = FilterParser.instance.parse("(age>18)");
+        // Creates a POJO filter from the LDAP syntax
+        Filter filter = FilterParser.instance.parse("(age>18)");
             
-    if (filter.match(x))
-        System.out.println(x.firstname+" "+x.name+" is more than 18 years old.");
+        if (filter.match(x))
+            System.out.println(x.firstname+" "+x.name+" is more than 18 years old.");
     }
 }
 ```
