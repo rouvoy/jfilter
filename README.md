@@ -50,7 +50,7 @@ Currently, the LDAP Filter library supports the following operators:
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
 | =        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname=John)` |
-| ~        | differs form | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
+| ~        | differs from | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
 | >        | more than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(heigth>1.6)` |
 | <        | less than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
 

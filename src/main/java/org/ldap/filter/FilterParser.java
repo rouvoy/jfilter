@@ -46,19 +46,19 @@ public class FilterParser {
 	}
 
 	public Filter parse(String filter) throws FilterException {
-		if (log.isLoggable(Level.INFO))
-			log.info("Parsing filter \"" + filter + "\"");
+		if (log.isLoggable(Level.FINE))
+			log.fine("Parsing filter \"" + filter + "\"");
 		return filter(filter);
 	}
 
 
 	private final Filter filter(String filter) throws FilterException {
 		final Matcher m = filterRule.matcher(filter);
-		if (log.isLoggable(Level.FINE))
-			log.fine("Matching \"" + filter + "\" against "
-					+ filterRule.pattern() + " => " + m.find() + " ("
+		if (log.isLoggable(Level.FINER))
+			log.finer("Matching \"" + filter + "\" against "
+					+ filterRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
-		if (!m.find())
+		if (!m.matches())
 			throw new FilterException("Sub-filter " + filter + " is incorrect");
 		return simple(m.group(1));
 	}
@@ -66,11 +66,11 @@ public class FilterParser {
 
 	private final Filter simple(String filter) throws FilterException {
 		Matcher m = simpleRule.matcher(filter);
-		if (log.isLoggable(Level.FINE))
-			log.fine("Matching \"" + filter + "\" against "
-					+ simpleRule.pattern() + " => " + m.find() + " ("
+		if (log.isLoggable(Level.FINER))
+			log.finer("Matching \"" + filter + "\" against "
+					+ simpleRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
-		if (!m.find())
+		if (!m.matches())
 			throw new FilterException("Sub-filter " + filter + " is incorrect");
 		if (m.group(2).equals("="))
 			return new EqualsFilter(m.group(1), m.group(3));

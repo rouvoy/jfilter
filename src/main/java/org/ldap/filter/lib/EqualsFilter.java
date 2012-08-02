@@ -23,7 +23,6 @@ public class EqualsFilter extends SimpleFilter {
 				return field.getBoolean(bean) == Boolean.parseBoolean(value);
 			return field.get(bean).equals(value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
