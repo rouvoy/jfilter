@@ -11,7 +11,7 @@ import org.ldap.filter.FilterParser;
 
 public class LdapFilterParser extends FilterParser {
 	// filter = "(" filtercomp ")"
-	private final Pattern filterRule = Pattern.compile("^\\x28(.+)\\x29$");
+	private final Pattern filterRule = Pattern.compile("^\\x28\\s*(.+)\\s*\\x29$");
 
 	// filtercomp = and / or / not / item
 	// and = "&" filterlist
@@ -25,7 +25,7 @@ public class LdapFilterParser extends FilterParser {
 	// approx = "~="
 	// greater = ">="
 	// less = "<="
-	private final Pattern simpleRule = Pattern.compile("(\\w*)([=|~|>|<])(.+)");
+	private final Pattern simpleRule = Pattern.compile("(\\S*)\\s*([=|~|>|<])\\s*(.+)");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
 	// / [":dn"] ":" matchingrule ":=" value
@@ -43,7 +43,7 @@ public class LdapFilterParser extends FilterParser {
 	public Filter parse(String filter) throws FilterException {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsing filter \"" + filter + "\"");
-		return filter(filter);
+		return filter(filter.trim().replaceAll(" ", ""));
 	}
 
 
@@ -54,7 +54,7 @@ public class LdapFilterParser extends FilterParser {
 					+ filterRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect");
+			throw new FilterException("Sub-filter " + filter + " is incorrect [filter failed]");
 		return simple(m.group(1));
 	}
 
@@ -66,7 +66,7 @@ public class LdapFilterParser extends FilterParser {
 					+ simpleRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect");
+			throw new FilterException("Sub-filter " + filter + " is incorrect [simple failed]");
 		if (m.group(2).equals("="))
 			return new EqualsFilter(m.group(1), m.group(3));
 		if (m.group(2).equals("~"))
@@ -75,8 +75,8 @@ public class LdapFilterParser extends FilterParser {
 			return new MoreThanFilter(m.group(1), m.group(3));
 		if (m.group(2).equals("<"))
 			return new LessThanFilter(m.group(1), m.group(3));
-		throw new FilterException("Operator " + m.group(2)
-				+ " is not supported");
+		throw new FilterException("Operator \"" + m.group(2)
+				+ "\" is not supported");
 	}
 
 }

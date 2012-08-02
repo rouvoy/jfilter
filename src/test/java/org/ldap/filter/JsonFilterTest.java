@@ -37,6 +37,11 @@ public class JsonFilterTest extends TestCase {
 		assertTrue(filter.match(x));
 	}
 
+	public void testFilterEqualsStringWithSpace() throws FilterException {
+		Filter filter = FilterParser.json.parse("{ name : Doe }");
+		assertTrue(filter.match(x));
+	}
+
 	public void testFilterEqualsBolean() throws FilterException {
 		Filter filter = FilterParser.json.parse("{male:true}");
 		assertTrue(filter.match(x));

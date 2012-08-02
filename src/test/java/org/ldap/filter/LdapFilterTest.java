@@ -36,6 +36,10 @@ public class LdapFilterTest extends TestCase {
 		Filter filter = FilterParser.ldap.parse("(name=Doe)");
 		assertTrue(filter.match(x));
 	}
+	public void testFilterEqualsStringWithSpace() throws FilterException {
+		Filter filter = FilterParser.ldap.parse("( name = Doe )");
+		assertTrue(filter.match(x));
+	}
 
 	public void testFilterEqualsBolean() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(male=true)");

@@ -11,15 +11,15 @@ import org.ldap.filter.FilterParser;
 
 public class JsonFilterParser extends FilterParser {
 	// filter = "{" filtercomp "}"
-	private final Pattern filterRule = Pattern.compile("^\\x7B(.+)\\x7D$");
-	private final Pattern simpleRule = Pattern.compile("(\\w*):(.+)");
+	private final Pattern filterRule = Pattern.compile("^\\x7B\\s*(.+)\\s*\\x7D$");
+	private final Pattern simpleRule = Pattern.compile("(\\S*)\\s*:\\s*(.+)");
 
 	private final Logger log = Logger.getLogger(JsonFilterParser.class.getName());
 
 	public Filter parse(String filter) throws FilterException {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsing filter \"" + filter + "\"");
-		return filter(filter);
+		return filter(filter.trim().replaceAll(" ", ""));
 	}
 
 
@@ -30,7 +30,7 @@ public class JsonFilterParser extends FilterParser {
 					+ filterRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect");
+			throw new FilterException("Sub-filter " + filter + " is incorrect [filter failed]");
 		return simple(m.group(1));
 	}
 
@@ -42,7 +42,7 @@ public class JsonFilterParser extends FilterParser {
 					+ simpleRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect");
+			throw new FilterException("Sub-filter " + filter + " is incorrect [simple failed]");
 		return new EqualsFilter(m.group(1), m.group(2));
 	}
 }
