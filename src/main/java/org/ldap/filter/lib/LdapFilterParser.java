@@ -2,6 +2,7 @@ package org.ldap.filter.lib;
 
 import static java.util.regex.Pattern.compile;
 
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -23,10 +24,9 @@ public class LdapFilterParser extends FilterParser {
 	private final Pattern filtercompRule = compile("^([&|\\x7C])(.+)$");
 
 	// filterlist = 1*filter
-	private final Pattern filterlistRule = compile("^$");
-	
+
 	// item = simple / present / substring / extensible
-	
+
 	// simple = attr filtertype value
 	// filtertype = equal / approx / greater / less
 	// equal = "="
@@ -60,7 +60,48 @@ public class LdapFilterParser extends FilterParser {
 		if (m == null)
 			return none;
 		String val = m.group(1).trim();
-		return not(val).orElse(simple(val));
+		return filtercomp(val).orElse(not(val).orElse(simple(val)));
+	}
+
+	private final LinkedList<String> split(String input, char start, char end) {
+		LinkedList<String> res = new LinkedList<String>();
+		int count = 0;
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < input.length(); i++) {
+			char current = input.charAt(i);
+			if (current == start) {
+				count++;
+			}
+			if (count>0)
+				buf.append(current);
+			if (current == end) {
+				if (count == 1) {
+					res.add(buf.toString());
+					buf = new StringBuffer();
+				}
+				count--;
+			}
+		}
+		return res;
+	}
+
+	private final Option<Filter> filtercomp(String filter) {
+		final Matcher m = matches(filter, filtercompRule);
+		if (m == null)
+			return none;
+		LinkedList<Filter> list = new LinkedList<Filter>();
+		for (String f : split(m.group(2).trim(),'(',')')) {
+			Option<Filter> res = filter(f);
+			if (res.isEmpty())
+				return none;
+			list.add(res.get());
+		}
+		String operator = m.group(1).trim();
+		if (operator.equals("&"))
+			return some(and(list));
+		if (operator.equals("|"))
+			return some(or(list));
+		return none;
 	}
 
 	private final Option<Filter> not(String filter) {

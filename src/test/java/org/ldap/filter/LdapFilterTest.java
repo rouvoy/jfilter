@@ -23,7 +23,7 @@ public class LdapFilterTest extends TestCase {
 		String firstname = "John", name = "Doe";
 		int age = 20;
 		boolean male = true;
-		double height = 1.8 ; 
+		double height = 1.8;
 	}
 
 	private Person x = new Person();
@@ -99,6 +99,17 @@ public class LdapFilterTest extends TestCase {
 
 	public void testFilterNotEqualsString() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(!(name=Don))");
+		assertTrue(filter.match(x));
+	}
+
+	public void testFilterAndString() throws FilterException {
+		Filter filter = FilterParser.ldap
+				.parse("(&(name=Doe)(firstname=John))");
+		assertTrue(filter.match(x));
+	}
+
+	public void testFilterOrString() throws FilterException {
+		Filter filter = FilterParser.ldap.parse("(|(name=Doe)(age>10))");
 		assertTrue(filter.match(x));
 	}
 }

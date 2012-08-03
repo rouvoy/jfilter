@@ -17,6 +17,7 @@ import org.ldap.filter.lib.MoreThanFilter;
 import org.ldap.filter.lib.None;
 import org.ldap.filter.lib.NotFilter;
 import org.ldap.filter.lib.Option;
+import org.ldap.filter.lib.OrFilter;
 import org.ldap.filter.lib.Some;
 
 public class FilterParser {
@@ -54,6 +55,10 @@ public class FilterParser {
 
 	protected static Filter and(LinkedList<Filter> list) {
 		return new AndFilter(list);
+	}
+
+	protected static Filter or(LinkedList<Filter> list) {
+		return new OrFilter(list);
 	}
 
 	
