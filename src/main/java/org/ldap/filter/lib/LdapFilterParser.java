@@ -6,12 +6,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ldap.filter.Filter;
-import org.ldap.filter.FilterException;
 import org.ldap.filter.FilterParser;
 
 public class LdapFilterParser extends FilterParser {
 	// filter = "(" filtercomp ")"
-	private final Pattern filterRule = Pattern.compile("^\\x28\\s*(.+)\\s*\\x29$");
+	private final Pattern filterRule = Pattern.compile("^\\x28(.+)\\x29$");
 
 	// filtercomp = and / or / not / item
 	// and = "&" filterlist
@@ -25,7 +24,8 @@ public class LdapFilterParser extends FilterParser {
 	// approx = "~="
 	// greater = ">="
 	// less = "<="
-	private final Pattern simpleRule = Pattern.compile("(\\S*)\\s*([=|~|>|<])\\s*(.+)");
+	private final Pattern simpleRule = Pattern
+			.compile("(\\S*)\\s*([=|~|>|<])\\s*(.+)");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
 	// / [":dn"] ":" matchingrule ":=" value
@@ -38,45 +38,42 @@ public class LdapFilterParser extends FilterParser {
 	// matchingrule = MatchingRuleId from Section 4.1.9 of [1]
 	// value = AttributeValue from Section 4.1.6 of [1]
 
-	private final Logger log = Logger.getLogger(LdapFilterParser.class.getName());
+	private final Logger log = Logger.getLogger(LdapFilterParser.class
+			.getName());
 
-	public Filter parse(String filter) throws FilterException {
+	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
-			log.fine("Parsing filter \"" + filter + "\"");
-		return filter(filter.trim().replaceAll(" ", ""));
+			log.fine("Trying to parse as an LDAP filter \"" + filter + "\"");
+		return filter(filter.trim());
 	}
 
-
-	private final Filter filter(String filter) throws FilterException {
+	private final Option<Filter> filter(String filter) {
 		final Matcher m = filterRule.matcher(filter);
 		if (log.isLoggable(Level.FINER))
 			log.finer("Matching \"" + filter + "\" against "
 					+ filterRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
-		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect [filter failed]");
-		return simple(m.group(1));
+		return m.matches() ? simple(m.group(1).trim()) : none;
 	}
 
-
-	private final Filter simple(String filter) throws FilterException {
+	private final Option<Filter> simple(String filter) {
 		Matcher m = simpleRule.matcher(filter);
 		if (log.isLoggable(Level.FINER))
 			log.finer("Matching \"" + filter + "\" against "
 					+ simpleRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		if (!m.matches())
-			throw new FilterException("Sub-filter " + filter + " is incorrect [simple failed]");
-		if (m.group(2).equals("="))
-			return new EqualsFilter(m.group(1), m.group(3));
-		if (m.group(2).equals("~"))
-			return new NotFilter(new EqualsFilter(m.group(1), m.group(3)));
-		if (m.group(2).equals(">"))
-			return new MoreThanFilter(m.group(1), m.group(3));
-		if (m.group(2).equals("<"))
-			return new LessThanFilter(m.group(1), m.group(3));
-		throw new FilterException("Operator \"" + m.group(2)
-				+ "\" is not supported");
+			return none;
+		String operator = m.group(2).trim();
+		if (operator.equals("="))
+			return some(equalsTo(m.group(1), m.group(3)));
+		if (operator.equals("~"))
+			return some(not(equalsTo(m.group(1), m.group(3))));
+		if (operator.equals(">"))
+			return some(moreThan(m.group(1), m.group(3)));
+		if (operator.equals("<"))
+			return some(lessThan(m.group(1), m.group(3)));
+		return none;
 	}
 
 }

@@ -12,7 +12,7 @@ public class LessThanFilter extends SimpleFilter {
 		try {
 			Field field = bean.getClass().getDeclaredField(attribute);
 			field.setAccessible(true);
-			Class type = field.getType();
+			Class<?> type = field.getType();
 			if (type.isAssignableFrom(int.class))
 				return field.getInt(bean) < Integer.parseInt(value);
 			if (type.isAssignableFrom(float.class))
