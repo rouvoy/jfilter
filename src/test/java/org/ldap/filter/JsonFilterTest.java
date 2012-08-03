@@ -24,6 +24,7 @@ public class JsonFilterTest extends TestCase {
 		int age = 20;
 		boolean male = true;
 		double height = 1.8 ; 
+		String filter = "*:W";
 	}
 
 	private Person x = new Person();
@@ -64,6 +65,11 @@ public class JsonFilterTest extends TestCase {
 
 	public void testFilterEqualsDouble() throws FilterException {
 		Filter filter = FilterParser.json.parse("{height:1.8}");
+		assertTrue(filter.match(x));
+	}
+
+	public void testFilterStarFilter() throws FilterException {
+		Filter filter = FilterParser.json.parse("{\"filter\":\"*:W\"}");
 		assertTrue(filter.match(x));
 	}
 }

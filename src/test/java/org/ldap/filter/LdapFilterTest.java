@@ -36,6 +36,7 @@ public class LdapFilterTest extends TestCase {
 		Filter filter = FilterParser.ldap.parse("(name=Doe)");
 		assertTrue(filter.match(x));
 	}
+
 	public void testFilterEqualsStringWithSpace() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("( name = Doe )");
 		assertTrue(filter.match(x));
@@ -56,22 +57,22 @@ public class LdapFilterTest extends TestCase {
 		assertTrue(filter.match(x));
 	}
 
-	public void testFilterNotEqualsString() throws FilterException {
+	public void testFilterDiffersString() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(firstname~Bob)");
 		assertTrue(filter.match(x));
 	}
 
-	public void testFilterNotEqualsBolean() throws FilterException {
+	public void testFilterDiffersBolean() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(male~false)");
 		assertTrue(filter.match(x));
 	}
 
-	public void testFilterNotEqualsInt() throws FilterException {
+	public void testFilterDiffersInt() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(age~19)");
 		assertTrue(filter.match(x));
 	}
 
-	public void testFilterNotEqualsDouble() throws FilterException {
+	public void testFilterDiffersDouble() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(height~1.9)");
 		assertTrue(filter.match(x));
 	}
@@ -93,6 +94,11 @@ public class LdapFilterTest extends TestCase {
 
 	public void testFilterLessThanDouble() throws FilterException {
 		Filter filter = FilterParser.ldap.parse("(height<1.9)");
+		assertTrue(filter.match(x));
+	}
+
+	public void testFilterNotEqualsString() throws FilterException {
+		Filter filter = FilterParser.ldap.parse("(!(name=Don))");
 		assertTrue(filter.match(x));
 	}
 }

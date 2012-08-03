@@ -1,5 +1,7 @@
 package org.ldap.filter.lib;
 
+import static java.util.regex.Pattern.compile;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -10,8 +12,8 @@ import org.ldap.filter.FilterParser;
 
 public class JsonFilterParser extends FilterParser {
 	// filter = "{" filtercomp "}"
-	private final Pattern filterRule = Pattern.compile("^\\x7B(.+)\\x7D$");
-	private final Pattern simpleRule = Pattern.compile("(\\S*)\\s*:\\s*(.+)");
+	private final Pattern filterRule = compile("^\\x7B(.+)\\x7D$");
+	private final Pattern simpleRule = compile("^([^:]*)\\s*:\\s*(.+)$");
 
 	private final Logger log = Logger.getLogger(JsonFilterParser.class
 			.getName());

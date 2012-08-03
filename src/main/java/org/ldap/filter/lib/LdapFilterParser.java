@@ -1,5 +1,7 @@
 package org.ldap.filter.lib;
 
+import static java.util.regex.Pattern.compile;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -10,12 +12,13 @@ import org.ldap.filter.FilterParser;
 
 public class LdapFilterParser extends FilterParser {
 	// filter = "(" filtercomp ")"
-	private final Pattern filterRule = Pattern.compile("^\\x28(.+)\\x29$");
+	private final Pattern filterRule = compile("^\\x28(.+)\\x29$");
 
 	// filtercomp = and / or / not / item
 	// and = "&" filterlist
 	// or = "|" filterlist
 	// not = "!" filter
+	private final Pattern notRule = compile("^!(.+)$");
 	// filterlist = 1*filter
 	// item = simple / present / substring / extensible
 	// simple = attr filtertype value
@@ -24,8 +27,8 @@ public class LdapFilterParser extends FilterParser {
 	// approx = "~="
 	// greater = ">="
 	// less = "<="
-	private final Pattern simpleRule = Pattern
-			.compile("(\\S*)\\s*([=|~|>|<])\\s*(.+)");
+
+	private final Pattern simpleRule = compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
 	// / [":dn"] ":" matchingrule ":=" value
@@ -53,7 +56,22 @@ public class LdapFilterParser extends FilterParser {
 			log.finer("Matching \"" + filter + "\" against "
 					+ filterRule.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
-		return m.matches() ? simple(m.group(1).trim()) : none;
+		if (!m.matches())
+			return none;
+		String val = m.group(1).trim();
+		return not(val).orElse(simple(val));
+	}
+
+	private final Option<Filter> not(String filter) {
+		final Matcher m = notRule.matcher(filter);
+		if (log.isLoggable(Level.FINER))
+			log.finer("Matching \"" + filter + "\" against "
+					+ notRule.pattern() + " => " + m.matches() + " ("
+					+ m.groupCount() + ")");
+		if (!m.matches())
+			return none;
+		Option<Filter> res = filter(m.group(1).trim());
+		return res.isEmpty() ? none : some(not(res.get()));
 	}
 
 	private final Option<Filter> simple(String filter) {
