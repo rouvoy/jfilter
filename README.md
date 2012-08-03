@@ -56,20 +56,20 @@ Currently, the library supports the following LDAP filters:
 
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
-| =        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname=John)` |
-| ~        | differs from | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
-| >        | more than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(heigth>1.6)` |
-| <        | less than    | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
-| !        | not    | Filter | `(!(age<10))` |
-| &        | or    | Filter | `(&(name=Doe)(firstname=John))` |
-| \|        | and    | Filter | `(|(age<10)(male=true))` |
+| `=`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname=John)` |
+| `~`      | *differs from* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
+| `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(heigth>1.6)` |
+| `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
+| `!`      | *not*        | Filter          | `(!(age<10))` |
+| `&`      | *and*        | Filters         | `(&(name=Doe)(firstname=John))` |
+| `|`      | *or*         | Filters         | `(|(age<10)(male=true))` |
 
 The library also supports the following JSON-like filters:
 
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
-| :        | equals to    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `{firstname:John}` |
-| ,        | and    | Filter | `{name:Doe,firstname:John}` |
+| `:`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `{firstname:John}` |
+| `,`      | *and*        | Filters         | `{name:Doe,firstname:John}` |
 
 
 
