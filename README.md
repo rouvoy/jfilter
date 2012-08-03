@@ -62,14 +62,14 @@ Currently, the library supports the following LDAP filters:
 | `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
 | `!`      | *not*        | Filter          | `(!(age<10))` |
 | `&`      | *and*        | Filters         | `(&(name=Doe)(firstname=John))` |
-| `|`      | *or*         | Filters         | `(|(age<10)(male=true))` |
+| `\|`   | *or*         | Filters         | `(|(age<10)(male=true))` |
 
 The library also supports the following JSON-like filters:
 
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
 | `:`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `{firstname:John}` |
-| `&#124;`      | *and*        | Filters         | `{name:Doe,firstname:John}` |
+| `,`      | *and*        | Filters         | `{name:Doe,firstname:John}` |
 
 
 
