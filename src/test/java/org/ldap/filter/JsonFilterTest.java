@@ -68,6 +68,11 @@ public class JsonFilterTest extends TestCase {
 		assertTrue(filter.match(x));
 	}
 
+	public void testFilterSequence() throws FilterException {
+		Filter filter = FilterParser.json.parse("{firstname:John,name:Doe}");
+		assertTrue(filter.match(x));
+	}
+
 	public void testFilterStarFilter() throws FilterException {
 		Filter filter = FilterParser.json.parse("{\"filter\":\"*:W\"}");
 		assertTrue(filter.match(x));

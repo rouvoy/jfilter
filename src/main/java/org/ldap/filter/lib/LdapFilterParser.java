@@ -14,20 +14,25 @@ public class LdapFilterParser extends FilterParser {
 	// filter = "(" filtercomp ")"
 	private final Pattern filterRule = compile("^\\x28(.+)\\x29$");
 
+	// not = "!" filter
+	private final Pattern notRule = compile("^!(.+)$");
+
 	// filtercomp = and / or / not / item
 	// and = "&" filterlist
 	// or = "|" filterlist
-	// not = "!" filter
-	private final Pattern notRule = compile("^!(.+)$");
+	private final Pattern filtercompRule = compile("^([&|\\x7C])(.+)$");
+
 	// filterlist = 1*filter
+	private final Pattern filterlistRule = compile("^$");
+	
 	// item = simple / present / substring / extensible
+	
 	// simple = attr filtertype value
 	// filtertype = equal / approx / greater / less
 	// equal = "="
 	// approx = "~="
 	// greater = ">="
 	// less = "<="
-
 	private final Pattern simpleRule = compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
@@ -51,36 +56,24 @@ public class LdapFilterParser extends FilterParser {
 	}
 
 	private final Option<Filter> filter(String filter) {
-		final Matcher m = filterRule.matcher(filter);
-		if (log.isLoggable(Level.FINER))
-			log.finer("Matching \"" + filter + "\" against "
-					+ filterRule.pattern() + " => " + m.matches() + " ("
-					+ m.groupCount() + ")");
-		if (!m.matches())
+		final Matcher m = matches(filter, filterRule);
+		if (m == null)
 			return none;
 		String val = m.group(1).trim();
 		return not(val).orElse(simple(val));
 	}
 
 	private final Option<Filter> not(String filter) {
-		final Matcher m = notRule.matcher(filter);
-		if (log.isLoggable(Level.FINER))
-			log.finer("Matching \"" + filter + "\" against "
-					+ notRule.pattern() + " => " + m.matches() + " ("
-					+ m.groupCount() + ")");
-		if (!m.matches())
+		final Matcher m = matches(filter, notRule);
+		if (m == null)
 			return none;
 		Option<Filter> res = filter(m.group(1).trim());
 		return res.isEmpty() ? none : some(not(res.get()));
 	}
 
 	private final Option<Filter> simple(String filter) {
-		Matcher m = simpleRule.matcher(filter);
-		if (log.isLoggable(Level.FINER))
-			log.finer("Matching \"" + filter + "\" against "
-					+ simpleRule.pattern() + " => " + m.matches() + " ("
-					+ m.groupCount() + ")");
-		if (!m.matches())
+		final Matcher m = matches(filter, simpleRule);
+		if (m == null)
 			return none;
 		String operator = m.group(2).trim();
 		if (operator.equals("="))
@@ -93,5 +86,4 @@ public class LdapFilterParser extends FilterParser {
 			return some(lessThan(m.group(1), m.group(3)));
 		return none;
 	}
-
 }
