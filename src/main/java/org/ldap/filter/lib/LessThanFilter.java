@@ -15,13 +15,16 @@ public class LessThanFilter extends SimpleFilter {
 			Class<?> type = field.getType();
 			if (type.isAssignableFrom(int.class))
 				return field.getInt(bean) < Integer.parseInt(value);
+			if (type.isAssignableFrom(short.class))
+				return field.getShort(bean) < Short.parseShort(value);
+			if (type.isAssignableFrom(long.class))
+				return field.getLong(bean) < Long.parseLong(value);
 			if (type.isAssignableFrom(float.class))
 				return field.getFloat(bean) < Float.parseFloat(value);
 			if (type.isAssignableFrom(double.class))
 				return field.getDouble(bean) < Double.parseDouble(value);
 			return false;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

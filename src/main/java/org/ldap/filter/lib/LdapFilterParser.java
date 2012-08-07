@@ -24,15 +24,11 @@ public class LdapFilterParser extends FilterParser {
 	private final Pattern filtercompRule = compile("^([&|\\x7C])(.+)$");
 
 	// filterlist = 1*filter
-
 	// item = simple / present / substring / extensible
 
 	// simple = attr filtertype value
 	// filtertype = equal / approx / greater / less
-	// equal = "="
-	// approx = "~="
-	// greater = ">="
-	// less = "<="
+	// equal = "=", approx = "~=", greater = ">=", less = "<="
 	private final Pattern simpleRule = compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value
@@ -51,7 +47,7 @@ public class LdapFilterParser extends FilterParser {
 
 	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
-			log.fine("Trying to parse as an LDAP filter \"" + filter + "\"");
+			log.fine("Trying to parse \"" + filter + "\" as an LDAP filter");
 		return filter(filter.trim());
 	}
 

@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit tests for JSON-like filters.
  */
 public class JsonFilterTest extends TestCase {
 	public JsonFilterTest(String testName) {

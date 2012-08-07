@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test for LDAP-like filters.
  */
 public class LdapFilterTest extends TestCase {
 	public LdapFilterTest(String testName) {

@@ -22,7 +22,7 @@ public class JsonFilterParser extends FilterParser {
 
 	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
-			log.fine("Trying to parse as a JSON filter \"" + filter + "\"");
+			log.fine("Trying to parse \"" + filter + "\" as a JSON filter");
 		return filter(filter.trim());
 	}
 
