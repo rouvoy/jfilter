@@ -1,7 +1,7 @@
 package org.ldap.filter.lib;
 
 public class None<T> implements Option<T> {
-	
+
 	private None() {
 	}
 
@@ -24,23 +24,31 @@ public class None<T> implements Option<T> {
 	public Option<T> orElse(Option<T> opt) {
 		return opt;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object obj) {
 		if (obj instanceof Option)
-			return ((Option<?>)obj).isEmpty();
+			return ((Option<?>) obj).isEmpty();
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return "None";
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static final Option<?> none = new None();
+
+	public static final <T> Option<T> none() {
+		return new None<T>();
+	}
 }
