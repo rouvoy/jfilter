@@ -45,27 +45,32 @@ public class MapResolverTest extends TestCase {
 	}
 
 	public void testResolveMapWithString() {
-		Option<Object> val = mapResolver.getValue(x, "firstname");
-		assertEquals("John", val.get());
+		Object val = mapResolver.getValue(x, "firstname").get();
+		assertEquals("John", val);
+		assertEquals(String.class, val.getClass());
 	}
 
 	public void testResolveMapWithInt() {
-		Option<Object> val = mapResolver.getValue(x, "age");
-		assertEquals(20, val.get());
+		Object val = mapResolver.getValue(x, "age").get();
+		assertEquals(20, val);
+		assertEquals(Integer.class, val.getClass());
 	}
 
 	public void testResolveMapWithDouble() {
-		Option<Object> val = mapResolver.getValue(x, "height");
-		assertEquals(1.8, val.get());
+		Object val = mapResolver.getValue(x, "height").get();
+		assertEquals(1.8, val);
+		assertEquals(Double.class, val.getClass());
 	}
 
 	public void testResolveMapWithBoolean() {
-		Option<Object> val = mapResolver.getValue(x, "male");
-		assertEquals(true, val.get());
+		Object val = mapResolver.getValue(x, "male").get();
+		assertEquals(true, val);
+		assertEquals(Boolean.class, val.getClass());
 	}
 
 	public void testResolvePropertiesWithString() {
-		Option<Object> val = mapResolver.getValue(y, "firstname");
-		assertEquals("Nikita", val.get());
+		Object val = mapResolver.getValue(y, "firstname").get();
+		assertEquals("Nikita", val);
+		assertEquals(String.class, val.getClass());
 	}
 }

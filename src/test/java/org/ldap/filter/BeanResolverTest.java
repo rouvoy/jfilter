@@ -24,7 +24,7 @@ public class BeanResolverTest extends TestCase {
 		int age = 20;
 		boolean male = true;
 		double height = 1.8;
-		
+
 		String getLastname() {
 			return this.name;
 		}
@@ -45,27 +45,32 @@ public class BeanResolverTest extends TestCase {
 	}
 
 	public void testResolveFieldBeanWithString() throws FilterException {
-		Option<Object> val = beanResolver.getValue(x, "firstname");
-		assertEquals("John", val.get());
+		Object val = beanResolver.getValue(x, "firstname").get();
+		assertEquals("John", val);
+		assertEquals(String.class, val.getClass());
 	}
 
 	public void testResolveFieldBeanWithInt() throws FilterException {
-		Option<Object> val = beanResolver.getValue(x, "age");
-		assertEquals(20, val.get());
+		Object val = beanResolver.getValue(x, "age").get();
+		assertEquals(20, val);
+		assertEquals(Integer.class, val.getClass());
 	}
 
 	public void testResolveFieldBeanWithDouble() throws FilterException {
-		Option<Object> val = beanResolver.getValue(x, "height");
-		assertEquals(1.8, val.get());
+		Object val = beanResolver.getValue(x, "height").get();
+		assertEquals(1.8, val);
+		assertEquals(Double.class, val.getClass());
 	}
 
 	public void testResolveFieldBeanWithBoolean() throws FilterException {
-		Option<Object> val = beanResolver.getValue(x, "male");
-		assertEquals(true, val.get());
+		Object val = beanResolver.getValue(x, "male").get();
+		assertEquals(true, val);
+		assertEquals(Boolean.class, val.getClass());
 	}
 
 	public void testResolveMethodBeanWithString() throws FilterException {
-		Option<Object> val = beanResolver.getValue(x, "lastname");
-		assertEquals("Doe", val.get());
+		Object val = beanResolver.getValue(x, "lastname").get();
+		assertEquals("Doe", val);
+		assertEquals(String.class, val.getClass());
 	}
 }
