@@ -1,8 +1,8 @@
 package org.ldap.filter.lib;
 
-public class EqualsFilter extends ComparableFilter {
+public class EqualsToFilter extends ComparableFilter {
 
-	public EqualsFilter(String attribute, String value) {
+	public EqualsToFilter(String attribute, String value) {
 		super(attribute, value, "=");
 	}
 

@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ldap.filter.lib.AndFilter;
-import org.ldap.filter.lib.EqualsFilter;
+import org.ldap.filter.lib.EqualsToFilter;
 import org.ldap.filter.lib.JsonFilterParser;
 import org.ldap.filter.lib.LdapFilterParser;
 import org.ldap.filter.lib.LessThanFilter;
@@ -38,7 +38,7 @@ public class FilterParser {
 	}
 
 	protected static Filter equalsTo(String key, String value) {
-		return new EqualsFilter(key, value);
+		return new EqualsToFilter(key, value);
 	}
 
 	protected static Filter moreThan(String key, String value) {

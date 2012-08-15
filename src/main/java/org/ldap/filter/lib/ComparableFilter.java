@@ -28,28 +28,25 @@ public abstract class ComparableFilter implements Filter {
 
 	protected abstract boolean convert(int result);
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean match(Object bean) {
 		try {
 			Object res = getValue(bean);
 			Class<?> type = res.getClass();
-			// if (type.isAssignableFrom(int.class))
-			// return compare(res, Integer.parseInt(value));
 			if (type.isAssignableFrom(Integer.class))
 				return compare((Integer) res, new Integer(value));
-			// if (type.isAssignableFrom(short.class)
 			if (type.isAssignableFrom(Short.class))
 				return compare((Short) res, new Short(value));
-			// if (type.isAssignableFrom(long.class)
 			if (type.isAssignableFrom(Long.class))
 				return compare((Long) res, new Long(value));
-			// if (type.isAssignableFrom(float.class)
 			if (type.isAssignableFrom(Float.class))
 				return compare((Float) res, new Float(value));
-			// if (type.isAssignableFrom(double.class)
 			if (type.isAssignableFrom(Double.class))
 				return compare((Double) res, new Double(value));
 			if (type.isAssignableFrom(Boolean.class))
 				return compare((Boolean) res, new Boolean(value));
+			if (type.isAssignableFrom(Comparable.class))
+				return convert(((Comparable) res).compareTo(value));
 			return res.equals(value);
 		} catch (Exception e) {
 			return false;
@@ -57,6 +54,6 @@ public abstract class ComparableFilter implements Filter {
 	}
 
 	public String toString() {
-		return "(" + attribute + " " + operator + " " + value + ")";
+		return "[" + attribute + " " + operator + " " + value + "]";
 	}
 }

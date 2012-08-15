@@ -19,6 +19,6 @@ public class OrFilter implements Filter {
 	}
 
 	public String toString() {
-		return "|(" + this.delegates.toString() + ")";
+		return "||" + this.delegates.toString();
 	}
 }

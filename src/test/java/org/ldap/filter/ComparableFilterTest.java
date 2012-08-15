@@ -1,81 +1,67 @@
 package org.ldap.filter;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.ldap.filter.lib.EqualsFilter;
+import org.ldap.filter.lib.EqualsToFilter;
 
-public class ComparableFilterTest extends TestCase {
-		public ComparableFilterTest(String testName) {
-			super(testName);
-		}
+public class ComparableFilterTest extends FilterTestCase {
+	public ComparableFilterTest(String testName) {
+		super(testName);
+	}
 
-		public static class Person {
-			String firstname = "John", name = "Doe";
-			int age = 20;
-			boolean male = true;
-			double height = 1.8;
+	/**
+	 * @return the suite of tests being tested
+	 */
+	public static Test suite() {
+		return new TestSuite(ComparableFilterTest.class);
+	}
 
-			String getLastname() {
-				return this.name;
-			}
-		}
+	public void testEqualsToFilterMatchString() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("firstname", bean.firstname);
+		assertEquals(bean.firstname, filter.getValue(bean));
+		assertTrue(filter.match(bean));
+	}
 
-		private final Person x = new Person();
+	public void testEqualsToFilterDoNotMatchString() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("firstname", "Bob");
+		assertEquals(bean.firstname, filter.getValue(bean));
+		assertFalse(filter.match(bean));
+	}
 
-		/**
-		 * @return the suite of tests being tested
-		 */
-		public static Test suite() {
-			return new TestSuite(ComparableFilterTest.class);
-		}
+	public void testEqualsToFilterMatchInt() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("age", "20");
+		assertEquals(bean.age, filter.getValue(bean));
+		assertTrue(filter.match(bean));
+	}
 
-		public void testEqualsFilterMatchString() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("firstname","John");
-			assertEquals("John", filter.getValue(x));
-			assertTrue(filter.match(x));
-		}
+	public void testEqualsToFilterDoNotMatchInt() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("age", "21");
+		assertEquals(bean.age, filter.getValue(bean));
+		assertFalse(filter.match(bean));
+	}
 
-		public void testEqualsFilterDoNotMatchString() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("firstname","Bob");
-			assertEquals("John", filter.getValue(x));
-			assertFalse(filter.match(x));
-		}
+	public void testEqualsToFilterMatchBoolean() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("male", "true");
+		assertEquals(bean.male, filter.getValue(bean));
+		assertTrue(filter.match(bean));
+	}
 
-		public void testEqualsFilterMatchInt() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("age","20");
-			assertEquals(20, filter.getValue(x));
-			assertTrue(filter.match(x));
-		}
+	public void testEqualsToFilterDoNotMatchBoolean() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("male", "false");
+		assertEquals(bean.male, filter.getValue(bean));
+		assertFalse(filter.match(bean));
+	}
 
-		public void testEqualsFilterDoNotMatchInt() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("age","21");
-			assertEquals(20, filter.getValue(x));
-			assertFalse(filter.match(x));
-		}
+	public void testEqualsToFilterMatchDouble() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("height", "1.8");
+		assertEquals(bean.height, filter.getValue(bean));
+		assertTrue(filter.match(bean));
+	}
 
-		public void testEqualsFilterMatchBoolean() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("male","true");
-			assertEquals(true, filter.getValue(x));
-			assertTrue(filter.match(x));
-		}
-
-		public void testEqualsFilterDoNotMatchBoolean() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("male","false");
-			assertEquals(true, filter.getValue(x));
-			assertFalse(filter.match(x));
-		}
-
-		public void testEqualsFilterMatchDouble() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("height","1.8");
-			assertEquals(1.8, filter.getValue(x));
-			assertTrue(filter.match(x));
-		}
-
-		public void testEqualsFilterDoNotMatchDouble() throws FilterException {
-			EqualsFilter filter = new EqualsFilter("height","1.9");
-			assertEquals(1.8, filter.getValue(x));
-			assertFalse(filter.match(x));
-		}
+	public void testEqualsToFilterDoNotMatchDouble() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter("height", "1.9");
+		assertEquals(bean.height, filter.getValue(bean));
+		assertFalse(filter.match(bean));
+	}
 }
