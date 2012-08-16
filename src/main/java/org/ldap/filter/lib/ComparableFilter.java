@@ -1,3 +1,23 @@
+/**
+ * Copyright (C) ${license.year} University Lille 1, Inria
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ * Boston, MA  02110-1301, USA.
+ *
+ * Contact: romain.rouvoy@univ-lille1.fr
+ */
 package org.ldap.filter.lib;
 
 import org.ldap.filter.Filter;
@@ -13,7 +33,7 @@ public abstract class ComparableFilter implements Filter {
 		this.operator = operator;
 	}
 
-	public Object getValue(Object input) {
+	public Object getLeftValue(Object input) {
 		for (int i = 0; i < resolvers.length; i++) {
 			Option<Object> val = resolvers[i].getValue(input, this.attribute);
 			if (val.isDefined())
@@ -31,7 +51,7 @@ public abstract class ComparableFilter implements Filter {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean match(Object bean) {
 		try {
-			Object res = getValue(bean);
+			Object res = getLeftValue(bean);
 			Class<?> type = res.getClass();
 			if (type.isAssignableFrom(Integer.class))
 				return compare((Integer) res, new Integer(value));

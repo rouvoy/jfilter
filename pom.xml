@@ -43,6 +43,29 @@
           </systemProperties>
         </configuration-->
       </plugin>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.9.0</version>
+        <configuration>
+          <header>src/main/resources/META-INF/license.txt</header>
+          <failIfMissing>true</failIfMissing>
+          <aggregate>true</aggregate>
+          <strictCheck>true</strictCheck>
+          <properties>
+            <license.name>University Lille 1, Inria</license.name>
+            <license.year>${project.inceptionYear}</license.year>
+            <contact.name>romain.rouvoy@univ-lille1.fr</contact.name>
+          </properties>
+          <excludes>
+            <exclude>**.gitignore</exclude>
+            <exclude>**README.md</exclude>
+            <exclude>**.cache</exclude>
+            <exclude>**/src/main/resources/**</exclude>
+            <exclude>**/src/test/resources/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
