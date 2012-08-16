@@ -3,6 +3,7 @@ package org.ldap.filter.lib;
 import static java.util.regex.Pattern.compile;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -19,20 +20,26 @@ public class LdapFilterParser extends FilterParser {
 	private final Pattern notRule = compile("^!(.+)$");
 
 	// filtercomp = and / or / not / item
+
 	// and = "&" filterlist
+	private final Pattern andRule = compile("^&(.+)$");
 	// or = "|" filterlist
-	private final Pattern filtercompRule = compile("^([&|\\x7C])(.+)$");
+	private final Pattern orRule = compile("^\\x7C(.+)$");
 
 	// filterlist = 1*filter
 	// item = simple / present / substring / extensible
-
 	// simple = attr filtertype value
 	// filtertype = equal / approx / greater / less
 	// equal = "=", approx = "~=", greater = ">=", less = "<="
-	private final Pattern simpleRule = compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
+	// private final Pattern simpleRule =
+	// compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
+	private final Pattern equalRule = compile("^(\\S*)\\s*=\\s*(.+)$");
+	private final Pattern differRule = compile("^(\\S*)\\s*~\\s*(.+)$");
+	private final Pattern greaterRule = compile("^(\\S*)\\s*>\\s*(.+)$");
+	private final Pattern lessRule = compile("^(\\S*)\\s*<\\s*(.+)$");
 
-	// extensible = attr [":dn"] [":" matchingrule] ":=" value
-	// / [":dn"] ":" matchingrule ":=" value
+	// extensible = attr [":dn"] [":" matchingrule] ":=" value / [":dn"] ":"
+	// matchingrule ":=" value
 	// present = attr "=*"
 	// substring = attr "=" [initial] any [final]
 	// initial = value
@@ -48,56 +55,41 @@ public class LdapFilterParser extends FilterParser {
 	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Trying to parse \"" + filter + "\" as an LDAP filter");
-		return filter(filter.trim());
+		return filter(filter.trim()).orElse(filtercomp(filter.trim()));
 	}
 
 	private final Option<Filter> filter(String filter) {
 		final Matcher m = matches(filter, filterRule);
-		if (m == null)
-			return none;
-		String val = m.group(1).trim();
-		return filtercomp(val).orElse(not(val).orElse(simple(val)));
-	}
-
-	private final LinkedList<String> split(String input, char start, char end) {
-		LinkedList<String> res = new LinkedList<String>();
-		int count = 0;
-		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < input.length(); i++) {
-			char current = input.charAt(i);
-			if (current == start) {
-				count++;
-			}
-			if (count>0)
-				buf.append(current);
-			if (current == end) {
-				if (count == 1) {
-					res.add(buf.toString());
-					buf = new StringBuffer();
-				}
-				count--;
-			}
-		}
-		return res;
+		return filtercomp(m == null ? filter : m.group(1).trim());
 	}
 
 	private final Option<Filter> filtercomp(String filter) {
-		final Matcher m = matches(filter, filtercompRule);
+		return and(filter).orElse(
+				or(filter).orElse(not(filter).orElse(item(filter))));
+	}
+
+	private final List<Filter> filterlist(String filter) {
+		LinkedList<Filter> list = new LinkedList<Filter>();
+		for (String f : split(filter, '(', ')')) {
+			Option<Filter> res = filter(f);
+			if (res.isDefined())
+				list.add(res.get());
+		}
+		return list;
+	}
+
+	private final Option<Filter> and(String filter) {
+		final Matcher m = matches(filter, andRule);
 		if (m == null)
 			return none;
-		LinkedList<Filter> list = new LinkedList<Filter>();
-		for (String f : split(m.group(2).trim(),'(',')')) {
-			Option<Filter> res = filter(f);
-			if (res.isEmpty())
-				return none;
-			list.add(res.get());
-		}
-		String operator = m.group(1).trim();
-		if (operator.equals("&"))
-			return some(and(list));
-		if (operator.equals("|"))
-			return some(or(list));
-		return none;
+		return some(and(filterlist(m.group(1))));
+	}
+
+	private final Option<Filter> or(String filter) {
+		final Matcher m = matches(filter, orRule);
+		if (m == null)
+			return none;
+		return some(or(filterlist(m.group(1))));
 	}
 
 	private final Option<Filter> not(String filter) {
@@ -105,22 +97,41 @@ public class LdapFilterParser extends FilterParser {
 		if (m == null)
 			return none;
 		Option<Filter> res = filter(m.group(1).trim());
-		return res.isEmpty() ? none : some(not(res.get()));
+		if (res.isEmpty())
+			return none;
+		return some(not(res.get()));
 	}
 
-	private final Option<Filter> simple(String filter) {
-		final Matcher m = matches(filter, simpleRule);
+	private final Option<Filter> item(String filter) {
+		return equal(filter).orElse(
+				differ(filter).orElse(greater(filter).orElse(less(filter))));
+	}
+
+	private Option<Filter> equal(String filter) {
+		final Matcher m = matches(filter, equalRule);
 		if (m == null)
 			return none;
-		String operator = m.group(2).trim();
-		if (operator.equals("="))
-			return some(equalsTo(m.group(1), m.group(3)));
-		if (operator.equals("~"))
-			return some(not(equalsTo(m.group(1), m.group(3))));
-		if (operator.equals(">"))
-			return some(moreThan(m.group(1), m.group(3)));
-		if (operator.equals("<"))
-			return some(lessThan(m.group(1), m.group(3)));
-		return none;
+		return some(equalsTo(m.group(1), m.group(2)));
+	}
+
+	private Option<Filter> differ(String filter) {
+		final Matcher m = matches(filter, differRule);
+		if (m == null)
+			return none;
+		return some(not(equalsTo(m.group(1), m.group(2))));
+	}
+
+	private Option<Filter> greater(String filter) {
+		final Matcher m = matches(filter, greaterRule);
+		if (m == null)
+			return none;
+		return some(moreThan(m.group(1), m.group(2)));
+	}
+
+	private Option<Filter> less(String filter) {
+		final Matcher m = matches(filter, lessRule);
+		if (m == null)
+			return none;
+		return some(lessThan(m.group(1), m.group(2)));
 	}
 }

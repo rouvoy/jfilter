@@ -23,6 +23,10 @@ public class LdapFilterTest extends FilterTestCase {
 		assertNotNull(ldap.parse("(name=Doe)"));
 	}
 
+	public void testFilterParseSimplest() throws FilterException {
+		assertNotNull(ldap.parse("name=Doe"));
+	}
+	
 	public void testFilterEqualsString() throws FilterException {
 		Filter filter = ldap.parse("(name=Doe)");
 		assertTrue(filter.match(bean));

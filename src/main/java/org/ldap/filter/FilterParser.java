@@ -3,6 +3,7 @@ package org.ldap.filter;
 import static java.util.regex.Pattern.compile;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -53,11 +54,11 @@ public class FilterParser {
 		return new NotFilter(f);
 	}
 
-	protected static Filter and(LinkedList<Filter> list) {
+	protected static Filter and(List<Filter> list) {
 		return new AndFilter(list);
 	}
 
-	protected static Filter or(LinkedList<Filter> list) {
+	protected static Filter or(List<Filter> list) {
 		return new OrFilter(list);
 	}
 
@@ -92,5 +93,28 @@ public class FilterParser {
 
 	protected Option<Filter> tryToParse(String filter) {
 		return ldap.tryToParse(filter).orElse(json.tryToParse(filter));
+	}
+
+
+	protected final LinkedList<String> split(String input, char start, char end) {
+		LinkedList<String> res = new LinkedList<String>();
+		int count = 0;
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < input.length(); i++) {
+			char current = input.charAt(i);
+			if (current == start) {
+				count++;
+			}
+			if (count > 0)
+				buf.append(current);
+			if (current == end) {
+				if (count == 1) {
+					res.add(buf.toString());
+					buf = new StringBuffer();
+				}
+				count--;
+			}
+		}
+		return res;
 	}
 }

@@ -1,13 +1,13 @@
 package org.ldap.filter.lib;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import org.ldap.filter.Filter;
 
 public class OrFilter implements Filter {
-	private final LinkedList<Filter> delegates;
+	private final List<Filter> delegates;
 
-	public OrFilter(LinkedList<Filter> delegates) {
+	public OrFilter(List<Filter> delegates) {
 		this.delegates = delegates;
 	}
 
