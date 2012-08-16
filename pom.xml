@@ -54,7 +54,7 @@
           <strictCheck>true</strictCheck>
           <properties>
             <license.name>University Lille 1, Inria</license.name>
-            <license.year>${project.inceptionYear}</license.year>
+            <license.year>2012</license.year>
             <contact.name>romain.rouvoy@univ-lille1.fr</contact.name>
           </properties>
           <excludes>

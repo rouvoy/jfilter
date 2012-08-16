@@ -1,5 +1,5 @@
 /**
- * Copyright (C) ${license.year} University Lille 1, Inria
+ * Copyright (C) 2012 University Lille 1, Inria
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
