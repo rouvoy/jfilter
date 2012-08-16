@@ -19,11 +19,11 @@ public class Some<T> implements Option<T>{
 		return value;
 	}
 
-	public T getOrElse(Option<T> opt) {
+	public T getOr(Option<T>... opt) {
 		return value;
 	}
 
-	public Option<T> orElse(Option<T> opt) {
+	public Option<T> or(Option<T>... opt) {
 		return this;
 	}
 	

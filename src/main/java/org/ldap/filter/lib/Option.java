@@ -7,7 +7,7 @@ public interface Option<T> {
 
 	T get();
 
-	T getOrElse(Option<T> opt);
+	T getOr(Option<T>... opt);
 
-	Option<T> orElse(Option<T> opt);
+	Option<T> or(Option<T>... opt);
 }

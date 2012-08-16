@@ -92,7 +92,7 @@ public class FilterParser {
 	}
 
 	protected Option<Filter> tryToParse(String filter) {
-		return ldap.tryToParse(filter).orElse(json.tryToParse(filter));
+		return ldap.tryToParse(filter).or(json.tryToParse(filter));
 	}
 
 

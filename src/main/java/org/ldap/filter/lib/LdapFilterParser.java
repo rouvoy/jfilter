@@ -55,7 +55,7 @@ public class LdapFilterParser extends FilterParser {
 	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Trying to parse \"" + filter + "\" as an LDAP filter");
-		return filter(filter.trim()).orElse(filtercomp(filter.trim()));
+		return filter(filter.trim()).or(filtercomp(filter.trim()));
 	}
 
 	private final Option<Filter> filter(String filter) {
@@ -64,8 +64,7 @@ public class LdapFilterParser extends FilterParser {
 	}
 
 	private final Option<Filter> filtercomp(String filter) {
-		return and(filter).orElse(
-				or(filter).orElse(not(filter).orElse(item(filter))));
+		return and(filter).or(or(filter), not(filter), item(filter));
 	}
 
 	private final List<Filter> filterlist(String filter) {
@@ -103,8 +102,7 @@ public class LdapFilterParser extends FilterParser {
 	}
 
 	private final Option<Filter> item(String filter) {
-		return equal(filter).orElse(
-				differ(filter).orElse(greater(filter).orElse(less(filter))));
+		return equal(filter).or(differ(filter), greater(filter), less(filter));
 	}
 
 	private Option<Filter> equal(String filter) {

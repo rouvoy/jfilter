@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 public class BeanResolver implements ValueResolver {
 
 	public Option<Object> getValue(Object bean, String key) {
-		return getFieldValue(bean, key).orElse(getMethodValue(bean, key));
+		return getFieldValue(bean, key).or(getMethodValue(bean, key));
 	}
 
 	private Option<Object> getFieldValue(Object bean, String key) {

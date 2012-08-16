@@ -17,12 +17,15 @@ public class None<T> implements Option<T> {
 		return null;
 	}
 
-	public T getOrElse(Option<T> opt) {
-		return opt.get();
+	public T getOr(Option<T>... opt) {
+		return or(opt).get();
 	}
 
-	public Option<T> orElse(Option<T> opt) {
-		return opt;
+	public Option<T> or(Option<T>... opt) {
+		for (int i=0;i<opt.length;i++)
+			if (opt[i].isDefined())
+				return opt[i];
+		return this;
 	}
 
 	/*
