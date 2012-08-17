@@ -70,7 +70,7 @@ Currently, the library supports the following LDAP filters:
 | `=`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname = John)` |
 | `~`      | *differs from* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name ~ Smith)` |
 | `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
-| `>=`     | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
+| `>=`     | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height >= 1.6)` |
 | `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age < 20)` |
 | `<`      | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
 | `!`      | *not*        | Filter          | `!(age<10)` |
