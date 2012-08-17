@@ -67,13 +67,15 @@ Currently, the library supports the following LDAP filters:
 
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
-| `=`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname=John)` |
-| `~`      | *differs from* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name~Smith)` |
-| `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(heigth>1.6)` |
-| `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
-| `!`      | *not*        | Filter          | `(!(age<10))` |
-| `&`      | *and*        | Filters         | `(&(name=Doe)(firstname=John))` |
-| `PIPE`   | *or*         | Filters         | `(PIPE(age<10)(male=true))` |
+| `=`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname = John)` |
+| `~`      | *differs from* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name ~ Smith)` |
+| `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
+| `>=`     | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
+| `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age < 20)` |
+| `<`      | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
+| `!`      | *not*        | Filter          | `!(age<10)` |
+| `&`      | *and*        | Filters         | `&(name=Doe)(firstname=John)` |
+| `PIPE`   | *or*         | Filters         | `PIPE(age<10)(male=true)` |
 
 The library also supports the following JSON-like filters:
 
@@ -88,8 +90,16 @@ The library also supports the following JSON-like filters:
 
     Copyright (C) 2012 University Lille 1, Inria
 
-    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Library General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify
+    it under the terms of the GNU Library General Public License as published
+    by the Free Software Foundation; either version 2 of the License, or (at
+    your option) any later version.
 
-    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public
+    License for more details.
 
-    You should have received a copy of the GNU Library General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
+    You should have received a copy of the GNU Library General Public License
+    along with this library; if not, write to the Free Software Foundation,
+    Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
