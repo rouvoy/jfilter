@@ -23,7 +23,6 @@ package org.ldap.filter;
 import static java.util.regex.Pattern.compile;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -74,11 +73,11 @@ public class FilterParser {
 		return new NotFilter(f);
 	}
 
-	protected static Filter and(List<Filter> list) {
+	protected static Filter and(Filter... list) {
 		return new AndFilter(list);
 	}
 
-	protected static Filter or(List<Filter> list) {
+	protected static Filter or(Filter... list) {
 		return new OrFilter(list);
 	}
 

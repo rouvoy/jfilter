@@ -23,7 +23,6 @@ package org.ldap.filter.lib;
 import static java.util.regex.Pattern.compile;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -53,10 +52,12 @@ public class LdapFilterParser extends FilterParser {
 	// equal = "=", approx = "~=", greater = ">=", less = "<="
 	// private final Pattern simpleRule =
 	// compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
-	private final Pattern equalRule = compile("^(.+)=(.+)$");
+	private final Pattern equalRule = compile("^([^<>]+)=(.+)$");
 	private final Pattern differRule = compile("^(.+)~(.+)$");
-	private final Pattern greaterRule = compile("^(.+)>(.+)$");
-	private final Pattern lessRule = compile("^(.+)<(.+)$");
+	private final Pattern greaterRule = compile("^(.+)>([^=]+)$");
+	private final Pattern greaterEqRule = compile("^(.+)>=(.+)$");
+	private final Pattern lessRule = compile("^(.+)<([^=]+)$");
+	private final Pattern lessEqRule = compile("^(.+)<=(.+)$");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value / [":dn"] ":"
 	// matchingrule ":=" value
@@ -89,14 +90,14 @@ public class LdapFilterParser extends FilterParser {
 		return and(filter).or(or(filter), not(filter), item(filter));
 	}
 
-	private final List<Filter> filterlist(String filter) {
+	private final Filter[] filterlist(String filter) {
 		LinkedList<Filter> list = new LinkedList<Filter>();
 		for (String f : split(filter, '(', ')')) {
 			Option<Filter> res = filter(f);
 			if (res.isDefined())
 				list.add(res.get());
 		}
-		return list;
+		return list.toArray(new Filter[list.size()]);
 	}
 
 	private final Option<Filter> and(String filter) {
@@ -125,7 +126,8 @@ public class LdapFilterParser extends FilterParser {
 
 	@SuppressWarnings("unchecked")
 	private final Option<Filter> item(String filter) {
-		return equal(filter).or(differ(filter), greater(filter), less(filter));
+		return equal(filter).or(differ(filter), greater(filter), less(filter),
+				greaterEq(filter), lessEq(filter));
 	}
 
 	private Option<Filter> equal(String filter) {
@@ -139,22 +141,45 @@ public class LdapFilterParser extends FilterParser {
 		final Matcher m = matches(filter, differRule);
 		if (m == null)
 			return none;
-		return some(not(equalsTo(identifier(m.group(1).trim()), m.group(2).trim())));
+		return some(not(equalsTo(attr(m.group(1)), value(m.group(2)))));
 	}
 
 	private Option<Filter> greater(String filter) {
 		final Matcher m = matches(filter, greaterRule);
 		if (m == null)
 			return none;
-		return some(moreThan(identifier(m.group(1).trim()), m.group(2).trim()));
+		return some(moreThan(attr(m.group(1)), value(m.group(2))));
+	}
+
+	private Option<Filter> greaterEq(String filter) {
+		final Matcher m = matches(filter, greaterEqRule);
+		if (m == null)
+			return none;
+		return some(not(lessThan(attr(m.group(1)), value(m.group(2)))));
 	}
 
 	private Option<Filter> less(String filter) {
 		final Matcher m = matches(filter, lessRule);
 		if (m == null)
 			return none;
-		return some(lessThan(identifier(m.group(1).trim()), m.group(2).trim()));
+		return some(lessThan(attr(m.group(1)), value(m.group(2))));
 	}
+
+	private Option<Filter> lessEq(String filter) {
+		final Matcher m = matches(filter, lessEqRule);
+		if (m == null)
+			return none;
+		return some(not(moreThan(attr(m.group(1)), value(m.group(2)))));
+	}
+	
+	private String[] attr(String filter) {
+		return identifier(filter.trim());
+	}
+	
+	private String value(String filter) {
+		return filter.trim();
+	}
+	
 
 	private String[] identifier(String filter) {
 		String[] res = filter.split("\\.");

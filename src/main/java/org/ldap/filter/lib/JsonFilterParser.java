@@ -34,8 +34,9 @@ import org.ldap.filter.FilterParser;
 public class JsonFilterParser extends FilterParser {
 	// filter = "{" filtercomp "}"
 	private final Pattern filterRule = compile("^\\x7B(.+)\\x7D$");
-	// filtercomp = key ":" value
-	private final Pattern simpleRule = compile("^([^:]*):(.+)$");
+	// filtercomp = item , filtercomp
+	// item = key ":" value
+	private final Pattern itemRule = compile("^([^:]*):(.+)$");
 
 	private final Logger log = Logger.getLogger(JsonFilterParser.class
 			.getName());
@@ -64,11 +65,11 @@ public class JsonFilterParser extends FilterParser {
 				return none;
 			list.add(res.get());
 		}
-		return some(and(list));
+		return some(and(list.toArray(new Filter[list.size()])));
 	}
 
 	private final Option<Filter> simple(String filter) {
-		final Matcher m = matches(filter, simpleRule);
+		final Matcher m = matches(filter, itemRule);
 		if (m == null)
 			return none;
 		return some(equalsTo(identifier(word(m.group(1).trim())),

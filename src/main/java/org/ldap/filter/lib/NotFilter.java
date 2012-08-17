@@ -34,6 +34,6 @@ public class NotFilter implements Filter {
 	}
 
 	public String toString() {
-		return "![" + this.delegate.toString() + "]";
+		return "!" + this.delegate;
 	}
 }

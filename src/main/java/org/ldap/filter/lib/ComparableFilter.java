@@ -20,7 +20,7 @@
  */
 package org.ldap.filter.lib;
 
-import static java.util.Arrays.asList;
+import java.util.Arrays;
 
 import org.ldap.filter.Filter;
 
@@ -29,8 +29,7 @@ public abstract class ComparableFilter implements Filter {
 	protected final String[] attribute;
 	private final ValueResolver resolver = ValueResolver.instance;
 
-	public ComparableFilter(String[] attribute, String value,
-			String operator) {
+	public ComparableFilter(String[] attribute, String value, String operator) {
 		this.attribute = attribute;
 		this.value = value;
 		this.operator = operator;
@@ -72,6 +71,7 @@ public abstract class ComparableFilter implements Filter {
 	}
 
 	public String toString() {
-		return "[" + asList(attribute) + " " + operator + " " + value + "]";
+		return "[" + Arrays.toString(attribute) + " " + operator + " " + value
+				+ "]";
 	}
 }

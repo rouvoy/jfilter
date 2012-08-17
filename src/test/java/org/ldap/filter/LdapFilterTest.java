@@ -94,6 +94,11 @@ public class LdapFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterMoreOrEqualsInt() throws FilterException {
+		Filter filter = ldap.parse("(age>=20)");
+		assertTrue(filter.match(bean));
+	}
+	
 	public void testFilterLessThanInt() throws FilterException {
 		Filter filter = ldap.parse("(age<30)");
 		assertTrue(filter.match(bean));
@@ -106,6 +111,11 @@ public class LdapFilterTest extends FilterTestCase {
 
 	public void testFilterLessThanDouble() throws FilterException {
 		Filter filter = ldap.parse("(height<1.9)");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterLessOrEqualsDouble() throws FilterException {
+		Filter filter = ldap.parse("(height<=1.9)");
 		assertTrue(filter.match(bean));
 	}
 

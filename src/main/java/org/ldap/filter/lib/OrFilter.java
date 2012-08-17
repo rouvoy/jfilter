@@ -20,14 +20,14 @@
  */
 package org.ldap.filter.lib;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.ldap.filter.Filter;
 
 public class OrFilter implements Filter {
-	private final List<Filter> delegates;
+	private final Filter[] delegates;
 
-	public OrFilter(List<Filter> delegates) {
+	public OrFilter(Filter... delegates) {
 		this.delegates = delegates;
 	}
 
@@ -39,6 +39,6 @@ public class OrFilter implements Filter {
 	}
 
 	public String toString() {
-		return "||" + this.delegates.toString();
+		return "||" + Arrays.toString(delegates);
 	}
 }
