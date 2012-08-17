@@ -20,9 +20,10 @@
  */
 package org.ldap.filter.lib;
 
+
 public class EqualsToFilter extends ComparableFilter {
 
-	public EqualsToFilter(String attribute, String value) {
+	public EqualsToFilter(String[] attribute, String value) {
 		super(attribute, value, "=");
 	}
 

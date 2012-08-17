@@ -53,10 +53,10 @@ public class LdapFilterParser extends FilterParser {
 	// equal = "=", approx = "~=", greater = ">=", less = "<="
 	// private final Pattern simpleRule =
 	// compile("^(\\S*)\\s*([=|~|>|<])\\s*(.+)$");
-	private final Pattern equalRule = compile("^(\\S*)\\s*=\\s*(.+)$");
-	private final Pattern differRule = compile("^(\\S*)\\s*~\\s*(.+)$");
-	private final Pattern greaterRule = compile("^(\\S*)\\s*>\\s*(.+)$");
-	private final Pattern lessRule = compile("^(\\S*)\\s*<\\s*(.+)$");
+	private final Pattern equalRule = compile("^(.+)=(.+)$");
+	private final Pattern differRule = compile("^(.+)~(.+)$");
+	private final Pattern greaterRule = compile("^(.+)>(.+)$");
+	private final Pattern lessRule = compile("^(.+)<(.+)$");
 
 	// extensible = attr [":dn"] [":" matchingrule] ":=" value / [":dn"] ":"
 	// matchingrule ":=" value
@@ -72,6 +72,7 @@ public class LdapFilterParser extends FilterParser {
 	private final Logger log = Logger.getLogger(LdapFilterParser.class
 			.getName());
 
+	@SuppressWarnings("unchecked")
 	protected Option<Filter> tryToParse(String filter) {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Trying to parse \"" + filter + "\" as an LDAP filter");
@@ -83,6 +84,7 @@ public class LdapFilterParser extends FilterParser {
 		return filtercomp(m == null ? filter : m.group(1).trim());
 	}
 
+	@SuppressWarnings("unchecked")
 	private final Option<Filter> filtercomp(String filter) {
 		return and(filter).or(or(filter), not(filter), item(filter));
 	}
@@ -121,6 +123,7 @@ public class LdapFilterParser extends FilterParser {
 		return some(not(res.get()));
 	}
 
+	@SuppressWarnings("unchecked")
 	private final Option<Filter> item(String filter) {
 		return equal(filter).or(differ(filter), greater(filter), less(filter));
 	}
@@ -129,27 +132,32 @@ public class LdapFilterParser extends FilterParser {
 		final Matcher m = matches(filter, equalRule);
 		if (m == null)
 			return none;
-		return some(equalsTo(m.group(1), m.group(2)));
+		return some(equalsTo(identifier(m.group(1).trim()), m.group(2).trim()));
 	}
 
 	private Option<Filter> differ(String filter) {
 		final Matcher m = matches(filter, differRule);
 		if (m == null)
 			return none;
-		return some(not(equalsTo(m.group(1), m.group(2))));
+		return some(not(equalsTo(identifier(m.group(1).trim()), m.group(2).trim())));
 	}
 
 	private Option<Filter> greater(String filter) {
 		final Matcher m = matches(filter, greaterRule);
 		if (m == null)
 			return none;
-		return some(moreThan(m.group(1), m.group(2)));
+		return some(moreThan(identifier(m.group(1).trim()), m.group(2).trim()));
 	}
 
 	private Option<Filter> less(String filter) {
 		final Matcher m = matches(filter, lessRule);
 		if (m == null)
 			return none;
-		return some(lessThan(m.group(1), m.group(2)));
+		return some(lessThan(identifier(m.group(1).trim()), m.group(2).trim()));
+	}
+
+	private String[] identifier(String filter) {
+		String[] res = filter.split("\\.");
+		return res.length > 0 ? res : new String[] { filter };
 	}
 }

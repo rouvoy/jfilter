@@ -35,7 +35,7 @@ public class JsonFilterParser extends FilterParser {
 	// filter = "{" filtercomp "}"
 	private final Pattern filterRule = compile("^\\x7B(.+)\\x7D$");
 	// filtercomp = key ":" value
-	private final Pattern simpleRule = compile("^([^:]*)\\s*:\\s*(.+)$");
+	private final Pattern simpleRule = compile("^([^:]*):(.+)$");
 
 	private final Logger log = Logger.getLogger(JsonFilterParser.class
 			.getName());
@@ -71,6 +71,12 @@ public class JsonFilterParser extends FilterParser {
 		final Matcher m = matches(filter, simpleRule);
 		if (m == null)
 			return none;
-		return some(equalsTo(word(m.group(1)), word(m.group(2))));
+		return some(equalsTo(identifier(word(m.group(1).trim())),
+				word(m.group(2).trim())));
+	}
+
+	private String[] identifier(String filter) {
+		String[] res = filter.split("\\.");
+		return res.length > 0 ? res : new String[] { filter };
 	}
 }

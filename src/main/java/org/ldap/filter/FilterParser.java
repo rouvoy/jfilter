@@ -58,15 +58,15 @@ public class FilterParser {
 		return Some.some(f);
 	}
 
-	protected static Filter equalsTo(String key, String value) {
+	protected static Filter equalsTo(String[] key, String value) {
 		return new EqualsToFilter(key, value);
 	}
 
-	protected static Filter moreThan(String key, String value) {
+	protected static Filter moreThan(String[] key, String value) {
 		return new MoreThanFilter(key, value);
 	}
 
-	protected static Filter lessThan(String key, String value) {
+	protected static Filter lessThan(String[] key, String value) {
 		return new LessThanFilter(key, value);
 	}
 
@@ -86,8 +86,8 @@ public class FilterParser {
 	
 	protected final Matcher matches(String filter, Pattern pattern) {
 		final Matcher m = pattern.matcher(filter);
-		if (log.isLoggable(Level.FINER))
-			log.finer("Matching \"" + filter + "\" against "
+		if (log.isLoggable(Level.FINEST))
+			log.finest("Matching \"" + filter + "\" against "
 					+ pattern.pattern() + " => " + m.matches() + " ("
 					+ m.groupCount() + ")");
 		return m.matches() ? m : null;
@@ -111,6 +111,7 @@ public class FilterParser {
 		return res.get();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Option<Filter> tryToParse(String filter) {
 		return ldap.tryToParse(filter).or(json.tryToParse(filter));
 	}

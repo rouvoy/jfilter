@@ -21,9 +21,10 @@
 package org.ldap.filter.lib;
 
 
+
 public class LessThanFilter extends ComparableFilter {
 
-	public LessThanFilter(String attribute, String value) {
+	public LessThanFilter(String[] attribute, String value) {
 		super(attribute, value, "<");
 	}
 

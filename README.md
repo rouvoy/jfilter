@@ -31,22 +31,33 @@ public class Person {
     String firstname = "John", name = "Doe";
 	int age = 20;
 	boolean male = true;
-	double height = 1.8 ; 
+	double height = 1.8 ;
+	Address home = new Address(); 
+	
+	public static class Address {
+	    String street = "Main street", city = "New York";
+	    int postcode = 10014;
+	}
 
     public static void main(String[] args) {
         Person x = new Person();
 
-        // Creates a POJO filter from the LDAP syntax
-        Filter filter = FilterParser.instance.parse("(age>18)");
+        // Creates a POJO filter from an expression
+        Filter filter = FilterParser.instance.parse("age > 18");
             
-        if (filter.match(x)) // Checks if x matches the filter
+        if (filter.match(x)) // Checks if x matches the expression
             System.out.println(x.firstname+" "+x.name+" is more than 18 years old.");
 
+        // Creates a POJO filter from the LDAP syntax
+        Filter filter = FilterParser.instance.parse("(home.city=New York)");
+            
+        if (filter.match(x)) // Checks if x matches the LDAP filter
+            System.out.println(x.firstname+"'s home city is "+x.home.city);
 
         // Creates a POJO filter from the JSON syntax
-        Filter filter = FilterParser.instance.parse("{name : Doe}");
+        Filter filter = FilterParser.instance.parse("{name:Doe}");
             
-        if (filter.match(x)) // Checks if x matches the filter
+        if (filter.match(x)) // Checks if x matches the JSON filter
             System.out.println(x.firstname+"'s name is "+x.name);
     }
 }
@@ -62,7 +73,7 @@ Currently, the library supports the following LDAP filters:
 | `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age<20)` |
 | `!`      | *not*        | Filter          | `(!(age<10))` |
 | `&`      | *and*        | Filters         | `(&(name=Doe)(firstname=John))` |
-| `\|`     | *or*         | Filters         | `(\|(age<10)(male=true))` |
+| `PIPE`   | *or*         | Filters         | `(PIPE(age<10)(male=true))` |
 
 The library also supports the following JSON-like filters:
 
@@ -75,19 +86,10 @@ The library also supports the following JSON-like filters:
 
 ## Licence
 
-    Copyright (C) 2012 Inria, University Lille 1
+    Copyright (C) 2012 University Lille 1, Inria
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Library General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Library General Public License for more details.
 
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
-    Boston, MA  02110-1301, USA.
+    You should have received a copy of the GNU Library General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.

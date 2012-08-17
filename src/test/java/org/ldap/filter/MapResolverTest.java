@@ -23,7 +23,6 @@ package org.ldap.filter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.ldap.filter.lib.MapResolver;
 import org.ldap.filter.lib.None;
 import org.ldap.filter.lib.Option;
 import org.ldap.filter.lib.ValueResolver;
@@ -36,8 +35,6 @@ public class MapResolverTest extends FilterTestCase {
 		super(testName);
 	}
 
-	private final ValueResolver mapResolver = new MapResolver();
-
 	/**
 	 * @return the suite of tests being tested
 	 */
@@ -46,36 +43,42 @@ public class MapResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveUnknownKey() {
-		Option<Object> val = mapResolver.getValue(map, "abc");
+		Option<Object> val = ValueResolver.map.getValue(map, "abc");
 		assertEquals(None.none, val);
 	}
 
 	public void testResolveMapWithString() {
-		Object val = mapResolver.getValue(map, "firstname").get();
+		Object val = ValueResolver.map.getValue(map, "firstname").get();
 		assertEquals(bean.firstname, val);
 		assertEquals(String.class, val.getClass());
 	}
 
 	public void testResolveMapWithInt() {
-		Object val = mapResolver.getValue(map, "age").get();
+		Object val = ValueResolver.map.getValue(map, "age").get();
 		assertEquals(bean.age, val);
 		assertEquals(Integer.class, val.getClass());
 	}
 
 	public void testResolveMapWithDouble() {
-		Object val = mapResolver.getValue(map, "height").get();
+		Object val = ValueResolver.map.getValue(map, "height").get();
 		assertEquals(bean.height, val);
 		assertEquals(Double.class, val.getClass());
 	}
 
 	public void testResolveMapWithBoolean() {
-		Object val = mapResolver.getValue(map, "male").get();
+		Object val = ValueResolver.map.getValue(map, "male").get();
 		assertEquals(bean.male, val);
 		assertEquals(Boolean.class, val.getClass());
 	}
 
+	public void testResolveMapWithObject() {
+		Object val = ValueResolver.map.getValue(map, "home").get();
+		assertEquals(bean.home, val);
+		assertEquals(Person.Address.class, val.getClass());
+	}
+
 	public void testResolvePropertiesWithString() {
-		Object val = mapResolver.getValue(property, "firstname").get();
+		Object val = ValueResolver.map.getValue(property, "firstname").get();
 		assertEquals(bean.firstname, val);
 		assertEquals(String.class, val.getClass());
 	}

@@ -22,7 +22,7 @@ package org.ldap.filter.lib;
 
 import java.util.Map;
 
-public class MapResolver implements ValueResolver {
+public class MapResolver extends ValueResolver {
 
 	public Option<Object> getValue(Object bean, String key) {
 		if (bean instanceof Map) {

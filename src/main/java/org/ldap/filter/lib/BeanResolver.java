@@ -23,8 +23,9 @@ package org.ldap.filter.lib;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class BeanResolver implements ValueResolver {
+public class BeanResolver extends ValueResolver {
 
+	@SuppressWarnings("unchecked")
 	public Option<Object> getValue(Object bean, String key) {
 		return getFieldValue(bean, key).or(getMethodValue(bean, key));
 	}

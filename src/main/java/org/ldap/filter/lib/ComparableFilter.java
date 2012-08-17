@@ -20,26 +20,24 @@
  */
 package org.ldap.filter.lib;
 
+import static java.util.Arrays.asList;
+
 import org.ldap.filter.Filter;
 
 public abstract class ComparableFilter implements Filter {
-	protected final String attribute, value, operator;
-	private final ValueResolver[] resolvers = new ValueResolver[] {
-			new MapResolver(), new BeanResolver() };
+	protected final String value, operator;
+	protected final String[] attribute;
+	private final ValueResolver resolver = ValueResolver.instance;
 
-	public ComparableFilter(String attribute, String value, String operator) {
+	public ComparableFilter(String[] attribute, String value,
+			String operator) {
 		this.attribute = attribute;
 		this.value = value;
 		this.operator = operator;
 	}
 
 	public Object getLeftValue(Object input) {
-		for (int i = 0; i < resolvers.length; i++) {
-			Option<Object> val = resolvers[i].getValue(input, this.attribute);
-			if (val.isDefined())
-				return val.get();
-		}
-		return null;
+		return resolver.getValue(input, this.attribute).get();
 	}
 
 	protected <T extends Comparable<T>> boolean compare(T left, T right) {
@@ -74,6 +72,6 @@ public abstract class ComparableFilter implements Filter {
 	}
 
 	public String toString() {
-		return "[" + attribute + " " + operator + " " + value + "]";
+		return "[" + asList(attribute) + " " + operator + " " + value + "]";
 	}
 }

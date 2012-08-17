@@ -37,6 +37,13 @@ public abstract class FilterTestCase extends TestCase {
 		String getLastname() {
 			return this.name;
 		}
+
+		public static class Address {
+			String street = "Main street", city = "New York";
+			int postcode = 10014;
+		}
+
+		Address home = new Address();
 	}
 
 	protected final Person bean = new Person();
@@ -45,7 +52,6 @@ public abstract class FilterTestCase extends TestCase {
 
 	protected final Properties property = new Properties();
 
-	
 	public FilterTestCase(String name) {
 		super(name);
 		map.put("firstname", bean.firstname);
@@ -53,6 +59,7 @@ public abstract class FilterTestCase extends TestCase {
 		map.put("age", bean.age);
 		map.put("male", bean.male);
 		map.put("height", bean.height);
+		map.put("home", bean.home);
 
 		property.putAll(map);
 	}

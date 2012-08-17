@@ -20,6 +20,26 @@
  */
 package org.ldap.filter.lib;
 
-public interface ValueResolver {
-	Option<Object> getValue(Object bean, String key);
+public class ValueResolver {
+	public static final ValueResolver bean = new BeanResolver();
+	public static final ValueResolver map = new MapResolver();
+	public static final ValueResolver instance = new ValueResolver();
+
+	protected ValueResolver() {
+	}
+
+	public Option<Object> getValue(Object pojo, String[] path) {
+		Option<Object> res = Some.some(pojo);
+		for (String key : path) {
+			if (res.isEmpty())
+				return None.none();
+			res = getValue(res.get(), key);
+		}
+		return res;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Option<Object> getValue(Object pojo, String key) {
+		return bean.getValue(pojo, key).or(map.getValue(pojo, key));
+	}
 }

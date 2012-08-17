@@ -32,9 +32,6 @@ public class LdapFilterTest extends FilterTestCase {
 		super(testName);
 	}
 
-	/**
-	 * @return the suite of tests being tested
-	 */
 	public static Test suite() {
 		return new TestSuite(LdapFilterTest.class);
 	}
@@ -46,7 +43,7 @@ public class LdapFilterTest extends FilterTestCase {
 	public void testFilterParseSimplest() throws FilterException {
 		assertNotNull(ldap.parse("name=Doe"));
 	}
-	
+
 	public void testFilterEqualsString() throws FilterException {
 		Filter filter = ldap.parse("(name=Doe)");
 		assertTrue(filter.match(bean));
@@ -112,6 +109,16 @@ public class LdapFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterEqualsEmbeddedString() throws FilterException {
+		Filter filter = ldap.parse("(home.city=New York)");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterEqualsEmbeddedInt() throws FilterException {
+		Filter filter = ldap.parse("(home.postcode=10014)");
+		assertTrue(filter.match(bean));
+	}
+	
 	public void testFilterNotEqualsString() throws FilterException {
 		Filter filter = ldap.parse("(!(name=Don))");
 		assertTrue(filter.match(bean));

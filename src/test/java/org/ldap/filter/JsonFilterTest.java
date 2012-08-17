@@ -32,9 +32,6 @@ public class JsonFilterTest extends FilterTestCase {
 		super(testName);
 	}
 
-	/**
-	 * @return the suite of tests being tested
-	 */
 	public static Test suite() {
 		return new TestSuite(JsonFilterTest.class);
 	}
@@ -75,6 +72,11 @@ public class JsonFilterTest extends FilterTestCase {
 
 	public void testFilterEqualsDouble() throws FilterException {
 		Filter filter = json.parse("{height:1.8}");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterEqualsEmbeddedString() throws FilterException {
+		Filter filter = json.parse("{home.city:New York}");
 		assertTrue(filter.match(bean));
 	}
 

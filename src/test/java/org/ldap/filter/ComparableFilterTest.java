@@ -40,91 +40,108 @@ public class ComparableFilterTest extends FilterTestCase {
 	}
 
 	public void testEqualsToFilterMatchString() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("firstname", bean.firstname);
+		EqualsToFilter filter = new EqualsToFilter(
+				new String[] { "firstname" }, bean.firstname);
 		assertEquals(bean.firstname, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testEqualsToFilterDoNotMatchString() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("firstname", "Bob");
+		EqualsToFilter filter = new EqualsToFilter(
+				new String[] { "firstname" }, "Bob");
 		assertEquals(bean.firstname, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
 
 	public void testEqualsToFilterMatchInt() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("age", "20");
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "age" }, "20");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testMoreThanFilterMatchInt() throws FilterException {
-		MoreThanFilter filter = new MoreThanFilter("age", "19");
+		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "19");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testMoreThanFilterDoNotMatchInt() throws FilterException {
-		MoreThanFilter filter = new MoreThanFilter("age", "21");
+		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "21");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
 
 	public void testLessThanFilterMatchInt() throws FilterException {
-		LessThanFilter filter = new LessThanFilter("age", "21");
+		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "21");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testLessThanFilterDoNotMatchInt() throws FilterException {
-		LessThanFilter filter = new LessThanFilter("age", "19");
+		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "19");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
 
 	public void testEqualsToFilterMatchBoolean() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("male", "true");
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "male" },
+				"true");
 		assertEquals(bean.male, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testEqualsToFilterDoNotMatchBoolean() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("male", "false");
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "male" },
+				"false");
 		assertEquals(bean.male, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
 
 	public void testEqualsToFilterMatchDouble() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("height", "1.8");
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "height" },
+				"1.8");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
 
 	public void testEqualsToFilterDoNotMatchDouble() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter("height", "1.9");
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "height" },
+				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
-	
+
+	public void testEqualsToFilterMatchEmbeddedLong() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "home",
+				"postcode" }, "10014");
+		assertEquals(bean.home.postcode, filter.getLeftValue(bean));
+		assertTrue(filter.match(bean));
+	}
+
 	public void testMoreThanFilterMatchDouble() throws FilterException {
-		MoreThanFilter filter = new MoreThanFilter("height", "1.7");
+		MoreThanFilter filter = new MoreThanFilter(new String[] { "height" },
+				"1.7");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
-	
+
 	public void testMoreThanFilterDoNotMatchDouble() throws FilterException {
-		MoreThanFilter filter = new MoreThanFilter("height", "1.9");
+		MoreThanFilter filter = new MoreThanFilter(new String[] { "height" },
+				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
 
 	public void testLessThanFilterMatchDouble() throws FilterException {
-		LessThanFilter filter = new LessThanFilter("height", "1.9");
+		LessThanFilter filter = new LessThanFilter(new String[] { "height" },
+				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
 	}
-	
+
 	public void testLessThanFilterDoNotMatchDouble() throws FilterException {
-		LessThanFilter filter = new LessThanFilter("height", "1.7");
+		LessThanFilter filter = new LessThanFilter(new String[] { "height" },
+				"1.7");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
 	}
