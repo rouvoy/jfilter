@@ -59,6 +59,21 @@ public class LdapFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterEqualsStringWithWildcard() throws FilterException {
+		Filter filter = ldap.parse("(name=D*)");
+		assertTrue(filter.match(bean));
+	}
+	
+	public void testFilterExist() throws FilterException {
+		Filter filter = ldap.parse("(name=*)");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterDoNotExist() throws FilterException {
+		Filter filter = ldap.parse("!(title=*)");
+		assertTrue(filter.match(bean));
+	}
+
 	public void testFilterEqualsBolean() throws FilterException {
 		Filter filter = ldap.parse("(male=true)");
 		assertTrue(filter.match(bean));
@@ -103,7 +118,7 @@ public class LdapFilterTest extends FilterTestCase {
 		Filter filter = ldap.parse("(age>=20)");
 		assertTrue(filter.match(bean));
 	}
-	
+
 	public void testFilterLessThanInt() throws FilterException {
 		Filter filter = ldap.parse("(age<30)");
 		assertTrue(filter.match(bean));
@@ -133,7 +148,7 @@ public class LdapFilterTest extends FilterTestCase {
 		Filter filter = ldap.parse("(home.postcode=10014)");
 		assertTrue(filter.match(bean));
 	}
-	
+
 	public void testFilterNotEqualsString() throws FilterException {
 		Filter filter = ldap.parse("(!(name=Don))");
 		assertTrue(filter.match(bean));

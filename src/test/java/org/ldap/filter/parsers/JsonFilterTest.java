@@ -60,6 +60,17 @@ public class JsonFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterEqualsStringWithWildcard() throws FilterException {
+		Filter filter = json.parse("{name:D*}");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterExist() throws FilterException {
+		Filter filter = json.parse("{name:*}");
+		assertTrue(filter.match(bean));
+	}
+
+
 	public void testFilterEqualsStringWithKeyQuotes() throws FilterException {
 		Filter filter = json.parse("{\"name\":Doe}");
 		assertTrue(filter.match(bean));

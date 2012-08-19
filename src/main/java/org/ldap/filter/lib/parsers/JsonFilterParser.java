@@ -73,8 +73,8 @@ public class JsonFilterParser extends FilterParser {
 		final Matcher m = matches(filter, itemRule);
 		if (m == null)
 			return none;
-		return some(equalsTo(identifier(word(m.group(1).trim())),
-				word(m.group(2).trim())));
+		return some(or(equalsTo(identifier(word(m.group(1))), word(m.group(2))),
+				wildcard(identifier(word(m.group(1))), word(m.group(2)))));
 	}
 
 	private String[] identifier(String filter) {

@@ -135,7 +135,8 @@ public class LdapFilterParser extends FilterParser {
 		final Matcher m = matches(filter, equalRule);
 		if (m == null)
 			return none;
-		return some(equalsTo(identifier(m.group(1).trim()), m.group(2).trim()));
+		return some(or(equalsTo(attr(m.group(1)), value(m.group(2))),
+				wildcard(attr(m.group(1)), value(m.group(2)))));
 	}
 
 	private Option<Filter> differ(String filter) {
@@ -172,15 +173,14 @@ public class LdapFilterParser extends FilterParser {
 			return none;
 		return some(not(moreThan(attr(m.group(1)), value(m.group(2)))));
 	}
-	
+
 	private String[] attr(String filter) {
 		return identifier(filter.trim());
 	}
-	
+
 	private String value(String filter) {
 		return filter.trim();
 	}
-	
 
 	private String[] identifier(String filter) {
 		String[] res = filter.split("\\.");

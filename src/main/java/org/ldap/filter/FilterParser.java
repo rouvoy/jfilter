@@ -34,6 +34,7 @@ import org.ldap.filter.lib.operators.LessThanFilter;
 import org.ldap.filter.lib.operators.MoreThanFilter;
 import org.ldap.filter.lib.operators.NotFilter;
 import org.ldap.filter.lib.operators.OrFilter;
+import org.ldap.filter.lib.operators.WildcardFilter;
 import org.ldap.filter.lib.parsers.JsonFilterParser;
 import org.ldap.filter.lib.parsers.LdapFilterParser;
 import org.ldap.filter.lib.utils.None;
@@ -78,6 +79,10 @@ public class FilterParser {
 
 	protected static Filter or(Filter... list) {
 		return new OrFilter(list);
+	}
+	
+	protected static Filter wildcard(String[] attr, String value) {
+		return new WildcardFilter(attr,value);
 	}
 
 	protected final Matcher matches(String filter, Pattern pattern) {
