@@ -58,10 +58,10 @@ public class JsonFilterParser extends FilterParser {
 	private final Option<Filter> sequence(String filter) {
 		String[] parts = filter.split(",");
 		if (parts.length == 1)
-			return simple(filter);
+			return item(filter);
 		LinkedList<Filter> list = new LinkedList<Filter>();
 		for (String part : parts) {
-			Option<Filter> res = simple(part);
+			Option<Filter> res = item(part);
 			if (res.isEmpty())
 				return none;
 			list.add(res.get());
@@ -69,11 +69,20 @@ public class JsonFilterParser extends FilterParser {
 		return some(and(list.toArray(new Filter[list.size()])));
 	}
 
+	private final Option<Filter> item(String filter) {
+		if (filter.startsWith("!")) {
+			Option<Filter> res = item(filter.substring(1).trim());
+			return res.isEmpty() ? res : some(not(res.get()));
+		}
+		return simple(filter);
+	}
+
 	private final Option<Filter> simple(String filter) {
 		final Matcher m = matches(filter, itemRule);
 		if (m == null)
 			return none;
-		return some(or(equalsTo(identifier(word(m.group(1))), word(m.group(2))),
+		return some(or(
+				equalsTo(identifier(word(m.group(1))), word(m.group(2))),
 				wildcard(identifier(word(m.group(1))), word(m.group(2)))));
 	}
 

@@ -55,6 +55,11 @@ public class JsonFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterDoNotEqualsString() throws FilterException {
+		Filter filter = json.parse("{ !name : Smith }");
+		assertTrue(filter.match(bean));
+	}
+
 	public void testFilterEqualsStringWithValueQuotes() throws FilterException {
 		Filter filter = json.parse("{name:\"Doe\"}");
 		assertTrue(filter.match(bean));
@@ -69,7 +74,6 @@ public class JsonFilterTest extends FilterTestCase {
 		Filter filter = json.parse("{name:*}");
 		assertTrue(filter.match(bean));
 	}
-
 
 	public void testFilterEqualsStringWithKeyQuotes() throws FilterException {
 		Filter filter = json.parse("{\"name\":Doe}");

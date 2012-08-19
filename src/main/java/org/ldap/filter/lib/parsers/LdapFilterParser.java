@@ -127,6 +127,10 @@ public class LdapFilterParser extends FilterParser {
 
 	@SuppressWarnings("unchecked")
 	private final Option<Filter> item(String filter) {
+		if (filter.startsWith("!")) {
+			Option<Filter> res = item(filter.substring(1).trim());
+			return res.isEmpty() ? res : some(not(res.get()));
+		}
 		return equal(filter).or(differ(filter), greater(filter), less(filter),
 				greaterEq(filter), lessEq(filter));
 	}

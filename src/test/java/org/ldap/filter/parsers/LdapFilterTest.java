@@ -54,6 +54,11 @@ public class LdapFilterTest extends FilterTestCase {
 		assertTrue(filter.match(bean));
 	}
 
+	public void testFilterDoNotEqualsString() throws FilterException {
+		Filter filter = ldap.parse("!name=Smith");
+		assertTrue(filter.match(bean));
+	}
+
 	public void testFilterEqualsStringWithSpace() throws FilterException {
 		Filter filter = ldap.parse("( name = Doe )");
 		assertTrue(filter.match(bean));
