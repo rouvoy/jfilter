@@ -15,7 +15,7 @@
   <name>LDAP Filter Library</name>
   <url>https://github.com/rouvoy/ldap-filter</url>
   <inceptionYear>2012</inceptionYear>
-  <description>LDAP filter is a library to match POJOs against various type of filters.</description>
+  <description>LDAP filter is a library to match POJOs against various type of filters (LDAP, JSON, etc.).</description>
 
   <licenses>
     <license>

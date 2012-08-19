@@ -18,22 +18,22 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.utils;
 
-import org.ldap.filter.Filter;
-
-public class NotFilter implements Filter {
-	private final Filter delegate;
-
-	public NotFilter(Filter delegate) {
-		this.delegate = delegate;
+public class Tuple<X,Y> {
+	public final X _1;
+	public final Y _2;
+	
+	public Tuple(X x, Y y) {
+		this._1 = x;
+		this._2 = y;
 	}
-
-	public boolean match(Object bean) {
-		return !this.delegate.match(bean);
+	
+	public static final <S,T> Tuple<S,T> tuple(S s, T t) {
+		return new Tuple<S,T>(s,t);
 	}
-
+	
 	public String toString() {
-		return "!" + this.delegate;
+		return "<"+_1.toString()+", "+_2.toString()+">";
 	}
 }

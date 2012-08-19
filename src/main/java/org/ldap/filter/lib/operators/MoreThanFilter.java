@@ -18,22 +18,18 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
-public class Tuple<X,Y> {
-	public final X _1;
-	public final Y _2;
-	
-	public Tuple(X x, Y y) {
-		this._1 = x;
-		this._2 = y;
+
+
+public class MoreThanFilter extends ComparableFilter {
+
+	public MoreThanFilter(String[] attribute, String value) {
+		super(attribute, value, ">");
 	}
-	
-	public static final <S,T> Tuple<S,T> tuple(S s, T t) {
-		return new Tuple<S,T>(s,t);
+
+	protected boolean convert(int result) {
+		return result > 0;
 	}
-	
-	public String toString() {
-		return "<"+_1.toString()+", "+_2.toString()+">";
-	}
+
 }

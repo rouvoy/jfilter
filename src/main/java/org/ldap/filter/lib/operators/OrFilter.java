@@ -18,28 +18,27 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
-public class ValueResolver {
-	public static final ValueResolver bean = new BeanResolver();
-	public static final ValueResolver map = new MapResolver();
-	public static final ValueResolver instance = new ValueResolver();
+import java.util.Arrays;
 
-	protected ValueResolver() {
+import org.ldap.filter.Filter;
+
+public class OrFilter extends FilterImpl {
+	private final Filter[] delegates;
+
+	public OrFilter(Filter... delegates) {
+		this.delegates = delegates;
 	}
 
-	public Option<Object> getValue(Object pojo, String[] path) {
-		Option<Object> res = Some.some(pojo);
-		for (String key : path) {
-			if (res.isEmpty())
-				return None.none();
-			res = getValue(res.get(), key);
-		}
-		return res;
+	public boolean match(Object bean) {
+		for (Filter f : delegates)
+			if (f.match(bean))
+				return true;
+		return false;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Option<Object> getValue(Object pojo, String key) {
-		return bean.getValue(pojo, key).or(map.getValue(pojo, key));
+	public String toString() {
+		return "||" + Arrays.toString(delegates);
 	}
 }

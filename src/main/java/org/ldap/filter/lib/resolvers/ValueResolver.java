@@ -18,16 +18,32 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.resolvers;
 
-public interface Option<T> {
-	boolean isEmpty();
+import org.ldap.filter.lib.utils.None;
+import org.ldap.filter.lib.utils.Option;
+import org.ldap.filter.lib.utils.Some;
 
-	boolean isDefined();
+public class ValueResolver {
+	public static final ValueResolver bean = new BeanResolver();
+	public static final ValueResolver map = new MapResolver();
+	public static final ValueResolver instance = new ValueResolver();
 
-	T get();
+	protected ValueResolver() {
+	}
 
-	T getOr(Option<T>... opt);
+	public Option<Object> getValue(Object pojo, String[] path) {
+		Option<Object> res = Some.some(pojo);
+		for (String key : path) {
+			if (res.isEmpty())
+				return None.none();
+			res = getValue(res.get(), key);
+		}
+		return res;
+	}
 
-	Option<T> or(Option<T>... opt);
+	@SuppressWarnings("unchecked")
+	public Option<Object> getValue(Object pojo, String key) {
+		return bean.getValue(pojo, key).or(map.getValue(pojo, key));
+	}
 }

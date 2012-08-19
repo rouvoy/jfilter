@@ -18,52 +18,16 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
-public class Some<T> implements Option<T>{
-	private final T value;
-	
-	public Some(T val) {
-		this.value = val;
-	}
 
-	public boolean isEmpty() {
-		return false;
+public class EqualsToFilter extends ComparableFilter {
+
+	public EqualsToFilter(String[] attribute, String value) {
+		super(attribute, value, "=");
 	}
 
-	public boolean isDefined() {
-		return true;
-	}
-
-	public T get() {
-		return value;
-	}
-
-	public T getOr(Option<T>... opt) {
-		return value;
-	}
-
-	public Option<T> or(Option<T>... opt) {
-		return this;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object obj) {
-		if (obj instanceof Option)
-			return value.equals(((Option<?>)obj).get());
-		return false;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "Some("+value.toString()+")";
-	}
-	
-	public static <T> Option<T> some(T val) {
-		return new Some<T>(val);
+	protected boolean convert(int result) {
+		return result == 0;
 	}
 }

@@ -18,18 +18,22 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.resolvers;
 
+import java.util.Map;
 
+import org.ldap.filter.lib.utils.None;
+import org.ldap.filter.lib.utils.Option;
+import org.ldap.filter.lib.utils.Some;
 
-public class MoreThanFilter extends ComparableFilter {
+public class MapResolver extends ValueResolver {
 
-	public MoreThanFilter(String[] attribute, String value) {
-		super(attribute, value, ">");
+	public Option<Object> getValue(Object bean, String key) {
+		if (bean instanceof Map) {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map = (Map<String, Object>) bean;
+			return map.containsKey(key) ? Some.some(map.get(key)) : None.none();
+		}
+		return None.none();
 	}
-
-	protected boolean convert(int result) {
-		return result > 0;
-	}
-
 }

@@ -18,18 +18,32 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.parsers;
 
-import java.util.Map;
+import org.ldap.filter.FilterException;
+import org.ldap.filter.FilterParser;
 
-public class MapResolver extends ValueResolver {
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-	public Option<Object> getValue(Object bean, String key) {
-		if (bean instanceof Map) {
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map = (Map<String, Object>) bean;
-			return map.containsKey(key) ? Some.some(map.get(key)) : None.none();
-		}
-		return None.none();
+/**
+ * Unit test for simple App.
+ */
+public class DefaultFilterTest extends TestCase {
+	public DefaultFilterTest(String testName) {
+		super(testName);
+	}
+
+	public static Test suite() {
+		return new TestSuite(DefaultFilterTest.class);
+	}
+
+	public void testJSONFilterParser() throws FilterException {
+		assertNotNull(FilterParser.instance.parse("{name:Doe}"));
+	}
+
+	public void testLDAPFilterParser() throws FilterException {
+		assertNotNull(FilterParser.instance.parse("(name=Doe)"));
 	}
 }

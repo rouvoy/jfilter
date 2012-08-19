@@ -18,27 +18,52 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.utils;
 
-import java.util.Arrays;
-
-import org.ldap.filter.Filter;
-
-public class AndFilter implements Filter {
-	private final Filter[] delegates;
-
-	public AndFilter(Filter... delegates) {
-		this.delegates = delegates;
+public class Some<T> implements Option<T>{
+	private final T value;
+	
+	public Some(T val) {
+		this.value = val;
 	}
 
-	public boolean match(Object bean) {
-		for (Filter f : delegates)
-			if (!f.match(bean))
-				return false;
+	public boolean isEmpty() {
+		return false;
+	}
+
+	public boolean isDefined() {
 		return true;
 	}
 
+	public T get() {
+		return value;
+	}
+
+	public T getOr(Option<T>... opt) {
+		return value;
+	}
+
+	public Option<T> or(Option<T>... opt) {
+		return this;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object obj) {
+		if (obj instanceof Option)
+			return value.equals(((Option<?>)obj).get());
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
-		return "&&" + Arrays.toString(this.delegates);
+		return "Some("+value.toString()+")";
+	}
+	
+	public static <T> Option<T> some(T val) {
+		return new Some<T>(val);
 	}
 }

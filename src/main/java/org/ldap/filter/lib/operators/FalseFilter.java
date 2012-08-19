@@ -18,16 +18,16 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
 
-public class EqualsToFilter extends ComparableFilter {
+public class FalseFilter extends FilterImpl {
 
-	public EqualsToFilter(String[] attribute, String value) {
-		super(attribute, value, "=");
+	public boolean match(Object bean) {
+		return false;
 	}
 
-	protected boolean convert(int result) {
-		return result == 0;
+	public String toString() {
+		return "(false)";
 	}
 }

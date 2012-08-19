@@ -18,29 +18,16 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter;
+package org.ldap.filter.lib.utils;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+public interface Option<T> {
+	boolean isEmpty();
 
-/**
- * Unit test for simple App.
- */
-public class DefaultFilterTest extends TestCase {
-	public DefaultFilterTest(String testName) {
-		super(testName);
-	}
+	boolean isDefined();
 
-	public static Test suite() {
-		return new TestSuite(DefaultFilterTest.class);
-	}
+	T get();
 
-	public void testJSONFilterParser() throws FilterException {
-		assertNotNull(FilterParser.instance.parse("{name:Doe}"));
-	}
+	T getOr(Option<T>... opt);
 
-	public void testLDAPFilterParser() throws FilterException {
-		assertNotNull(FilterParser.instance.parse("(name=Doe)"));
-	}
+	Option<T> or(Option<T>... opt);
 }

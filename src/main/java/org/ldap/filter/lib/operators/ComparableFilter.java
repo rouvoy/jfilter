@@ -18,13 +18,13 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
 import java.util.Arrays;
 
-import org.ldap.filter.Filter;
+import org.ldap.filter.lib.resolvers.ValueResolver;
 
-public abstract class ComparableFilter implements Filter {
+public abstract class ComparableFilter extends FilterImpl {
 	protected final String value, operator;
 	protected final String[] attribute;
 	private final ValueResolver resolver = ValueResolver.instance;
@@ -50,6 +50,8 @@ public abstract class ComparableFilter implements Filter {
 		try {
 			Object res = getLeftValue(bean);
 			Class<?> type = res.getClass();
+			if (type.isAssignableFrom(Byte.class))
+				return compare((Byte) res, new Byte(value));
 			if (type.isAssignableFrom(Integer.class))
 				return compare((Integer) res, new Integer(value));
 			if (type.isAssignableFrom(Short.class))

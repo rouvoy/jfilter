@@ -28,17 +28,17 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.ldap.filter.lib.AndFilter;
-import org.ldap.filter.lib.EqualsToFilter;
-import org.ldap.filter.lib.JsonFilterParser;
-import org.ldap.filter.lib.LdapFilterParser;
-import org.ldap.filter.lib.LessThanFilter;
-import org.ldap.filter.lib.MoreThanFilter;
-import org.ldap.filter.lib.None;
-import org.ldap.filter.lib.NotFilter;
-import org.ldap.filter.lib.Option;
-import org.ldap.filter.lib.OrFilter;
-import org.ldap.filter.lib.Some;
+import org.ldap.filter.lib.operators.AndFilter;
+import org.ldap.filter.lib.operators.EqualsToFilter;
+import org.ldap.filter.lib.operators.LessThanFilter;
+import org.ldap.filter.lib.operators.MoreThanFilter;
+import org.ldap.filter.lib.operators.NotFilter;
+import org.ldap.filter.lib.operators.OrFilter;
+import org.ldap.filter.lib.parsers.JsonFilterParser;
+import org.ldap.filter.lib.parsers.LdapFilterParser;
+import org.ldap.filter.lib.utils.None;
+import org.ldap.filter.lib.utils.Option;
+import org.ldap.filter.lib.utils.Some;
 
 public class FilterParser {
 	private final Logger log = Logger.getLogger(FilterParser.class.getName());

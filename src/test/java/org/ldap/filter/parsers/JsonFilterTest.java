@@ -18,9 +18,14 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter;
+package org.ldap.filter.parsers;
 
 import static org.ldap.filter.FilterParser.json;
+
+import org.ldap.filter.Filter;
+import org.ldap.filter.FilterException;
+import org.ldap.filter.FilterTestCase;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

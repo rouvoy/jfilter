@@ -21,36 +21,39 @@
 package org.ldap.filter;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 public abstract class FilterTestCase extends TestCase {
 
 	public static class Person {
-		String firstname = "John", name = "Doe";
-		int age = 20;
-		boolean male = true;
-		double height = 1.8;
-		String filter = "*:W";
+		public String firstname = "John", name = "Doe";
+		public int age = 20;
+		public boolean male = true;
+		public double height = 1.8;
+		public String filter = "*:W";
+		public Address home = new Address();
 
-		String getLastname() {
+		public String getLastname() {
 			return this.name;
 		}
 
 		public static class Address {
-			String street = "Main street", city = "New York";
-			int postcode = 10014;
+			public String street = "Main street", city = "New York";
+			public int postcode = 10014;
 		}
-
-		Address home = new Address();
 	}
 
 	protected final Person bean = new Person();
-
 	protected final HashMap<String, Object> map = new HashMap<String, Object>();
-
 	protected final Properties property = new Properties();
+	protected final List<Person> list = new LinkedList<Person>();
+	protected final Set<Person> set = new HashSet<Person>();
 
 	public FilterTestCase(String name) {
 		super(name);
@@ -62,5 +65,9 @@ public abstract class FilterTestCase extends TestCase {
 		map.put("home", bean.home);
 
 		property.putAll(map);
+		
+		list.add(bean);
+		
+		set.add(bean);
 	}
 }

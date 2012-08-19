@@ -18,23 +18,22 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter;
+package org.ldap.filter.operators;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.ldap.filter.lib.EqualsToFilter;
-import org.ldap.filter.lib.LessThanFilter;
-import org.ldap.filter.lib.MoreThanFilter;
+import org.ldap.filter.FilterException;
+import org.ldap.filter.FilterTestCase;
+import org.ldap.filter.lib.operators.EqualsToFilter;
+import org.ldap.filter.lib.operators.LessThanFilter;
+import org.ldap.filter.lib.operators.MoreThanFilter;
 
 public class ComparableFilterTest extends FilterTestCase {
 	public ComparableFilterTest(String testName) {
 		super(testName);
 	}
 
-	/**
-	 * @return the suite of tests being tested
-	 */
 	public static Test suite() {
 		return new TestSuite(ComparableFilterTest.class);
 	}
@@ -44,6 +43,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				new String[] { "firstname" }, bean.firstname);
 		assertEquals(bean.firstname, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchString() throws FilterException {
@@ -51,36 +52,48 @@ public class ComparableFilterTest extends FilterTestCase {
 				new String[] { "firstname" }, "Bob");
 		assertEquals(bean.firstname, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchInt() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "age" }, "20");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testMoreThanFilterMatchInt() throws FilterException {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "19");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testMoreThanFilterDoNotMatchInt() throws FilterException {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "21");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testLessThanFilterMatchInt() throws FilterException {
 		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "21");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testLessThanFilterDoNotMatchInt() throws FilterException {
 		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "19");
 		assertEquals(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchBoolean() throws FilterException {
@@ -88,6 +101,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"true");
 		assertEquals(bean.male, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchBoolean() throws FilterException {
@@ -95,6 +110,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"false");
 		assertEquals(bean.male, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchDouble() throws FilterException {
@@ -102,6 +119,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.8");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchDouble() throws FilterException {
@@ -109,6 +128,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchEmbeddedLong() throws FilterException {
@@ -116,6 +137,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"postcode" }, "10014");
 		assertEquals(bean.home.postcode, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testMoreThanFilterMatchDouble() throws FilterException {
@@ -123,6 +146,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.7");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testMoreThanFilterDoNotMatchDouble() throws FilterException {
@@ -130,6 +155,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 
 	public void testLessThanFilterMatchDouble() throws FilterException {
@@ -137,6 +164,8 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
 	}
 
 	public void testLessThanFilterDoNotMatchDouble() throws FilterException {
@@ -144,5 +173,7 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.7");
 		assertEquals(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertTrue(filter.filter(list).isEmpty());
+		assertTrue(filter.filter(set).isEmpty());
 	}
 }

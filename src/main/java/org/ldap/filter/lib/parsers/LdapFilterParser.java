@@ -18,7 +18,7 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.parsers;
 
 import static java.util.regex.Pattern.compile;
 
@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import org.ldap.filter.Filter;
 import org.ldap.filter.FilterParser;
+import org.ldap.filter.lib.utils.Option;
 
 public class LdapFilterParser extends FilterParser {
 	// filter = "(" filtercomp ")"

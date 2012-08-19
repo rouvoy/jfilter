@@ -18,17 +18,27 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.operators;
 
+import java.util.Arrays;
 
+import org.ldap.filter.Filter;
 
-public class LessThanFilter extends ComparableFilter {
+public class AndFilter extends FilterImpl {
+	private final Filter[] delegates;
 
-	public LessThanFilter(String[] attribute, String value) {
-		super(attribute, value, "<");
+	public AndFilter(Filter... delegates) {
+		this.delegates = delegates;
 	}
 
-	protected boolean convert(int result) {
-		return result < 0;
+	public boolean match(Object bean) {
+		for (Filter f : delegates)
+			if (!f.match(bean))
+				return false;
+		return true;
+	}
+
+	public String toString() {
+		return "&&" + Arrays.toString(this.delegates);
 	}
 }

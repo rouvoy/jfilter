@@ -18,14 +18,16 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter;
+package org.ldap.filter.resolvers;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.ldap.filter.lib.None;
-import org.ldap.filter.lib.Option;
-import org.ldap.filter.lib.ValueResolver;
+import org.ldap.filter.FilterException;
+import org.ldap.filter.FilterTestCase;
+import org.ldap.filter.lib.resolvers.ValueResolver;
+import org.ldap.filter.lib.utils.None;
+import org.ldap.filter.lib.utils.Option;
 
 /**
  * Unit test for Bean Resolver class.

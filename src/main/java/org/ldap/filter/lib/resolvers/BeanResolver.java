@@ -18,10 +18,14 @@
  *
  * Contact: romain.rouvoy@univ-lille1.fr
  */
-package org.ldap.filter.lib;
+package org.ldap.filter.lib.resolvers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import org.ldap.filter.lib.utils.None;
+import org.ldap.filter.lib.utils.Option;
+import org.ldap.filter.lib.utils.Some;
 
 public class BeanResolver extends ValueResolver {
 
