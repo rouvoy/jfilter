@@ -43,9 +43,8 @@ import org.ldap.filter.lib.utils.Some;
 public class FilterParser {
 	private final Logger log = Logger.getLogger(FilterParser.class.getName());
 
-	public static final FilterParser instance = new FilterParser();
-	public static final FilterParser ldap = new LdapFilterParser();
-	public static final FilterParser json = new JsonFilterParser();
+	public static final FilterParser instance = new FilterParser(),
+			ldap = new LdapFilterParser(), json = new JsonFilterParser();
 
 	protected FilterParser() {
 	}
@@ -81,8 +80,6 @@ public class FilterParser {
 		return new OrFilter(list);
 	}
 
-	
-	
 	protected final Matcher matches(String filter, Pattern pattern) {
 		final Matcher m = pattern.matcher(filter);
 		if (log.isLoggable(Level.FINEST))
@@ -114,7 +111,6 @@ public class FilterParser {
 	protected Option<Filter> tryToParse(String filter) {
 		return ldap.tryToParse(filter).or(json.tryToParse(filter));
 	}
-
 
 	protected final LinkedList<String> split(String input, char start, char end) {
 		LinkedList<String> res = new LinkedList<String>();

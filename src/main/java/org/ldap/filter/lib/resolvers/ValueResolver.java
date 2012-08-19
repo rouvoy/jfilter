@@ -25,9 +25,8 @@ import org.ldap.filter.lib.utils.Option;
 import org.ldap.filter.lib.utils.Some;
 
 public class ValueResolver {
-	public static final ValueResolver bean = new BeanResolver();
-	public static final ValueResolver map = new MapResolver();
-	public static final ValueResolver instance = new ValueResolver();
+	public static final ValueResolver bean = new BeanResolver(),
+			map = new MapResolver(), instance = new ValueResolver();
 
 	protected ValueResolver() {
 	}
