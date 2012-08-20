@@ -1,6 +1,6 @@
-# LDAP Filter Library
+# Java Filter Library
 
-This is a simple library to match POJO against LDAP-like filters.
+This is a simple library to match POJO against LDAP-like or JSON-like filters.
 
 ## Maven compilation
 
@@ -18,9 +18,9 @@ Once installed, the LDAP Filter artefacts is available as:
 
 ``` xml
 <dependency>
-    <groupId>org.ldap.filter</groupId>
-    <artifactId>ldap-filter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>fr.inria.jfilter</groupId>
+    <artifactId>jfilter-library</artifactId>
+    <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
 
