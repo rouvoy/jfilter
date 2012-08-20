@@ -9,7 +9,7 @@
 
   <groupId>fr.inria.jfilter</groupId>
   <artifactId>jfilter-library</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
 
   <name>JFilter Library</name>
