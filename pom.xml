@@ -25,9 +25,9 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/rouvoy/ldap-filter.git</url>
-    <connection>scm:git:ssh://git@github.com/rouvoy/ldap-filter.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/rouvoy/ldap-filter.git</developerConnection>
+    <url>https://github.com/rouvoy/jfilter.git</url>
+    <connection>scm:git:ssh://git@github.com/rouvoy/jfilter.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/rouvoy/jfilter.git</developerConnection>
   </scm>
 
   <properties>
