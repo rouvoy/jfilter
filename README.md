@@ -4,17 +4,17 @@ This is a simple library to match POJO against LDAP-like or JSON-like filters.
 
 ## Maven compilation
 
-LDAP Filter is a [Maven](http://maven.apache.org "Maven") managed project. All you have to do is to invoke the `install` command from the root directory (`LDAP_FILTER_DIR`):
+JFilter is a [Maven](http://maven.apache.org "Maven") managed project. All you have to do is to invoke the `install` command from the root directory (`JFILTER_DIR`):
 
 ``` bash
-cd $LDAP_FILTER_DIR
+cd $JFILTER_DIR
 mvn install
 ```
 
 
 ## Maven artefact
 
-Once installed, the LDAP Filter artefacts is available as:
+Once installed, the JFilter library artefact is available as:
 
 ``` xml
 <dependency>
@@ -63,7 +63,7 @@ public class Person {
 }
 ```
 
-Currently, the library supports the following LDAP filters:
+Currently, the library supports the following LDAP-like filters:
 
 | Operator | Description  | Supported types | Filter example |
 |:--------:|:------------:|:----------------| --------------:|
