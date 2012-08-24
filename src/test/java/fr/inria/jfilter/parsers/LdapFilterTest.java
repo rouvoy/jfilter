@@ -169,4 +169,19 @@ public class LdapFilterTest extends FilterTestCase {
 		Filter filter = ldap.parse("(|(name=Doe)(age>10))");
 		assertTrue(filter.match(bean));
 	}
+
+	public void testFilterBySimplePerson() throws FilterException {
+		Filter filter = ldap.parse("(objectClass=Person)");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterByPerson() throws FilterException {
+		Filter filter = ldap.parse("(objectClass=fr.inria.jfilter.FilterTestCase.Person)");
+		assertTrue(filter.match(bean));
+	}
+
+	public void testFilterByPartialPerson() throws FilterException {
+		Filter filter = ldap.parse("(objectClass=*.Person)");
+		assertTrue(filter.match(bean));
+	}
 }

@@ -10,10 +10,9 @@ public abstract class FilterImpl implements Filter {
 		try {
 			@SuppressWarnings("unchecked")
 			T res = (T) collection.getClass().newInstance();
-			for (E item : collection) {
+			for (E item : collection)
 				if (match(item))
 					res.add(item);
-			}
 			return res;
 		} catch (Exception e) {
 			return null;

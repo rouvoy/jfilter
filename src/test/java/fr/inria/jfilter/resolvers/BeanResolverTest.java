@@ -20,15 +20,12 @@
  */
 package fr.inria.jfilter.resolvers;
 
+import java.util.Collection;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-
 import fr.inria.jfilter.FilterException;
 import fr.inria.jfilter.FilterTestCase;
-import fr.inria.jfilter.resolvers.ValueResolver;
-import fr.inria.jfilter.utils.None;
-import fr.inria.jfilter.utils.Option;
 
 /**
  * Unit test for Bean Resolver class.
@@ -46,57 +43,48 @@ public class BeanResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveUnknownKey() throws FilterException {
-		Option<Object> val = ValueResolver.bean.getValue(bean, "abc");
-		assertEquals(None.none, val);
+		assertEmpty(BeanResolver.bean.getValue(bean, "abc"));
 	}
 
 	public void testResolveFieldBeanWithString() throws FilterException {
-		Object val = ValueResolver.bean.getValue(bean, "firstname").get();
-		assertEquals(bean.firstname, val);
-		assertEquals(String.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "firstname");
+		assertContains(bean.firstname, val);
 	}
 
 	public void testResolveFieldBeanWithInt() throws FilterException {
-		Object val = ValueResolver.bean.getValue(bean, "age").get();
-		assertEquals(bean.age, val);
-		assertEquals(Integer.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "age");
+		assertContains(bean.age, val);
 	}
 
 	public void testResolveFieldBeanWithDouble() throws FilterException {
-		Object val = ValueResolver.bean.getValue(bean, "height").get();
-		assertEquals(bean.height, val);
-		assertEquals(Double.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "height");
+		assertContains(bean.height, val);
 	}
 
 	public void testResolveFieldBeanWithBoolean() throws FilterException {
-		Object val = ValueResolver.bean.getValue(bean, "male").get();
-		assertEquals(bean.male, val);
-		assertEquals(Boolean.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "male");
+		assertContains(bean.male, val);
 	}
 
 	public void testResolveMethodBeanWithString() throws FilterException {
-		Object val = ValueResolver.bean.getValue(bean, "lastname").get();
-		assertEquals(bean.getLastname(), val);
-		assertEquals(String.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "lastname");
+		assertContains(bean.getLastname(), val);
 	}
 
 	public void testResolveBeanWithEmbeddedObject() {
-		Object val = ValueResolver.bean.getValue(bean, "home").get();
-		assertEquals(bean.home, val);
-		assertEquals(Person.Address.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, "home");
+		assertContains(bean.home, val);
 	}
 
 	public void testResolveBeanWithEmbeddedString() {
-		Object val = ValueResolver.bean.getValue(bean,
-				new String[] { "home", "city" }).get();
-		assertEquals(bean.home.city, val);
-		assertEquals(String.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, new String[] {
+				"home", "city" });
+		assertContains(bean.home.city, val);
 	}
 
 	public void testResolveBeanWithEmbeddedInteger() {
-		Object val = ValueResolver.bean.getValue(bean,
-				new String[] { "home", "postcode" }).get();
-		assertEquals(bean.home.postcode, val);
-		assertEquals(Integer.class, val.getClass());
+		Collection<Object> val = BeanResolver.bean.getValue(bean, new String[] {
+				"home", "postcode" });
+		assertContains(bean.home.postcode, val);
 	}
 }

@@ -2,8 +2,6 @@ package fr.inria.jfilter.operators;
 
 import static fr.inria.jfilter.resolvers.ValueResolver.instance;
 
-import fr.inria.jfilter.utils.Option;
-
 public class RegexFilter extends FilterImpl {
 	protected final String[] attribute;
 	protected String regex;
@@ -14,7 +12,9 @@ public class RegexFilter extends FilterImpl {
 	}
 
 	public boolean match(Object bean) {
-		Option<Object> res = instance.getValue(bean, attribute);
-		return res.isEmpty() ? false : res.get().toString().matches(regex);
+		for (Object value : instance.getValue(bean, attribute))
+			if (value.toString().matches(regex))
+				return true;
+		return false;
 	}
 }

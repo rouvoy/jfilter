@@ -20,6 +20,7 @@
  */
 package fr.inria.jfilter;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -65,9 +66,22 @@ public abstract class FilterTestCase extends TestCase {
 		map.put("home", bean.home);
 
 		property.putAll(map);
-		
+
 		list.add(bean);
-		
+
 		set.add(bean);
+	}
+
+	protected static final void assertEmpty(Collection<?> coll) {
+		assertTrue("Collection should be empty", coll.isEmpty());
+	}
+	
+	protected static final void assertContains(Object expected, Collection<Object> coll) {
+		assertFalse("Collection should not be empty", coll.isEmpty());
+		assertTrue("Collection should contain the value", coll.contains(expected));
+	}
+	
+	protected static final void assertSize(int size, Collection<?> coll) {
+		assertEquals(size, coll.size());
 	}
 }

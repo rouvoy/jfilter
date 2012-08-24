@@ -21,41 +21,42 @@
 package fr.inria.jfilter.resolvers;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 
-public class ValueResolver {
-	public static final ValueResolver instance = new ValueResolver();
+public class TypeResolver extends ValueResolver {
+	public static final ValueResolver type = new TypeResolver();
 
-	protected static Collection<ValueResolver> resolvers = new LinkedList<ValueResolver>();
+	public static final String TYPE = "objectClass";
 
-	static {
-		resolvers.add(BeanResolver.bean);
-		resolvers.add(MapResolver.map);
-		resolvers.add(TypeResolver.type);
+	private final Collection<String> keySet = new HashSet<String>();
+
+	protected TypeResolver(String identifier) {
+		this.keySet.add(identifier);
 	}
 
-	protected ValueResolver() {
+	protected TypeResolver() {
+		this(TYPE);
 	}
 
-	public Collection<Object> getValue(Object pojo, String[] path) {
-		Collection<Object> input = Collections.singleton(pojo);
-		for (String key : path) {
-			Collection<Object> output = new HashSet<Object>();
-			for (Object obj : input)
-				output.addAll(getValue(obj, key));
-			if (output.isEmpty())
-				return output;
-			input = output;
-		}
-		return input;
-	}
-
-	public Collection<Object> getValue(Object pojo, String key) {
+	public Collection<Object> getValue(Object bean, String key) {
 		Collection<Object> res = new HashSet<Object>();
-		for (ValueResolver resolver : resolvers)
-			res.addAll(resolver.getValue(pojo, key));
+		if (this.keySet.contains(key)) {
+			if (bean instanceof Class)
+				update((Class<?>) bean, res);
+			else
+				update(bean.getClass(), res);
+		}
 		return res;
+	}
+
+	private void update(Class<?> clazz, Collection<Object> set) {
+		if (clazz == null || set.contains(clazz))
+			return;
+		set.add(clazz);
+		set.add(clazz.getName());
+		set.add(clazz.getSimpleName());
+		update(clazz.getSuperclass(), set);
+		for (Class<?> itf : clazz.getInterfaces())
+			update(itf, set);
 	}
 }

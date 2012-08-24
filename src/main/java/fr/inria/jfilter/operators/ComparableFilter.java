@@ -21,13 +21,13 @@
 package fr.inria.jfilter.operators;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import fr.inria.jfilter.resolvers.ValueResolver;
 
 public abstract class ComparableFilter extends FilterImpl {
 	protected final String value, operator;
 	protected final String[] attribute;
-	private final ValueResolver resolver = ValueResolver.instance;
 
 	public ComparableFilter(String[] attribute, String value, String operator) {
 		this.attribute = attribute;
@@ -35,8 +35,8 @@ public abstract class ComparableFilter extends FilterImpl {
 		this.operator = operator;
 	}
 
-	public Object getLeftValue(Object input) {
-		return resolver.getValue(input, this.attribute).get();
+	public Collection<Object> getLeftValue(Object input) {
+		return ValueResolver.instance.getValue(input, this.attribute);
 	}
 
 	protected <T extends Comparable<T>> boolean compare(T left, T right) {
@@ -45,31 +45,32 @@ public abstract class ComparableFilter extends FilterImpl {
 
 	protected abstract boolean convert(int result);
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean match(Object bean) {
-		try {
-			Object res = getLeftValue(bean);
-			Class<?> type = res.getClass();
-			if (type.isAssignableFrom(Byte.class))
-				return compare((Byte) res, new Byte(value));
-			if (type.isAssignableFrom(Integer.class))
-				return compare((Integer) res, new Integer(value));
-			if (type.isAssignableFrom(Short.class))
-				return compare((Short) res, new Short(value));
-			if (type.isAssignableFrom(Long.class))
-				return compare((Long) res, new Long(value));
-			if (type.isAssignableFrom(Float.class))
-				return compare((Float) res, new Float(value));
-			if (type.isAssignableFrom(Double.class))
-				return compare((Double) res, new Double(value));
-			if (type.isAssignableFrom(Boolean.class))
-				return compare((Boolean) res, new Boolean(value));
-			if (type.isAssignableFrom(Comparable.class))
-				return convert(((Comparable) res).compareTo(value));
-			return res.equals(value);
-		} catch (Exception e) {
-			return false;
-		}
+		for (Object value : getLeftValue(bean))
+			if (eval(value))
+				return true;
+		return false;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private boolean eval(Object bean) {
+		if (bean instanceof Byte)
+			return compare((Byte) bean, new Byte(value));
+		if (bean instanceof Integer)
+			return compare((Integer) bean, new Integer(value));
+		if (bean instanceof Short)
+			return compare((Short) bean, new Short(value));
+		if (bean instanceof Long)
+			return compare((Long) bean, new Long(value));
+		if (bean instanceof Float)
+			return compare((Float) bean, new Float(value));
+		if (bean instanceof Double)
+			return compare((Double) bean, new Double(value));
+		if (bean instanceof Boolean)
+			return compare((Boolean) bean, new Boolean(value));
+		if (bean instanceof Comparable)
+			return convert(((Comparable) bean).compareTo(value));
+		return bean.equals(value);
 	}
 
 	public String toString() {

@@ -20,20 +20,24 @@
  */
 package fr.inria.jfilter.resolvers;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
-import fr.inria.jfilter.utils.None;
-import fr.inria.jfilter.utils.Option;
-import fr.inria.jfilter.utils.Some;
-
 public class MapResolver extends ValueResolver {
+	public static final ValueResolver map = new MapResolver();
 
-	public Option<Object> getValue(Object bean, String key) {
+	@SuppressWarnings("unchecked")
+	public Collection<Object> getValue(Object bean, String key) {
 		if (bean instanceof Map) {
-			@SuppressWarnings("unchecked")
 			Map<String, Object> map = (Map<String, Object>) bean;
-			return map.containsKey(key) ? Some.some(map.get(key)) : None.none();
+			if (map.containsKey(key)) {
+				Object value = map.get(key);
+				if (value instanceof Collection)
+					return (Collection<Object>) value;
+				return Collections.singleton(value);
+			}
 		}
-		return None.none();
+		return Collections.emptySet();
 	}
 }

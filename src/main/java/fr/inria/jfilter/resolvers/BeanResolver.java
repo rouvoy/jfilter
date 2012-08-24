@@ -22,37 +22,47 @@ package fr.inria.jfilter.resolvers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
-import fr.inria.jfilter.utils.None;
-import fr.inria.jfilter.utils.Option;
-import fr.inria.jfilter.utils.Some;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 public class BeanResolver extends ValueResolver {
+	public static final ValueResolver bean = new BeanResolver();
 
-	@SuppressWarnings("unchecked")
-	public Option<Object> getValue(Object bean, String key) {
-		return getFieldValue(bean, key).or(getMethodValue(bean, key));
+	public Collection<Object> getValue(Object bean, String key) {
+		Collection<Object> res = new HashSet<Object>();
+		res.addAll(getFieldValue(bean, key));
+		res.addAll(getMethodValue(bean, key));
+		return res;
 	}
 
-	private Option<Object> getFieldValue(Object bean, String key) {
+	@SuppressWarnings("unchecked")
+	private Collection<Object> getFieldValue(Object bean, String key) {
 		try {
 			Field field = bean.getClass().getDeclaredField(key);
 			field.setAccessible(true);
-			return Some.some(field.get(bean));
+			Object res = field.get(bean);
+			if (res instanceof Collection)
+				return (Collection<Object>) res;
+			return Collections.singleton(res);
 		} catch (Exception e) {
-			return None.none();
+			return Collections.emptySet();
 		}
 	}
 
-	private Option<Object> getMethodValue(Object bean, String key) {
+	@SuppressWarnings("unchecked")
+	private Collection<Object> getMethodValue(Object bean, String key) {
 		String getter = "get" + key.substring(0, 1).toUpperCase()
 				+ key.substring(1).toLowerCase();
 		try {
 			Method mtd = bean.getClass().getDeclaredMethod(getter);
 			mtd.setAccessible(true);
-			return Some.some(mtd.invoke(bean));
+			Object res = mtd.invoke(bean);
+			if (res instanceof Collection)
+				return (Collection<Object>) res;
+			return Collections.singleton(res);
 		} catch (Exception e) {
-			return None.none();
+			return Collections.emptySet();
 		}
 	}
 }

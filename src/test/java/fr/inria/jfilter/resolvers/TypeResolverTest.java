@@ -22,50 +22,32 @@ package fr.inria.jfilter.resolvers;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import fr.inria.jfilter.FilterException;
 import fr.inria.jfilter.FilterTestCase;
 
 /**
- * Unit test for Bean Resolver class.
+ * Unit test for Type Resolver class.
  */
-public class MapResolverTest extends FilterTestCase {
-	public MapResolverTest(String testName) {
+public class TypeResolverTest extends FilterTestCase {
+	public TypeResolverTest(String testName) {
 		super(testName);
 	}
 
-	/**
-	 * @return the suite of tests being tested
-	 */
 	public static Test suite() {
-		return new TestSuite(MapResolverTest.class);
+		return new TestSuite(TypeResolverTest.class);
 	}
 
-	public void testResolveUnknownKey() {
-		assertEmpty(MapResolver.map.getValue(map, "abc"));
+	public void testResolveUnknownKey() throws FilterException {
+		assertEmpty(TypeResolver.type.getValue(bean, "abc"));
 	}
 
-	public void testResolveMapWithString() {
-		assertContains(bean.firstname,
-				MapResolver.map.getValue(map, "firstname"));
+	public void testResolveBean() throws FilterException {
+		assertContains(bean.getClass(),
+				TypeResolver.type.getValue(bean, "objectClass"));
 	}
 
-	public void testResolveMapWithInt() {
-		assertContains(bean.age, MapResolver.map.getValue(map, "age"));
-	}
-
-	public void testResolveMapWithDouble() {
-		assertContains(bean.height, MapResolver.map.getValue(map, "height"));
-	}
-
-	public void testResolveMapWithBoolean() {
-		assertContains(bean.male, MapResolver.map.getValue(map, "male"));
-	}
-
-	public void testResolveMapWithObject() {
-		assertContains(bean.home, MapResolver.map.getValue(map, "home"));
-	}
-
-	public void testResolvePropertiesWithString() {
-		assertContains(bean.firstname,
-				MapResolver.map.getValue(property, "firstname"));
+	public void testResolvePerson() throws FilterException {
+		assertContains(Person.class,
+				TypeResolver.type.getValue(Person.class, "objectClass"));
 	}
 }
