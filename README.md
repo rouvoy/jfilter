@@ -51,7 +51,7 @@ Currently, the library supports the following LDAP-like filters:
 | `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
 | `>=`     | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height >= 1.6)` |
 | `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age < 20)` |
-| `<`      | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
+| `<=`      | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
 | `!`      | *not*        | Filter          | `!(age<10)` |
 | `&`      | *and*        | Filters         | `&(name=Doe)(firstname=John)` |
 | `PIPE`   | *or*         | Filters         | `PIPE(age<10)(male=true)` |
@@ -77,7 +77,7 @@ public class Person {
         Collection<Person> col = Collections.singleton(x);
 
         Filter filter1 = FilterParser.instance.parse("age > 18");
-        if (filter1.match(x)) // Checks if x matches the expression
+        if (filter1.match(x)) // Checks if x is an adult
             System.out.println(x.firstname+" "+x.name+" is more than 18 years old.");
 
         Filter filter2 = FilterParser.instance.parse("(home.city=New York)");
@@ -101,7 +101,7 @@ The library also supports the following JSON-like filters:
 |:--------:|:------------:|:----------------| --------------:|
 | `:`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `{firstname:John}` |
 | `,`      | *and*        | Filters         | `{name:Doe,firstname:John}` |
-| *wildcard* | *matches*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html) | `{firstname:J*,name:Do?}` |
+| *wildcards* | *matches*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html) | `{firstname:J*,name:Do?}` |
 | *types*  | *conforms to* | [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |  `{objectClass:Person}` |
 
 
