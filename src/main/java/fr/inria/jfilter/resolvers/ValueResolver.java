@@ -23,18 +23,12 @@ package fr.inria.jfilter.resolvers;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 public class ValueResolver {
 	public static final ValueResolver instance = new ValueResolver();
 
-	protected static Collection<ValueResolver> resolvers = new LinkedList<ValueResolver>();
-
-	static {
-		resolvers.add(BeanResolver.bean);
-		resolvers.add(MapResolver.map);
-		resolvers.add(TypeResolver.type);
-	}
+	protected static final ValueResolver[] resolvers = new ValueResolver[] {
+			MapResolver.map, BeanResolver.bean, TypeResolver.type };
 
 	protected ValueResolver() {
 	}
@@ -53,9 +47,13 @@ public class ValueResolver {
 	}
 
 	public Collection<Object> getValue(Object pojo, String key) {
-		Collection<Object> res = new HashSet<Object>();
-		for (ValueResolver resolver : resolvers)
-			res.addAll(resolver.getValue(pojo, key));
-		return res;
+		// Collection<Object> res = new HashSet<Object>();
+		for (ValueResolver resolver : resolvers) {
+			// res.addAll(resolver.getValue(pojo, key));
+			final Collection<Object> res = resolver.getValue(pojo, key);
+			if (!res.isEmpty())
+				return res;
+		}
+		return Collections.emptySet();
 	}
 }

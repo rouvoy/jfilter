@@ -22,12 +22,13 @@ package fr.inria.jfilter;
 
 import static java.util.regex.Pattern.compile;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import fr.inria.jfilter.operators.AndFilter;
 import fr.inria.jfilter.operators.EqualsToFilter;
@@ -47,6 +48,9 @@ public class FilterParser {
 
 	public static final FilterParser instance = new FilterParser(),
 			ldap = new LdapFilterParser(), json = new JsonFilterParser();
+
+	public static final FilterParser[] parsers = new FilterParser[] { ldap,
+			json };
 
 	protected FilterParser() {
 	}
@@ -81,9 +85,9 @@ public class FilterParser {
 	protected static Filter or(Filter... list) {
 		return new OrFilter(list);
 	}
-	
+
 	protected static Filter wildcard(String[] attr, String value) {
-		return new WildcardFilter(attr,value);
+		return new WildcardFilter(attr, value);
 	}
 
 	protected final Matcher matches(String filter, Pattern pattern) {
@@ -102,20 +106,30 @@ public class FilterParser {
 
 	private final Pattern wordPattern = compile("\"?([^\"]+)\"?");
 
+	private final Map<String, Filter> filters = new HashMap<String, Filter>();
+
 	public Filter parse(String filter) throws FilterException {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsing filter \"" + filter + "\"");
-		Option<Filter> res = tryToParse(filter.trim());
-		if (res.isEmpty())
+		if (filters.containsKey(filter))
+			return filters.get(filter);
+		final Option<Filter> res = tryToParse(filter.trim());
+		if (res.isDefined())
+			filters.put(filter, res.get());
+		else
 			throw new FilterException("Failed to build a filter for " + filter);
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsed filter is " + res.get());
 		return res.get();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected Option<Filter> tryToParse(String filter) {
-		return ldap.tryToParse(filter).or(json.tryToParse(filter));
+		for (FilterParser p : parsers) {
+			final Option<Filter> f = p.tryToParse(filter);
+			if (f.isDefined())
+				return f;
+		}
+		return none;
 	}
 
 	protected final LinkedList<String> split(String input, char start, char end) {
