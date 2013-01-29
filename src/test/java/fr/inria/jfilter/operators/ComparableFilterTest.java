@@ -44,6 +44,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				new String[] { "firstname" }, bean.firstname);
 		assertContains(bean.firstname, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -53,6 +56,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				new String[] { "firstname" }, "Bob");
 		assertContains(bean.firstname, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -61,6 +67,9 @@ public class ComparableFilterTest extends FilterTestCase {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "age" }, "20");
 		assertContains(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -69,6 +78,9 @@ public class ComparableFilterTest extends FilterTestCase {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "19");
 		assertContains(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -77,6 +89,9 @@ public class ComparableFilterTest extends FilterTestCase {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "21");
 		assertContains(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -85,6 +100,9 @@ public class ComparableFilterTest extends FilterTestCase {
 		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "21");
 		assertContains(bean.age, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -93,6 +111,9 @@ public class ComparableFilterTest extends FilterTestCase {
 		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "19");
 		assertContains(bean.age, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -102,6 +123,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"true");
 		assertContains(bean.male, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -111,6 +135,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"false");
 		assertContains(bean.male, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -120,6 +147,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.8");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -129,6 +159,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -138,6 +171,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"postcode" }, "10014");
 		assertContains(bean.home.postcode, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -147,6 +183,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.7");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -156,6 +195,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}
@@ -165,6 +207,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.9");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -174,6 +219,9 @@ public class ComparableFilterTest extends FilterTestCase {
 				"1.7");
 		assertContains(bean.height, filter.getLeftValue(bean));
 		assertFalse(filter.match(bean));
+		assertFalse(filter.match(list));
+		assertFalse(filter.match(set));
+		assertFalse(filter.match(property));
 		assertTrue(filter.filter(list).isEmpty());
 		assertTrue(filter.filter(set).isEmpty());
 	}

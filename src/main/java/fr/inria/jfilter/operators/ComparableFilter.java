@@ -46,6 +46,16 @@ public abstract class ComparableFilter extends FilterImpl {
 	protected abstract boolean convert(int result);
 
 	public boolean match(Object bean) {
+		if (bean instanceof Collection<?>) {
+			Collection<?> col = (Collection<?>) bean;
+			for (Object elt : col)
+				if (check(elt))
+					return true;
+		}
+		return check(bean);
+	}
+
+	protected boolean check(Object bean) {
 		for (Object value : getLeftValue(bean))
 			if (eval(value))
 				return true;

@@ -40,6 +40,9 @@ public class WildcardFilterTest extends FilterTestCase {
 	public void testExistFilter() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*");
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -47,6 +50,9 @@ public class WildcardFilterTest extends FilterTestCase {
 	public void testFilterStartsWith() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "J*");
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -54,6 +60,9 @@ public class WildcardFilterTest extends FilterTestCase {
 	public void testFilterEndsWith() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*n");
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}
@@ -61,6 +70,9 @@ public class WildcardFilterTest extends FilterTestCase {
 	public void testFilterContains() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*oh*");
 		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
 		assertFalse(filter.filter(list).isEmpty());
 		assertFalse(filter.filter(set).isEmpty());
 	}

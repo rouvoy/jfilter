@@ -12,7 +12,7 @@ The latest released version of the JFilter library artefact is available as:
 <dependency>
     <groupId>fr.inria.jfilter</groupId>
     <artifactId>jfilter-library</artifactId>
-    <version>1.1</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
@@ -44,19 +44,19 @@ mvn install
 
 Currently, the library supports the following LDAP-like filters:
 
-| Operator | Description  | Supported types | Filter example |
-|:--------:|:------------:|:----------------| --------------:|
-| `=`      | *equals to*  | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname = John)` |
-| `~`      | *differs from* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name ~ Smith)` |
-| `>`      | *more than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
-| `>=`     | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height >= 1.6)` |
-| `<`      | *less than*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age < 20)` |
-| `<=`      | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
-| `!`      | *not*        | Filter          | `!(age<10)` |
-| `&`      | *and*        | Filters         | `&(name=Doe)(firstname=John)` |
-| `PIPE`   | *or*         | Filters         | `PIPE(age<10)(male=true)` |
-| *wildcards* | *matches all* | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html) | `&(firstname=J*)(name=Do?)` |
-| *types*  |  *conforms to* | [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |  `(objectClass=Person)` |
+| Operator    | Description       | Supported types | Filter example |
+|:-----------:|:-----------------:|:----------------| :--------------|
+| `=`         | *equals to*       | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(firstname = John)` |
+| `~`         | *differs from*    | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html), [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html), [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) | `(name ~ Smith)` |
+| `>`         | *more than*       | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height > 1.6)` |
+| `>=`        | *more or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(height >= 1.6)` |
+| `<`         | *less than*       | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age < 20)` |
+| `<=`        | *less or equals*  | [Number](http://docs.oracle.com/javase/6/docs/api/java/lang/Number.html) | `(age <= 20)` |
+| `!`         | *not*             | Filter          | `!(age<10)` |
+| `&`         | *and*             | Filters         | `&(name=Doe)(firstname=John)` |
+| `PIPE`      | *or*              | Filters         | `PIPE(age<10)(male=true)` |
+| *wildcards* | *matches all*     | [String](http://docs.oracle.com/javase/6/docs/api/java/lang/String.html) | `&(firstname=J*)(name=Do?)` |
+| *types*     | *conforms to*     | [Object](http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html) |  `(objectClass=Person)` |
 
 
 ``` java
@@ -86,6 +86,9 @@ public class Person {
 
         Filter filter3 = FilterParser.instance.parse("&(firstname=John)(name=D*)");
         if (filter3.match(x)) // Checks if x matches the LDAP filter
+            System.out.println(x.firstname+"'s name starts by \"D\""");
+            
+        if (filter3.match(col)) // Checks if col matches the LDAP filter
             System.out.println(x.firstname+"'s name starts by \"D\""");
 
         // Filters the content of a collection to keep adults
@@ -126,6 +129,9 @@ public class Person {
         Filter filter1 = FilterParser.instance.parse("{name:Doe}");
             
         if (filter1.match(x)) // Checks if x matches the JSON filter
+            System.out.println(x.firstname+"'s name is "+x.name);
+
+        if (filter1.match(col)) // Checks if col matches the JSON filter
             System.out.println(x.firstname+"'s name is "+x.name);
             
         // Filters the content of a collection to keep names starting by D
