@@ -12,7 +12,7 @@ The latest released version of the JFilter library artefact is available as:
 <dependency>
     <groupId>fr.inria.jfilter</groupId>
     <artifactId>jfilter-library</artifactId>
-    <version>1.1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
@@ -23,7 +23,7 @@ The currently developed version of the JFilter library artefact is available as:
 <dependency>
     <groupId>fr.inria.jfilter</groupId>
     <artifactId>jfilter-library</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
 </dependency>
 ```
 
