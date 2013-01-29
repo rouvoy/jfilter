@@ -86,10 +86,10 @@ public class Person {
 
         Filter filter3 = FilterParser.instance.parse("&(firstname=John)(name=D*)");
         if (filter3.match(x)) // Checks if x matches the LDAP filter
-            System.out.println(x.firstname+"'s name starts by \"D\""");
+            System.out.println(x.firstname+"'s name starts by \"D\"");
             
         if (filter3.match(col)) // Checks if col matches the LDAP filter
-            System.out.println(x.firstname+"'s name starts by \"D\""");
+            System.out.println(x.firstname+"'s name starts by \"D\"");
 
         // Filters the content of a collection to keep adults
         Collection<Person> adults = filter1.filter(col);
