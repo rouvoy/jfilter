@@ -31,38 +31,42 @@ public class BeanResolver extends ValueResolver {
 
 	public Collection<Object> getValue(Object bean, String key) {
 		Collection<Object> res = new HashSet<Object>();
-		res.addAll(getFieldValue(bean, key));
 		res.addAll(getMethodValue(bean, key));
+		res.addAll(getFieldValue(bean, key));
 		return res;
 	}
 
 	@SuppressWarnings("unchecked")
 	private Collection<Object> getFieldValue(Object bean, String key) {
-		try {
-			Field field = bean.getClass().getDeclaredField(key);
-			field.setAccessible(true);
-			Object res = field.get(bean);
-			if (res instanceof Collection)
-				return (Collection<Object>) res;
-			return Collections.singleton(res);
-		} catch (Exception e) {
-			return Collections.emptySet();
-		}
+		for (Field f : bean.getClass().getDeclaredFields())
+			if (key.equals(f.getName())) {
+				f.setAccessible(true);
+				try {
+					Object res = f.get(bean);
+					if (res instanceof Collection)
+						return (Collection<Object>) res;
+					return Collections.singleton(res);
+				} catch (Exception e) {
+				}
+			}
+		return Collections.emptySet();
 	}
 
 	@SuppressWarnings("unchecked")
 	private Collection<Object> getMethodValue(Object bean, String key) {
-		String getter = "get" + key.substring(0, 1).toUpperCase()
-				+ key.substring(1).toLowerCase();
-		try {
-			Method mtd = bean.getClass().getDeclaredMethod(getter);
-			mtd.setAccessible(true);
-			Object res = mtd.invoke(bean);
-			if (res instanceof Collection)
-				return (Collection<Object>) res;
-			return Collections.singleton(res);
-		} catch (Exception e) {
-			return Collections.emptySet();
-		}
+		final String getter = "get" + key.substring(0, 1).toUpperCase()
+				+ key.substring(1);
+		for (Method m : bean.getClass().getDeclaredMethods())
+			if (getter.equals(m.getName())) {
+				m.setAccessible(true);
+				try {
+					Object res = m.invoke(bean);
+					if (res instanceof Collection)
+						return (Collection<Object>) res;
+					return Collections.singleton(res);
+				} catch (Exception e) {
+				}
+			}
+		return Collections.emptySet();
 	}
 }

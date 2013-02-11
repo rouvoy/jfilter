@@ -25,5 +25,5 @@ import java.util.Collection;
 public interface Filter {
 	boolean match(Object bean);
 
-	<E, T extends Collection<E>> T filter(T collection);
+	<E> Collection<E> filter(Collection<E> collection);
 }

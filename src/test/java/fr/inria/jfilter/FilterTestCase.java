@@ -43,10 +43,18 @@ public abstract class FilterTestCase extends TestCase {
 		public String getLastname() {
 			return this.name;
 		}
+		
+		public Address getWork() {
+			return this.home;
+		}
 
 		public static class Address {
 			public String street = "Main street", city = "New York";
 			public int postcode = 10014;
+			
+			public String getCountry() {
+				return "United States";
+			}
 		}
 	}
 
@@ -64,6 +72,7 @@ public abstract class FilterTestCase extends TestCase {
 		map.put("male", bean.male);
 		map.put("height", bean.height);
 		map.put("home", bean.home);
+		map.put("work", bean.getWork());
 
 		property.putAll(map);
 

@@ -47,6 +47,16 @@ public class WildcardFilterTest extends FilterTestCase {
 		assertFalse(filter.filter(set).isEmpty());
 	}
 
+	public void testExistEmbeddedFilter() throws FilterException {
+		WildcardFilter filter = new WildcardFilter(new String[] { "work", "country" }, "*");
+		assertTrue(filter.match(bean));
+		assertTrue(filter.match(list));
+		assertTrue(filter.match(set));
+		assertTrue(filter.match(property));
+		assertFalse(filter.filter(list).isEmpty());
+		assertFalse(filter.filter(set).isEmpty());
+	}
+
 	public void testFilterStartsWith() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "J*");
 		assertTrue(filter.match(bean));
