@@ -30,8 +30,10 @@ public class BeanResolver extends ValueResolver {
 
 	public Collection<Object> getValues(Object bean, String key) {
 		Collection<Object> res = update(new HashSet<Object>(),
-				getMethodValue(bean, key));
-		return update(res, getFieldValue(bean, key));
+				getMethodValue(bean, "get" + key));
+		if (res.isEmpty())
+			res = update(new HashSet<Object>(), getMethodValue(bean, key));
+		return res.isEmpty() ? update(res, getFieldValue(bean, key)) : res;
 	}
 
 	private Object getFieldValue(Object bean, String key) {
@@ -47,10 +49,8 @@ public class BeanResolver extends ValueResolver {
 	}
 
 	private Object getMethodValue(Object bean, String key) {
-		final String getter = "get" + key;
-		for (Method m : bean.getClass().getDeclaredMethods())
-			if (getter.equalsIgnoreCase(m.getName())
-					|| key.equalsIgnoreCase(m.getName())) {
+		for (Method m : bean.getClass().getMethods())
+			if (key.equalsIgnoreCase(m.getName())) {
 				m.setAccessible(true);
 				try {
 					return m.invoke(bean);

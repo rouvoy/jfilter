@@ -28,7 +28,7 @@ public class ValueResolver {
 	public static final ValueResolver instance = new ValueResolver();
 
 	protected static final ValueResolver[] resolvers = new ValueResolver[] {
-			MapResolver.map, BeanResolver.bean, TypeResolver.type };
+			BeanResolver.bean, MapResolver.map, TypeResolver.type };
 
 	protected ValueResolver() {
 	}
