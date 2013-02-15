@@ -27,46 +27,62 @@ import java.util.Collections;
 import java.util.HashSet;
 
 public class BeanResolver extends ValueResolver {
-	public static final ValueResolver bean = new BeanResolver();
+    public static final ValueResolver bean = new BeanResolver();
 
-	public Collection<Object> getValue(Object bean, String key) {
-		Collection<Object> res = new HashSet<Object>();
-		res.addAll(getMethodValue(bean, key));
-		res.addAll(getFieldValue(bean, key));
-		return res;
-	}
+    public Collection<Object> getValue(Object bean, String key) {
 
-	@SuppressWarnings("unchecked")
-	private Collection<Object> getFieldValue(Object bean, String key) {
-		for (Field f : bean.getClass().getDeclaredFields())
-			if (key.equals(f.getName())) {
-				f.setAccessible(true);
-				try {
-					Object res = f.get(bean);
-					if (res instanceof Collection)
-						return (Collection<Object>) res;
-					return Collections.singleton(res);
-				} catch (Exception e) {
-				}
-			}
-		return Collections.emptySet();
-	}
+        //System.out.println(bean.getClass().getSimpleName()+"-"+key);
 
-	@SuppressWarnings("unchecked")
-	private Collection<Object> getMethodValue(Object bean, String key) {
-		final String getter = "get" + key.substring(0, 1).toUpperCase()
-				+ key.substring(1);
-		for (Method m : bean.getClass().getDeclaredMethods())
-			if (getter.equals(m.getName())) {
-				m.setAccessible(true);
-				try {
-					Object res = m.invoke(bean);
-					if (res instanceof Collection)
-						return (Collection<Object>) res;
-					return Collections.singleton(res);
-				} catch (Exception e) {
-				}
-			}
-		return Collections.emptySet();
-	}
+        Collection<Object> res = new HashSet<Object>();
+        res.addAll(getMethodValue(bean, key, true));
+        if (res.isEmpty()) {
+            res.addAll(getMethodValue(bean, key, false));
+        }
+        if (res.isEmpty()) {
+            res.addAll(getFieldValue(bean, key));
+        }
+
+        //System.out.println(res.size());
+
+        return res;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Collection<Object> getFieldValue(Object bean, String key) {
+        for (Field f : bean.getClass().getDeclaredFields())
+            if (key.equals(f.getName())) {
+                f.setAccessible(true);
+                try {
+                    Object res = f.get(bean);
+                    if (res instanceof Collection)
+                        return (Collection<Object>) res;
+                    return Collections.singleton(res);
+                } catch (Exception e) {
+                }
+            }
+        return Collections.emptySet();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Collection<Object> getMethodValue(Object bean, String key, boolean tryGetter) {
+        String getter = "";
+        if (tryGetter) {
+            getter = "get" + key.substring(0, 1).toUpperCase()
+                    + key.substring(1);
+        } else {
+            getter = key;
+        }
+        for (Method m : bean.getClass().getDeclaredMethods())
+            if (getter.equals(m.getName())) {
+                m.setAccessible(true);
+                try {
+                    Object res = m.invoke(bean);
+                    if (res instanceof Collection)
+                        return (Collection<Object>) res;
+                    return Collections.singleton(res);
+                } catch (Exception e) {
+                }
+            }
+        return Collections.emptySet();
+    }
 }
