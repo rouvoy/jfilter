@@ -26,26 +26,21 @@ public class CollectionFunctionalTest extends FilterComponentTestCase {
         return new TestSuite(CollectionFunctionalTest.class);
     }
 
-    public void testEmpty() throws FilterException {
-       assertTrue(true);
-    }
-
     public void testMethodCallOnCollectionAttribute() throws FilterException {
         FakeComponentModel model = new FakeComponentModel();
-        Filter filter1 = FilterParser.instance.parse("components.size = 0");
+        assertSize(0, FilterParser.instance.parse("components.size>2").filter(model.getNodes()));
+        assertSize(1, FilterParser.instance.parse("components.size=1").filter(model.getNodes()));
+        assertSize(1, FilterParser.instance.parse("components.size=0").filter(model.getNodes()));
+    }
+
+
+    public void testMethodCallOnCollectionSubElementAttribute() throws FilterException {
+        FakeComponentModel model = new FakeComponentModel();
+        Filter filter1 = FilterParser.instance.parse("components.name = *");
 
         Collection<Node> obj = filter1.filter(model.getNodes());
         assertSize(1,obj);
     }
-
-         /*
-    public void testMethodCallOnCollectionSubElementAttribute() throws FilterException {
-        FakeComponentModel model = new FakeComponentModel();
-        Filter filter1 = FilterParser.instance.parse("components(name = Log*)");
-
-        Collection<Node> obj = filter1.filter(model.getNodes());
-        assertSize(1,obj);
-    }   */
 
 
 }
