@@ -65,10 +65,12 @@ public abstract class FilterTestCase extends TestCase {
 			return this.toString().hashCode();
 		}
 
-		public void addChild(Person c) {
+		public void addChild(Child c) {
 			this.childs.add(c);
 			this.dad.childs.add(c);
 			this.mom.childs.add(c);
+			c.dad = this.dad;
+			c.mom = this.mom;
 			c.family = this;
 		}
 
@@ -96,7 +98,7 @@ public abstract class FilterTestCase extends TestCase {
 		public Address address = new Address();
 
 		public Collection<Person> childs = new HashSet<Person>();
-		public Collection<String> hobbies = Collections.emptySet(); 
+		public final Collection<String> hobbies = new HashSet<String>();
 
 		public String filter = "*:W";
 
@@ -170,6 +172,7 @@ public abstract class FilterTestCase extends TestCase {
 				map.put("address", this.address.map());
 				map.put("family", this.family);
 				map.put("childs", this.childs);
+				map.put("hobbies", this.hobbies);
 				map.put("name", this.getName());
 				map.put("filter", this.filter);
 			}
@@ -184,6 +187,21 @@ public abstract class FilterTestCase extends TestCase {
 		}
 	}
 
+	public static class Child extends Person {
+		public Person dad, mom;
+
+		public Child(String first, String last, boolean m, int a, double h) {
+			super(first, last, m, a, h);
+		}
+		
+		public Map<String, Object> map() {
+			Map<String, Object> res = super.map();
+			res.put("dad", this.dad);
+			res.put("mom", this.dad);
+			return res;
+		}
+	}
+
 	protected final Family doe;
 
 	public FilterTestCase(String name) {
@@ -191,8 +209,8 @@ public abstract class FilterTestCase extends TestCase {
 		Person dad = new Person("John", "Doe", true, 30, 1.8);
 		Person mom = new Person("Jane", "Doe", false, 30, 1.6);
 		this.doe = new Family(dad, mom);
-		this.doe.addChild(new Person("Junior", "Doe", true, 10, 1.2));
-		this.doe.addChild(new Person("Julie", "Doe", false, 8, 1));
+		this.doe.addChild(new Child("Junior", "Doe", true, 10, 1.2));
+		this.doe.addChild(new Child("Julie", "Doe", false, 8, 1));
 	}
 
 	protected static final void assertEmpty(Collection<?> coll) {

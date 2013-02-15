@@ -32,12 +32,12 @@ public class BeanResolver extends ValueResolver {
 		Collection<Object> res = update(new HashSet<Object>(),
 				getMethodValue(bean, "get" + key));
 		if (res.isEmpty())
-			res = update(new HashSet<Object>(), getMethodValue(bean, key));
+			res = update(res, getMethodValue(bean, key));
 		return res.isEmpty() ? update(res, getFieldValue(bean, key)) : res;
 	}
 
 	private Object getFieldValue(Object bean, String key) {
-		for (Field f : bean.getClass().getDeclaredFields())
+		for (Field f : bean.getClass().getFields())
 			if (key.equalsIgnoreCase(f.getName())) {
 				f.setAccessible(true);
 				try {
