@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 13/02/13
  * Time: 09:52
  */
-public class FilterComponentTestCase extends FilterTestCase {
+public abstract class FilterComponentTestCase extends FilterTestCase {
 
     public static class FakeComponentModel {
 

@@ -25,35 +25,39 @@ import java.util.Collections;
 import java.util.HashSet;
 
 public class ValueResolver {
-	public static final ValueResolver instance = new ValueResolver();
+    public static final ValueResolver instance = new ValueResolver();
 
-	protected static final ValueResolver[] resolvers = new ValueResolver[] {
-			MapResolver.map, BeanResolver.bean, TypeResolver.type };
+    protected static final ValueResolver[] resolvers = new ValueResolver[]{
+            BeanResolver.bean, TypeResolver.type, MapResolver.map};
 
-	protected ValueResolver() {
-	}
+    protected ValueResolver() {
+    }
 
-	public Collection<Object> getValue(Object pojo, String[] path) {
-		Collection<Object> input = Collections.singleton(pojo);
-		for (String key : path) {
-			Collection<Object> output = new HashSet<Object>();
-			for (Object obj : input)
-				output.addAll(getValue(obj, key));
-			if (output.isEmpty())
-				return output;
-			input = output;
-		}
-		return input;
-	}
+    public Collection<Object> getValue(Object pojo, String[] path) {
 
-	public Collection<Object> getValue(Object pojo, String key) {
-		// Collection<Object> res = new HashSet<Object>();
-		for (ValueResolver resolver : resolvers) {
-			// res.addAll(resolver.getValue(pojo, key));
-			final Collection<Object> res = resolver.getValue(pojo, key);
-			if (!res.isEmpty())
-				return res;
-		}
-		return Collections.emptySet();
-	}
+        Collection<Object> input = Collections.singleton(pojo);
+        for (String key : path) {
+            Collection<Object> output = new HashSet<Object>();
+            //try before to solve on Collection first
+            output.addAll(BeanResolver.bean.getValue(input, key));
+            if (output.isEmpty()) {
+                for (Object obj : input) {
+                    output.addAll(getValue(obj, key));
+                }
+            }
+            input = output;
+        }
+        return input;
+    }
+
+    public Collection<Object> getValue(Object pojo, String key) {
+        for (ValueResolver resolver : resolvers) {
+            final Collection<Object> res = resolver.getValue(pojo, key);
+            if (!res.isEmpty()) {
+                return res;
+            }
+        }
+        return Collections.emptySet();
+    }
+
 }
