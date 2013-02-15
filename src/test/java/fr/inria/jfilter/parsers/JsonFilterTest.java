@@ -43,71 +43,71 @@ public class JsonFilterTest extends FilterTestCase {
 	}
 
 	public void testFilterParseSimple() throws FilterException {
-		assertNotNull(json.parse("{name:Doe}"));
+		assertNotNull(json.parse("{lastname:Doe}"));
 	}
 
 	public void testFilterEqualsString() throws FilterException {
-		Filter filter = json.parse("{name:Doe}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{lastname:Doe}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithSpace() throws FilterException {
-		Filter filter = json.parse("{ name : Doe }");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{ lastname : Doe }");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDoNotEqualsString() throws FilterException {
-		Filter filter = json.parse("{ !name : Smith }");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{ !lastname : Smith }");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithValueQuotes() throws FilterException {
-		Filter filter = json.parse("{name:\"Doe\"}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{lastname:\"Doe\"}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithWildcard() throws FilterException {
-		Filter filter = json.parse("{name:D*}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{lastname:D*}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterExist() throws FilterException {
-		Filter filter = json.parse("{name:*}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{lastname:*}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithKeyQuotes() throws FilterException {
-		Filter filter = json.parse("{\"name\":Doe}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{\"lastname\":Doe}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsBolean() throws FilterException {
 		Filter filter = json.parse("{male:true}");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsInt() throws FilterException {
-		Filter filter = json.parse("{age:20}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{age:30}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsDouble() throws FilterException {
 		Filter filter = json.parse("{height:1.8}");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsEmbeddedString() throws FilterException {
-		Filter filter = json.parse("{home.city:New York}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{address.city:New York}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterSequence() throws FilterException {
-		Filter filter = json.parse("{firstname:John,name:Doe}");
-		assertTrue(filter.match(bean));
+		Filter filter = json.parse("{firstname:John,lastname:Doe}");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterStarFilter() throws FilterException {
 		Filter filter = json.parse("{\"filter\":\"*:W\"}");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 }

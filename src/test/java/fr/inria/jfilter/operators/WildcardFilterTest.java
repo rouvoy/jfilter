@@ -39,51 +39,46 @@ public class WildcardFilterTest extends FilterTestCase {
 
 	public void testExistFilter() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*");
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.childs));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.childs).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testExistEmbeddedFilter() throws FilterException {
-		WildcardFilter filter = new WildcardFilter(new String[] { "work", "country" }, "*");
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		WildcardFilter filter = new WildcardFilter(new String[] { "address", "country" }, "*");
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.childs));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.childs).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testFilterStartsWith() throws FilterException {
 		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "J*");
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.childs));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.childs).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testFilterEndsWith() throws FilterException {
-		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*n");
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		WildcardFilter filter = new WildcardFilter(new String[] { "lastname" }, "*e");
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.childs));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.childs).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testFilterContains() throws FilterException {
-		WildcardFilter filter = new WildcardFilter(new String[] { "firstname" }, "*oh*");
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		WildcardFilter filter = new WildcardFilter(new String[] { "lastname" }, "*o*");
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.childs));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.childs).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 }

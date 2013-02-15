@@ -36,7 +36,7 @@ public abstract class ComparableFilter extends FilterImpl {
     }
 
     public Collection<Object> getLeftValue(Object input) {
-        return ValueResolver.instance.getValue(input, this.attribute);
+        return ValueResolver.instance.getValues(input, this.attribute);
     }
 
     protected <T extends Comparable<T>> boolean compare(T left, T right) {
@@ -53,10 +53,12 @@ public abstract class ComparableFilter extends FilterImpl {
         }
         if (bean instanceof Collection<?>) {
             Collection<?> col = (Collection<?>) bean;
-            for (Object elt : col)
+            for (Object elt : col) {
                 leftValue = getLeftValue(elt);
-            if (check(leftValue))
-                return true;
+                if (check(leftValue)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

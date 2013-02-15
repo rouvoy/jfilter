@@ -43,145 +43,145 @@ public class LdapFilterTest extends FilterTestCase {
 	}
 
 	public void testFilterParseSimple() throws FilterException {
-		assertNotNull(ldap.parse("(name=Doe)"));
+		assertNotNull(ldap.parse("(lastname=Doe)"));
 	}
 
 	public void testFilterParseSimplest() throws FilterException {
-		assertNotNull(ldap.parse("name=Doe"));
+		assertNotNull(ldap.parse("lastname=Doe"));
 	}
 
 	public void testFilterEqualsString() throws FilterException {
-		Filter filter = ldap.parse("(name=Doe)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(lastname=Doe)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDoNotEqualsString() throws FilterException {
-		Filter filter = ldap.parse("!name=Smith");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("!lastname=Smith");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithSpace() throws FilterException {
-		Filter filter = ldap.parse("( name = Doe )");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("( lastname = Doe )");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithWildcard() throws FilterException {
-		Filter filter = ldap.parse("(name=D*)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(lastname=D*)");
+		assertTrue(filter.match(doe.dad));
 	}
 	
 	public void testFilterExist() throws FilterException {
-		Filter filter = ldap.parse("(name=*)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(lastname=*)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDoNotExist() throws FilterException {
 		Filter filter = ldap.parse("!(title=*)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsBolean() throws FilterException {
 		Filter filter = ldap.parse("(male=true)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsInt() throws FilterException {
-		Filter filter = ldap.parse("(age=20)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(age=30)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsDouble() throws FilterException {
 		Filter filter = ldap.parse("(height=1.8)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDiffersString() throws FilterException {
 		Filter filter = ldap.parse("(firstname~Bob)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDiffersBolean() throws FilterException {
 		Filter filter = ldap.parse("(male~false)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDiffersInt() throws FilterException {
 		Filter filter = ldap.parse("(age~19)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDiffersDouble() throws FilterException {
 		Filter filter = ldap.parse("(height~1.9)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterMoreThanInt() throws FilterException {
 		Filter filter = ldap.parse("(age>18)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterMoreOrEqualsInt() throws FilterException {
 		Filter filter = ldap.parse("(age>=20)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterLessThanInt() throws FilterException {
-		Filter filter = ldap.parse("(age<30)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(age<31)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterMoreThanDouble() throws FilterException {
 		Filter filter = ldap.parse("(height>1.2)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterLessThanDouble() throws FilterException {
 		Filter filter = ldap.parse("(height<1.9)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterLessOrEqualsDouble() throws FilterException {
 		Filter filter = ldap.parse("(height<=1.9)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsEmbeddedString() throws FilterException {
-		Filter filter = ldap.parse("(home.city=New York)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(address.city=New York)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsEmbeddedInt() throws FilterException {
-		Filter filter = ldap.parse("(home.postcode=10014)");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(address.postcode=10014)");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterNotEqualsString() throws FilterException {
-		Filter filter = ldap.parse("(!(name=Don))");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(!(lastname=Don))");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterAndString() throws FilterException {
-		Filter filter = ldap.parse("(&(name=Doe)(firstname=John))");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(&(lastname=Doe)(firstname=John))");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterOrString() throws FilterException {
-		Filter filter = ldap.parse("(|(name=Doe)(age>10))");
-		assertTrue(filter.match(bean));
+		Filter filter = ldap.parse("(|(lastname=Doe)(age>10))");
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterBySimplePerson() throws FilterException {
 		Filter filter = ldap.parse("(objectClass=Person)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterByPerson() throws FilterException {
 		Filter filter = ldap.parse("(objectClass=fr.inria.jfilter.FilterTestCase.Person)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterByPartialPerson() throws FilterException {
 		Filter filter = ldap.parse("(objectClass=*.Person)");
-		assertTrue(filter.match(bean));
+		assertTrue(filter.match(doe.dad));
 	}
 }

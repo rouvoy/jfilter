@@ -22,21 +22,18 @@ package fr.inria.jfilter.resolvers;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 public class MapResolver extends ValueResolver {
 	public static final ValueResolver map = new MapResolver();
 
 	@SuppressWarnings("unchecked")
-	public Collection<Object> getValue(Object bean, String key) {
+	public Collection<Object> getValues(Object bean, String key) {
 		if (bean instanceof Map) {
 			Map<String, Object> map = (Map<String, Object>) bean;
-			if (map.containsKey(key)) {
-				Object value = map.get(key);
-				if (value instanceof Collection)
-					return (Collection<Object>) value;
-				return Collections.singleton(value);
-			}
+			if (map.containsKey(key))
+				return update(new HashSet<Object>(),map.get(key));
 		}
 		return Collections.emptySet();
 	}

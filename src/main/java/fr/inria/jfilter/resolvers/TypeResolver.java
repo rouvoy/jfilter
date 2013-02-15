@@ -38,7 +38,7 @@ public class TypeResolver extends ValueResolver {
 		this(TYPE);
 	}
 
-	public Collection<Object> getValue(Object bean, String key) {
+	public Collection<Object> getValues(Object bean, String key) {
 		Collection<Object> res = new HashSet<Object>();
 		if (this.keySet.contains(key)) {
 			if (bean instanceof Class)
