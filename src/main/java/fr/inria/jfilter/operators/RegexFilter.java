@@ -24,7 +24,7 @@ public class RegexFilter extends FilterImpl {
 	}
 
 	protected boolean check(Object bean) {
-		for (Object value : instance.getValue(bean, attribute))
+		for (Object value : instance.getValues(bean, attribute))
 			if (value.toString().matches(regex))
 				return true;
 		return false;

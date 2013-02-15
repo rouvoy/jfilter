@@ -37,37 +37,38 @@ public class ValueResolverTest extends FilterTestCase {
 		return new TestSuite(ValueResolverTest.class);
 	}
 
-	public void testResolveUnknownKey() throws FilterException {
-		assertEmpty(ValueResolver.instance.getValue(bean, "abc"));
+	public void testResolveWithUnknownKey() throws FilterException {
+		assertEmpty(ValueResolver.instance.getValues(doe.dad, "abc"));
 	}
 
-	public void testResolveFieldBeanWithInt() throws FilterException {
-		assertContains(bean.age, ValueResolver.instance.getValue(bean, "age"));
+	public void testResolveFieldAsInt() throws FilterException {
+		assertContains(doe.dad.age,
+				ValueResolver.instance.getValues(doe.dad, "age"));
 	}
 
-	public void testResolveMethodBeanWithString() throws FilterException {
-		assertContains(bean.getLastname(),
-				ValueResolver.instance.getValue(bean, "lastname"));
+	public void testResolveMethodAsString() throws FilterException {
+		assertContains(doe.getName(),
+				ValueResolver.instance.getValues(doe, "name"));
 	}
 
 	public void testResolveMapWithEmbeddedBean() {
 		assertContains(
-				bean.home.postcode,
-				ValueResolver.instance.getValue(map, new String[] { "home",
-						"postcode" }));
+				doe.dad.address.postcode,
+				ValueResolver.instance.getValues(doe.dad.map(), new String[] {
+						"address", "postcode" }));
 	}
 
 	public void testResolveAddressClassType() {
 		assertContains(
 				Person.Address.class,
-				ValueResolver.instance.getValue(map, new String[] { "home",
-						"objectClass" }));
+				ValueResolver.instance.getValues(doe, new String[] { "dad",
+						"address", "objectClass" }));
 	}
 
 	public void testResolvePostcodeClassType() {
 		assertContains(
 				Integer.class,
-				ValueResolver.instance.getValue(map, new String[] { "home",
-						"postcode", "objectClass" }));
+				ValueResolver.instance.getValues(doe, new String[] { "childs",
+						"address", "postcode", "objectClass" }));
 	}
 }

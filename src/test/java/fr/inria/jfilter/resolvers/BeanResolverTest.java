@@ -42,49 +42,85 @@ public class BeanResolverTest extends FilterTestCase {
 		return new TestSuite(BeanResolverTest.class);
 	}
 
-	public void testResolveUnknownKey() throws FilterException {
-		assertEmpty(BeanResolver.bean.getValue(bean, "abc"));
+	public void testResolveWithUnknownKey() throws FilterException {
+		assertEmpty(BeanResolver.bean.getValues(doe.dad, "abc"));
 	}
 
-	public void testResolveFieldBeanWithString() throws FilterException {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "firstname");
-		assertContains(bean.firstname, val);
+	public void testResolveFieldAsBean() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, "dad");
+		assertContains(doe.dad, val);
 	}
 
-	public void testResolveFieldBeanWithInt() throws FilterException {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "age");
-		assertContains(bean.age, val);
+	public void testResolveFieldAsString() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe.dad,
+				"firstname");
+		assertContains(doe.dad.firstname, val);
 	}
 
-	public void testResolveFieldBeanWithDouble() throws FilterException {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "height");
-		assertContains(bean.height, val);
+	public void testResolveFieldAsInt() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "age");
+		assertContains(doe.dad.age, val);
 	}
 
-	public void testResolveFieldBeanWithBoolean() throws FilterException {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "male");
-		assertContains(bean.male, val);
+	public void testResolveFieldAsDouble() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "height");
+		assertContains(doe.dad.height, val);
 	}
 
-	public void testResolveMethodBeanWithString() throws FilterException {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "lastname");
-		assertContains(bean.getLastname(), val);
+	public void testResolveFieldAsBoolean() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "male");
+		assertContains(doe.dad.male, val);
 	}
 
-	public void testResolveBeanWithEmbeddedObject() {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, "home");
-		assertContains(bean.home, val);
+	public void testResolveFieldAsCollection() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, "childs");
+		assertContains(doe.childs, val);
 	}
 
-	public void testResolveBeanWithEmbeddedString() {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, new String[] {
-				"home", "city" });
-		assertContains(bean.home.city, val);
+	public void testResolveGetterAsString() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, "name");
+		assertContains(doe.getName(), val);
 	}
 
-	public void testResolveBeanWithEmbeddedInteger() {
-		Collection<Object> val = BeanResolver.bean.getValue(bean, new String[] {
-				"home", "postcode" });
-		assertContains(bean.home.postcode, val);
+	public void testResolveMethodAsCollection() throws FilterException {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, "members");
+		assertContains(doe.members(), val);
+	}
+
+	public void testResolvePathAsString() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"dad", "address", "city" });
+		assertContains(doe.dad.address.city, val);
+	}
+
+	public void testResolvePathAsInt() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"dad", "childs", "size" });
+		assertContains(doe.dad.childs.size(), val);
+	}
+
+	public void testResolvePathAsBeans() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"dad", "address", "country" });
+		assertContains(doe.dad.address.country(), val);
+	}
+
+	public void testResolveMultiPathAsBean() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"childs", "address" });
+		assertContains(doe.dad.address, val);
+	}
+
+	public void testResolveMultiPathAsString() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"childs", "address", "country" });
+		assertContains(doe.dad.address.country(), val);
+	}
+
+	public void testResolveLongPathAsBeans() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"dad", "childs", "family", "mom", "childs", "family", "childs",
+				"address", "postcode" });
+		assertContains(doe.dad.address.postcode, val);
 	}
 }

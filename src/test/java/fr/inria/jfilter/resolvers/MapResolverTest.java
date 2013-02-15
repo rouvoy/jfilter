@@ -20,8 +20,11 @@
  */
 package fr.inria.jfilter.resolvers;
 
+import java.util.Collection;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import fr.inria.jfilter.FilterException;
 import fr.inria.jfilter.FilterTestCase;
 
 /**
@@ -39,33 +42,65 @@ public class MapResolverTest extends FilterTestCase {
 		return new TestSuite(MapResolverTest.class);
 	}
 
-	public void testResolveUnknownKey() {
-		assertEmpty(MapResolver.map.getValue(map, "abc"));
+	public void testResolveWithUnknownKey() throws FilterException {
+		assertEmpty(MapResolver.map.getValues(doe.map(), "abc"));
 	}
 
-	public void testResolveMapWithString() {
-		assertContains(bean.firstname,
-				MapResolver.map.getValue(map, "firstname"));
+	public void testResolveFieldAsBean() throws FilterException {
+		Collection<Object> val = MapResolver.map.getValues(doe.map(), "dad");
+		assertContains(doe.dad.map(), val);
 	}
 
-	public void testResolveMapWithInt() {
-		assertContains(bean.age, MapResolver.map.getValue(map, "age"));
+	public void testResolveFieldAsString() throws FilterException {
+		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
+				"firstname");
+		assertContains(doe.dad.firstname, val);
 	}
 
-	public void testResolveMapWithDouble() {
-		assertContains(bean.height, MapResolver.map.getValue(map, "height"));
+	public void testResolveFieldAsInt() throws FilterException {
+		Collection<Object> val = MapResolver.map
+				.getValues(doe.dad.map(), "age");
+		assertContains(doe.dad.age, val);
 	}
 
-	public void testResolveMapWithBoolean() {
-		assertContains(bean.male, MapResolver.map.getValue(map, "male"));
+	public void testResolveFieldAsDouble() throws FilterException {
+		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
+				"height");
+		assertContains(doe.dad.height, val);
 	}
 
-	public void testResolveMapWithObject() {
-		assertContains(bean.home, MapResolver.map.getValue(map, "home"));
+	public void testResolveFieldAsBoolean() throws FilterException {
+		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
+				"male");
+		assertContains(doe.dad.male, val);
 	}
 
-	public void testResolvePropertiesWithString() {
-		assertContains(bean.firstname,
-				MapResolver.map.getValue(property, "firstname"));
+	public void testResolveGetterAsString() throws FilterException {
+		Collection<Object> val = MapResolver.map.getValues(doe.map(), "name");
+		assertContains(doe.getName(), val);
+	}
+
+	public void testResolveMethodAsCollection() throws FilterException {
+		Collection<Object> val = MapResolver.map
+				.getValues(doe.map(), "members");
+		assertContains(doe.members(), val);
+	}
+
+	public void testResolvePathAsString() {
+		Collection<Object> val = MapResolver.map.getValues(doe.map(),
+				new String[] { "dad", "address", "city" });
+		assertContains(doe.dad.address.city, val);
+	}
+
+	public void testResolvePathAsBeans() {
+		Collection<Object> val = MapResolver.map.getValues(doe.map(),
+				new String[] { "dad", "address",  });
+		assertContains(doe.dad.address.map(), val);
+	}
+
+	public void testResolvePathAsInt() {
+		Collection<Object> val = MapResolver.map.getValues(doe.map(),
+				new String[] { "dad", "address", "postcode" });
+		assertContains(doe.dad.address.postcode, val);
 	}
 }

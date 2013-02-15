@@ -38,16 +38,16 @@ public class TypeResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveUnknownKey() throws FilterException {
-		assertEmpty(TypeResolver.type.getValue(bean, "abc"));
+		assertEmpty(TypeResolver.type.getValues(doe.dad, "abc"));
 	}
 
 	public void testResolveBean() throws FilterException {
-		assertContains(bean.getClass(),
-				TypeResolver.type.getValue(bean, "objectClass"));
+		assertContains(doe.dad.getClass(),
+				TypeResolver.type.getValues(doe.dad, "objectClass"));
 	}
 
 	public void testResolvePerson() throws FilterException {
 		assertContains(Person.class,
-				TypeResolver.type.getValue(Person.class, "objectClass"));
+				TypeResolver.type.getValues(Person.class, "objectClass"));
 	}
 }

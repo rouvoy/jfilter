@@ -41,188 +41,182 @@ public class ComparableFilterTest extends FilterTestCase {
 
 	public void testEqualsToFilterMatchString() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(
-				new String[] { "firstname" }, bean.firstname);
-		assertContains(bean.firstname, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+				new String[] { "firstname" }, doe.dad.firstname);
+		assertContains(doe.dad.firstname, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchString() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(
 				new String[] { "firstname" }, "Bob");
-		assertContains(bean.firstname, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		assertContains(doe.dad.firstname, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertTrue(filter.filter(doe.members()).isEmpty());
+		assertTrue(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchInt() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter(new String[] { "age" }, "20");
-		assertContains(bean.age, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "age" }, "30");
+		assertContains(doe.dad.age, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testMoreThanFilterMatchInt() throws FilterException {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "19");
-		assertContains(bean.age, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.age, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testMoreThanFilterDoNotMatchInt() throws FilterException {
-		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "21");
-		assertContains(bean.age, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		MoreThanFilter filter = new MoreThanFilter(new String[] { "age" }, "31");
+		assertContains(doe.dad.age, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertTrue(filter.filter(doe.members()).isEmpty());
+		assertTrue(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testLessThanFilterMatchInt() throws FilterException {
-		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "21");
-		assertContains(bean.age, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "31");
+		assertContains(doe.dad.age, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testLessThanFilterDoNotMatchInt() throws FilterException {
-		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "19");
-		assertContains(bean.age, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		LessThanFilter filter = new LessThanFilter(new String[] { "age" }, "5");
+		assertContains(doe.dad.age, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertTrue(filter.filter(doe.members()).isEmpty());
+		assertTrue(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchBoolean() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "male" },
 				"true");
-		assertContains(bean.male, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.male, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchBoolean() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "male" },
 				"false");
-		assertContains(bean.male, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		assertContains(doe.dad.male, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertSize(2,filter.filter(doe.members()));
 	}
 
 	public void testEqualsToFilterMatchDouble() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "height" },
 				"1.8");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterDoNotMatchDouble() throws FilterException {
 		EqualsToFilter filter = new EqualsToFilter(new String[] { "height" },
 				"1.9");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertTrue(filter.filter(doe.members()).isEmpty());
+		assertTrue(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testEqualsToFilterMatchEmbeddedLong() throws FilterException {
-		EqualsToFilter filter = new EqualsToFilter(new String[] { "home",
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "address",
 				"postcode" }, "10014");
-		assertContains(bean.home.postcode, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.address.postcode, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
+	}
+
+	public void testEqualsToFilterMatchEmbeddedCollection() throws FilterException {
+		EqualsToFilter filter = new EqualsToFilter(new String[] { "childs",
+				"size" }, "2");
+		assertContains(doe.dad.childs.size(), filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testMoreThanFilterMatchDouble() throws FilterException {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "height" },
 				"1.7");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testMoreThanFilterDoNotMatchDouble() throws FilterException {
 		MoreThanFilter filter = new MoreThanFilter(new String[] { "height" },
 				"1.9");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertTrue(filter.filter(doe.members()).isEmpty());
+		assertTrue(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testLessThanFilterMatchDouble() throws FilterException {
 		LessThanFilter filter = new LessThanFilter(new String[] { "height" },
 				"1.9");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertTrue(filter.match(bean));
-		assertTrue(filter.match(list));
-		assertTrue(filter.match(set));
-		assertTrue(filter.match(property));
-		assertFalse(filter.filter(list).isEmpty());
-		assertFalse(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertTrue(filter.match(doe.dad));
+		assertTrue(filter.match(doe.dad.map()));
+		assertTrue(filter.match(doe.dad.properties()));
+		assertFalse(filter.filter(doe.members()).isEmpty());
+		assertFalse(filter.filter(doe.members()).isEmpty());
 	}
 
 	public void testLessThanFilterDoNotMatchDouble() throws FilterException {
 		LessThanFilter filter = new LessThanFilter(new String[] { "height" },
 				"1.7");
-		assertContains(bean.height, filter.getLeftValue(bean));
-		assertFalse(filter.match(bean));
-		assertFalse(filter.match(list));
-		assertFalse(filter.match(set));
-		assertFalse(filter.match(property));
-		assertTrue(filter.filter(list).isEmpty());
-		assertTrue(filter.filter(set).isEmpty());
+		assertContains(doe.dad.height, filter.getLeftValue(doe.dad));
+		assertFalse(filter.match(doe.dad));
+		assertFalse(filter.match(doe.dad.map()));
+		assertFalse(filter.match(doe.dad.properties()));
+		assertSize(3,filter.filter(doe.members()));
+		assertSize(3,filter.filter(doe.members()));
 	}
 }
