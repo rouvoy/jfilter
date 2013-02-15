@@ -96,6 +96,7 @@ public abstract class FilterTestCase extends TestCase {
 		public Address address = new Address();
 
 		public Collection<Person> childs = new HashSet<Person>();
+		public Collection<String> hobbies = Collections.emptySet(); 
 
 		public String filter = "*:W";
 

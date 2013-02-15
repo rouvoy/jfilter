@@ -74,6 +74,7 @@ public class BeanResolverTest extends FilterTestCase {
 
 	public void testResolveFieldAsCollection() throws FilterException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "childs");
+		assertSize(1,val);
 		assertContains(doe.childs, val);
 	}
 
@@ -84,36 +85,49 @@ public class BeanResolverTest extends FilterTestCase {
 
 	public void testResolveMethodAsCollection() throws FilterException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "members");
+		assertSize(1,val);
 		assertContains(doe.members(), val);
 	}
 
 	public void testResolvePathAsString() {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"dad", "address", "city" });
+		assertSize(1,val);
 		assertContains(doe.dad.address.city, val);
+	}
+
+	public void testResolvePathAsEmptyCollection() {
+		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
+				"dad", "hobbies", "size" });
+		assertSize(1,val);
+		assertContains(doe.dad.hobbies.size(), val);
 	}
 
 	public void testResolvePathAsInt() {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"dad", "childs", "size" });
+		assertSize(1,val);
 		assertContains(doe.dad.childs.size(), val);
 	}
-
+	
 	public void testResolvePathAsBeans() {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"dad", "address", "country" });
+		assertSize(1,val);
 		assertContains(doe.dad.address.country(), val);
 	}
 
 	public void testResolveMultiPathAsBean() {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"childs", "address" });
+		assertSize(1,val);
 		assertContains(doe.dad.address, val);
 	}
 
 	public void testResolveMultiPathAsString() {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"childs", "address", "country" });
+		assertSize(1,val);
 		assertContains(doe.dad.address.country(), val);
 	}
 
@@ -121,6 +135,7 @@ public class BeanResolverTest extends FilterTestCase {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
 				"dad", "childs", "family", "mom", "childs", "family", "childs",
 				"address", "postcode" });
+		assertSize(1,val);
 		assertContains(doe.dad.address.postcode, val);
 	}
 }

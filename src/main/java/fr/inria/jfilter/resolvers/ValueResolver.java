@@ -37,8 +37,14 @@ public class ValueResolver {
 		Collection<Object> input = Collections.singleton(pojo);
 		for (String key : path) {
 			Collection<Object> output = new HashSet<Object>();
-			for (Object obj : input)
-				output.addAll(getValues(obj, key));
+			for (Object obj : input) {
+				Collection<Object> val = getValues(obj, key);
+				if (val.isEmpty() && obj instanceof Collection<?>) {
+					for (Object elt : (Collection<?>) obj)
+						output.addAll(getValues(elt, key));
+				} else
+					output.addAll(val);
+			}
 			if (output.isEmpty())
 				return output;
 			input = output;
@@ -47,22 +53,19 @@ public class ValueResolver {
 	}
 
 	public Collection<Object> getValues(Object pojo, String key) {
-		// Collection<Object> res = new HashSet<Object>();
 		for (ValueResolver resolver : resolvers) {
-			// res.addAll(resolver.getValue(pojo, key));
 			final Collection<Object> res = resolver.getValues(pojo, key);
-			if (!res.isEmpty()) // Returns result from 1st matching resolver
+			if (!res.isEmpty())
 				return res;
 		}
 		return Collections.emptySet();
 	}
 
-	protected final Collection<Object> update(Collection<Object> col, Object value) {
+	protected final Collection<Object> update(Collection<Object> col,
+			Object value) {
 		if (value == null)
 			return col;
 		col.add(value);
-		if (value instanceof Collection<?>)
-			col.addAll((Collection<?>) value);
 		return col;
 	}
 }
