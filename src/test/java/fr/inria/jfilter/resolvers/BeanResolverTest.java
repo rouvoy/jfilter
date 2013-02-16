@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.FilterException;
+import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
 
 /**
@@ -42,48 +42,48 @@ public class BeanResolverTest extends FilterTestCase {
 		return new TestSuite(BeanResolverTest.class);
 	}
 
-	public void testResolveWithUnknownKey() throws FilterException {
+	public void testResolveWithUnknownKey() throws ParsingException {
 		assertEmpty(BeanResolver.bean.getValues(doe.dad, "abc"));
 	}
 
-	public void testResolveFieldAsBean() throws FilterException {
+	public void testResolveFieldAsBean() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "dad");
 		assertContains(doe.dad, val);
 	}
 
-	public void testResolveFieldAsString() throws FilterException {
+	public void testResolveFieldAsString() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe.dad,
 				"firstname");
 		assertContains(doe.dad.firstname, val);
 	}
 
-	public void testResolveFieldAsInt() throws FilterException {
+	public void testResolveFieldAsInt() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "age");
 		assertContains(doe.dad.age, val);
 	}
 
-	public void testResolveFieldAsDouble() throws FilterException {
+	public void testResolveFieldAsDouble() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "height");
 		assertContains(doe.dad.height, val);
 	}
 
-	public void testResolveFieldAsBoolean() throws FilterException {
+	public void testResolveFieldAsBoolean() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "male");
 		assertContains(doe.dad.male, val);
 	}
 
-	public void testResolveFieldAsCollection() throws FilterException {
+	public void testResolveFieldAsCollection() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "childs");
 		assertSize(1,val);
 		assertContains(doe.childs, val);
 	}
 
-	public void testResolveGetterAsString() throws FilterException {
+	public void testResolveGetterAsString() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "name");
 		assertContains(doe.getName(), val);
 	}
 
-	public void testResolveMethodAsCollection() throws FilterException {
+	public void testResolveMethodAsCollection() throws ParsingException {
 		Collection<Object> val = BeanResolver.bean.getValues(doe, "members");
 		assertSize(1,val);
 		assertContains(doe.members(), val);

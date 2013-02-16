@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.FilterException;
+import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
 
 /**
@@ -42,45 +42,45 @@ public class MapResolverTest extends FilterTestCase {
 		return new TestSuite(MapResolverTest.class);
 	}
 
-	public void testResolveWithUnknownKey() throws FilterException {
+	public void testResolveWithUnknownKey() throws ParsingException {
 		assertEmpty(MapResolver.map.getValues(doe.map(), "abc"));
 	}
 
-	public void testResolveFieldAsBean() throws FilterException {
+	public void testResolveFieldAsBean() throws ParsingException {
 		Collection<Object> val = MapResolver.map.getValues(doe.map(), "dad");
 		assertContains(doe.dad.map(), val);
 	}
 
-	public void testResolveFieldAsString() throws FilterException {
+	public void testResolveFieldAsString() throws ParsingException {
 		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
 				"firstname");
 		assertContains(doe.dad.firstname, val);
 	}
 
-	public void testResolveFieldAsInt() throws FilterException {
+	public void testResolveFieldAsInt() throws ParsingException {
 		Collection<Object> val = MapResolver.map
 				.getValues(doe.dad.map(), "age");
 		assertContains(doe.dad.age, val);
 	}
 
-	public void testResolveFieldAsDouble() throws FilterException {
+	public void testResolveFieldAsDouble() throws ParsingException {
 		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
 				"height");
 		assertContains(doe.dad.height, val);
 	}
 
-	public void testResolveFieldAsBoolean() throws FilterException {
+	public void testResolveFieldAsBoolean() throws ParsingException {
 		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
 				"male");
 		assertContains(doe.dad.male, val);
 	}
 
-	public void testResolveGetterAsString() throws FilterException {
+	public void testResolveGetterAsString() throws ParsingException {
 		Collection<Object> val = MapResolver.map.getValues(doe.map(), "name");
 		assertContains(doe.getName(), val);
 	}
 
-	public void testResolveMethodAsCollection() throws FilterException {
+	public void testResolveMethodAsCollection() throws ParsingException {
 		Collection<Object> val = MapResolver.map
 				.getValues(doe.map(), "members");
 		assertContains(doe.members(), val);

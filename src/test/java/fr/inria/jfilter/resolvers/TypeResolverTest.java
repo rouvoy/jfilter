@@ -22,7 +22,7 @@ package fr.inria.jfilter.resolvers;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.FilterException;
+import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
 
 /**
@@ -37,16 +37,16 @@ public class TypeResolverTest extends FilterTestCase {
 		return new TestSuite(TypeResolverTest.class);
 	}
 
-	public void testResolveUnknownKey() throws FilterException {
+	public void testResolveUnknownKey() throws ParsingException {
 		assertEmpty(TypeResolver.type.getValues(doe.dad, "abc"));
 	}
 
-	public void testResolveBean() throws FilterException {
+	public void testResolveBean() throws ParsingException {
 		assertContains(doe.dad.getClass(),
 				TypeResolver.type.getValues(doe.dad, "objectClass"));
 	}
 
-	public void testResolvePerson() throws FilterException {
+	public void testResolvePerson() throws ParsingException {
 		assertContains(Person.class,
 				TypeResolver.type.getValues(Person.class, "objectClass"));
 	}

@@ -20,10 +20,10 @@
  */
 package fr.inria.jfilter;
 
-public class FilterException extends Exception {
+public class ParsingException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public FilterException(String cause) {
+	public ParsingException(String cause) {
 		super(cause);
 	}
 

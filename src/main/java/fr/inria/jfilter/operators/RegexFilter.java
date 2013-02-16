@@ -3,6 +3,7 @@ package fr.inria.jfilter.operators;
 import static fr.inria.jfilter.resolvers.ValueResolver.instance;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class RegexFilter extends FilterImpl {
 	protected final String[] attribute;
@@ -13,7 +14,7 @@ public class RegexFilter extends FilterImpl {
 		this.regex = expression;
 	}
 
-	public boolean match(Object bean) {
+	public boolean match(Object bean, Map<String, Object> context) {
 		if (bean instanceof Collection<?>) {
 			Collection<?> col = (Collection<?>) bean;
 			for (Object elt : col)

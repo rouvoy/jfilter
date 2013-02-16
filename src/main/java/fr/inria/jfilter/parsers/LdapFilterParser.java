@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 
 
 import fr.inria.jfilter.Filter;
-import fr.inria.jfilter.FilterParser;
+import fr.inria.jfilter.Parser;
 import fr.inria.jfilter.utils.Option;
 
-public class LdapFilterParser extends FilterParser {
+public class LdapFilterParser extends Parser {
 	// filter = "(" filtercomp ")"
 	private final Pattern filterRule = compile("^\\x28(.+)\\x29$");
 

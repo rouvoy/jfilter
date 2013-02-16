@@ -43,16 +43,16 @@ import fr.inria.jfilter.utils.None;
 import fr.inria.jfilter.utils.Option;
 import fr.inria.jfilter.utils.Some;
 
-public class FilterParser {
-	private final Logger log = Logger.getLogger(FilterParser.class.getName());
+public class Parser {
+	private final Logger log = Logger.getLogger(Parser.class.getName());
 
-	public static final FilterParser instance = new FilterParser(),
+	public static final Parser instance = new Parser(),
 			ldap = new LdapFilterParser(), json = new JsonFilterParser();
 
-	public static final FilterParser[] parsers = new FilterParser[] { ldap,
+	public static final Parser[] parsers = new Parser[] { ldap,
 			json };
 
-	protected FilterParser() {
+	protected Parser() {
 	}
 
 	@SuppressWarnings("unchecked")
@@ -108,7 +108,7 @@ public class FilterParser {
 
 	private final Map<String, Filter> filters = new HashMap<String, Filter>();
 
-	public Filter parse(String filter) throws FilterException {
+	public Filter parse(String filter) throws ParsingException {
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsing filter \"" + filter + "\"");
 		if (filters.containsKey(filter))
@@ -117,14 +117,14 @@ public class FilterParser {
 		if (res.isDefined())
 			filters.put(filter, res.get());
 		else
-			throw new FilterException("Failed to build a filter for " + filter);
+			throw new ParsingException("Failed to build a filter for " + filter);
 		if (log.isLoggable(Level.FINE))
 			log.fine("Parsed filter is " + res.get());
 		return res.get();
 	}
 
 	protected Option<Filter> tryToParse(String filter) {
-		for (FilterParser p : parsers) {
+		for (Parser p : parsers) {
 			final Option<Filter> f = p.tryToParse(filter);
 			if (f.isDefined())
 				return f;

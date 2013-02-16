@@ -22,6 +22,7 @@ package fr.inria.jfilter.operators;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import fr.inria.jfilter.resolvers.ValueResolver;
 
@@ -45,7 +46,7 @@ public abstract class ComparableFilter extends FilterImpl {
 
 	protected abstract boolean convert(int result);
 
-	public boolean match(Object bean) {
+	public boolean match(Object bean, Map<String, Object> context) {
 		final boolean check = check(bean);
 		if (!check && bean instanceof Collection<?>) {
 			Collection<?> col = (Collection<?>) bean;

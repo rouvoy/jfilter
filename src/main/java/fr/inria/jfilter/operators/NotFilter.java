@@ -20,6 +20,8 @@
  */
 package fr.inria.jfilter.operators;
 
+import java.util.Map;
+
 import fr.inria.jfilter.Filter;
 
 public class NotFilter extends FilterImpl {
@@ -29,8 +31,8 @@ public class NotFilter extends FilterImpl {
 		this.delegate = delegate;
 	}
 
-	public boolean match(Object bean) {
-		return !this.delegate.match(bean);
+	public boolean match(Object bean, Map<String, Object> context) {
+		return !this.delegate.match(bean, null);
 	}
 
 	public String toString() {

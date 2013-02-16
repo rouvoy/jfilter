@@ -21,6 +21,7 @@
 package fr.inria.jfilter.operators;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import fr.inria.jfilter.Filter;
 
@@ -31,9 +32,9 @@ public class OrFilter extends FilterImpl {
 		this.delegates = delegates;
 	}
 
-	public boolean match(Object bean) {
+	public boolean match(Object bean, Map<String, Object> context) {
 		for (Filter f : delegates)
-			if (f.match(bean))
+			if (f.match(bean, null))
 				return true;
 		return false;
 	}
