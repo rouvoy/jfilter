@@ -160,6 +160,21 @@ public class LdapFilterTest extends FilterTestCase {
 		assertTrue(filter.match(doe.dad));
 	}
 
+	public void testFilterEmptyCollection() throws FilterException {
+		Filter filter = ldap.parse("(hobbies.size=0)");
+		assertTrue(filter.match(doe.dad));
+	}
+	
+	public void testFilterByAnyLastname() throws FilterException {
+		Filter filter = ldap.parse("(dad.lastname=*)");
+		assertTrue(filter.match(doe));
+	}
+
+	public void testFilterCollectionByAnyLastname() throws FilterException {
+		Filter filter = ldap.parse("(members.lastname=*)");
+		assertTrue(filter.match(doe));
+	}
+
 	public void testFilterAndString() throws FilterException {
 		Filter filter = ldap.parse("(&(lastname=Doe)(firstname=John))");
 		assertTrue(filter.match(doe.dad));

@@ -21,14 +21,11 @@
 package fr.inria.jfilter.parsers;
 
 import static fr.inria.jfilter.FilterParser.json;
-
-
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import fr.inria.jfilter.Filter;
 import fr.inria.jfilter.FilterException;
 import fr.inria.jfilter.FilterTestCase;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Unit tests for JSON-like filters.
@@ -99,6 +96,21 @@ public class JsonFilterTest extends FilterTestCase {
 	public void testFilterEqualsEmbeddedString() throws FilterException {
 		Filter filter = json.parse("{address.city:New York}");
 		assertTrue(filter.match(doe.dad));
+	}
+	
+	public void testFilterEmptyCollection() throws FilterException {
+		Filter filter = json.parse("{hobbies.size:0}");
+		assertTrue(filter.match(doe.dad));
+	}	
+
+	public void testFilterByAnyLastname() throws FilterException {
+		Filter filter = json.parse("{dad.lastname:*}");
+		assertTrue(filter.match(doe));
+	}
+
+	public void testFilterCollectionByAnyLastname() throws FilterException {
+		Filter filter = json.parse("{members.lastname:*}");
+		assertTrue(filter.match(doe));
 	}
 
 	public void testFilterSequence() throws FilterException {
