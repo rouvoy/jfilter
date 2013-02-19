@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestCase;
+import fr.inria.jfilter.utils.Option;
 
 public abstract class FilterTestCase extends TestCase {
 	public static class Family {
@@ -193,7 +194,7 @@ public abstract class FilterTestCase extends TestCase {
 		public Child(String first, String last, boolean m, int a, double h) {
 			super(first, last, m, a, h);
 		}
-		
+
 		public Map<String, Object> map() {
 			Map<String, Object> res = super.map();
 			res.put("dad", this.dad);
@@ -217,11 +218,32 @@ public abstract class FilterTestCase extends TestCase {
 		assertTrue("Collection should be empty", coll.isEmpty());
 	}
 
+	protected static final void assertEmpty(Option<?> opt) {
+		assertTrue("Option should be empty", opt.isEmpty());
+		if (opt.get() instanceof Collection<?>)
+			assertEmpty((Collection<?>) opt.get());
+	}
+
 	protected static final void assertContains(Object expected,
-			Collection<Object> coll) {
+			Collection<?> coll) {
 		assertFalse("Collection should not be empty", coll.isEmpty());
-		assertTrue("Collection should contain the value " + expected,
-				coll.contains(expected));
+		assertTrue("Collection " + coll + " should contain the value "
+				+ expected, coll.contains(expected));
+	}
+
+	protected static final void assertContains(Object expected,
+			Option<Object> opt) {
+		assertFalse("Option should not be empty", opt.isEmpty());
+		if (opt.get() instanceof Collection<?>)
+			assertContains(expected, (Collection<?>) opt.get());
+		else
+			assertTrue("Option should contain the value " + expected, opt.get()
+					.equals(expected));
+	}
+
+	protected void assertIs(Object expected, Collection<Object> val) {
+		assertFalse("Collection should be defined", val.isEmpty());
+		assertEquals(expected, val);
 	}
 
 	protected static final void assertSize(int size, Collection<?> coll) {

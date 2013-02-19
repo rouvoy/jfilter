@@ -1,11 +1,12 @@
 package fr.inria.jfilter.query;
 
+import static fr.inria.jfilter.resolvers.ValueResolver.instance;
+
 import java.util.Collection;
 import java.util.Map;
 
 import fr.inria.jfilter.Filter;
 import fr.inria.jfilter.Query;
-import fr.inria.jfilter.resolvers.ValueResolver;
 
 public class Step implements Query {
 	private final String[] elements;
@@ -20,10 +21,14 @@ public class Step implements Query {
 		this(new String[] { elt }, pred);
 	}
 
-	public Object apply(Object object, Map<String, Object> context) {
-		Collection<?> val = ValueResolver.instance.getValues(object, elements);
-		if (this.predicate != null)
-			return this.predicate.filter(val, context);
-		return val;
+	public Collection<Object> apply(Object pojo, Map<String, Object> context) {
+		Collection<Object> val = instance.resolve(pojo, elements, context);
+		if (val.isEmpty() || this.predicate == null)
+			return val;
+		return this.predicate.filter(val, context);
+	}
+
+	public String toString() {
+		return this.elements + ":" + this.predicate;
 	}
 }

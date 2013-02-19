@@ -22,6 +22,9 @@ package fr.inria.jfilter.resolvers;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
+
+import fr.inria.jfilter.utils.Views;
 
 public class TypeResolver extends ValueResolver {
 	public static final ValueResolver type = new TypeResolver();
@@ -38,14 +41,15 @@ public class TypeResolver extends ValueResolver {
 		this(TYPE);
 	}
 
-	public Collection<Object> getValues(Object bean, String key) {
-		Collection<Object> res = new HashSet<Object>();
-		if (this.keySet.contains(key)) {
-			if (bean instanceof Class)
-				update((Class<?>) bean, res);
-			else
-				update(bean.getClass(), res);
-		}
+	public Collection<Object> resolve(Object pojo, String axe,
+			Map<String, Object> context) {
+		if (!this.keySet.contains(axe))
+			return null;
+		Collection<Object> res = Views.newView();
+		if (pojo instanceof Class)
+			update((Class<?>) pojo, res);
+		else
+			update(pojo.getClass(), res);
 		return res;
 	}
 

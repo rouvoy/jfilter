@@ -18,15 +18,19 @@ public class RegexFilter extends FilterImpl {
 		if (bean instanceof Collection<?>) {
 			Collection<?> col = (Collection<?>) bean;
 			for (Object elt : col)
-				if (check(elt))
+				if (check(elt, context))
 					return true;
 		}
-		return check(bean);
+		return check(bean, context);
 	}
 
-	protected boolean check(Object bean) {
-		for (Object value : instance.getValues(bean, attribute))
-			if (value.toString().matches(regex))
+	protected boolean check(Object bean, Map<String, Object> context) {
+		Collection<Object> values = instance.resolve(bean, this.attribute,
+				context);
+		if (values == null)
+			return false;
+		for (Object value : values)
+			if (value.toString().matches(this.regex))
 				return true;
 		return false;
 	}

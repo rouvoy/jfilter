@@ -45,81 +45,81 @@ public class JsonFilterTest extends FilterTestCase {
 
 	public void testFilterEqualsString() throws ParsingException {
 		Filter filter = json.parse("{lastname:Doe}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithSpace() throws ParsingException {
 		Filter filter = json.parse("{ lastname : Doe }");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterDoNotEqualsString() throws ParsingException {
 		Filter filter = json.parse("{ !lastname : Smith }");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithValueQuotes() throws ParsingException {
 		Filter filter = json.parse("{lastname:\"Doe\"}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithWildcard() throws ParsingException {
 		Filter filter = json.parse("{lastname:D*}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterExist() throws ParsingException {
 		Filter filter = json.parse("{lastname:*}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsStringWithKeyQuotes() throws ParsingException {
 		Filter filter = json.parse("{\"lastname\":Doe}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsBolean() throws ParsingException {
 		Filter filter = json.parse("{male:true}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsInt() throws ParsingException {
 		Filter filter = json.parse("{age:30}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsDouble() throws ParsingException {
 		Filter filter = json.parse("{height:1.8}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterEqualsEmbeddedString() throws ParsingException {
 		Filter filter = json.parse("{address.city:New York}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 	
 	public void testFilterEmptyCollection() throws ParsingException {
 		Filter filter = json.parse("{hobbies.size:0}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}	
 
 	public void testFilterByAnyLastname() throws ParsingException {
 		Filter filter = json.parse("{dad.lastname:*}");
-		assertTrue(filter.match(doe, null));
+		assertTrue(filter.match(doe));
 	}
 
 	public void testFilterCollectionByAnyLastname() throws ParsingException {
 		Filter filter = json.parse("{members.lastname:*}");
-		assertTrue(filter.match(doe, null));
+		assertTrue(filter.match(doe));
 	}
 
 	public void testFilterSequence() throws ParsingException {
 		Filter filter = json.parse("{firstname:John,lastname:Doe}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 
 	public void testFilterStarFilter() throws ParsingException {
 		Filter filter = json.parse("{\"filter\":\"*:W\"}");
-		assertTrue(filter.match(doe.dad, null));
+		assertTrue(filter.match(doe.dad));
 	}
 }

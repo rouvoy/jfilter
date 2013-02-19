@@ -20,12 +20,11 @@
  */
 package fr.inria.jfilter.resolvers;
 
-import java.util.Collection;
-
+import static fr.inria.jfilter.resolvers.MapResolver.map;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
+import fr.inria.jfilter.ParsingException;
 
 /**
  * Unit test for Bean Resolver class.
@@ -43,64 +42,35 @@ public class MapResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveWithUnknownKey() throws ParsingException {
-		assertEmpty(MapResolver.map.getValues(doe.map(), "abc"));
+		assertNull(MapResolver.map.resolve(doe.map(), "abc"));
 	}
 
 	public void testResolveFieldAsBean() throws ParsingException {
-		Collection<Object> val = MapResolver.map.getValues(doe.map(), "dad");
-		assertContains(doe.dad.map(), val);
+		assertContains(doe.dad.map(), map.resolve(doe.map(), "dad"));
 	}
 
 	public void testResolveFieldAsString() throws ParsingException {
-		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
-				"firstname");
-		assertContains(doe.dad.firstname, val);
+		assertContains(doe.dad.firstname,
+				map.resolve(doe.dad.map(), "firstname"));
 	}
 
 	public void testResolveFieldAsInt() throws ParsingException {
-		Collection<Object> val = MapResolver.map
-				.getValues(doe.dad.map(), "age");
-		assertContains(doe.dad.age, val);
+		assertContains(doe.dad.age, map.resolve(doe.dad.map(), "age"));
 	}
 
 	public void testResolveFieldAsDouble() throws ParsingException {
-		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
-				"height");
-		assertContains(doe.dad.height, val);
+		assertContains(doe.dad.height, map.resolve(doe.dad.map(), "height"));
 	}
 
 	public void testResolveFieldAsBoolean() throws ParsingException {
-		Collection<Object> val = MapResolver.map.getValues(doe.dad.map(),
-				"male");
-		assertContains(doe.dad.male, val);
+		assertContains(doe.dad.male, map.resolve(doe.dad.map(), "male"));
 	}
 
 	public void testResolveGetterAsString() throws ParsingException {
-		Collection<Object> val = MapResolver.map.getValues(doe.map(), "name");
-		assertContains(doe.getName(), val);
+		assertContains(doe.getName(), map.resolve(doe.map(), "name"));
 	}
 
 	public void testResolveMethodAsCollection() throws ParsingException {
-		Collection<Object> val = MapResolver.map
-				.getValues(doe.map(), "members");
-		assertContains(doe.members(), val);
-	}
-
-	public void testResolvePathAsString() {
-		Collection<Object> val = MapResolver.map.getValues(doe.map(),
-				new String[] { "dad", "address", "city" });
-		assertContains(doe.dad.address.city, val);
-	}
-
-	public void testResolvePathAsBeans() {
-		Collection<Object> val = MapResolver.map.getValues(doe.map(),
-				new String[] { "dad", "address",  });
-		assertContains(doe.dad.address.map(), val);
-	}
-
-	public void testResolvePathAsInt() {
-		Collection<Object> val = MapResolver.map.getValues(doe.map(),
-				new String[] { "dad", "address", "postcode" });
-		assertContains(doe.dad.address.postcode, val);
+		assertIs(doe.members(), map.resolve(doe.map(), "members"));
 	}
 }

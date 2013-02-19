@@ -34,7 +34,7 @@ public class AndFilter extends FilterImpl {
 
 	public boolean match(Object bean, Map<String, Object> context) {
 		for (Filter f : delegates)
-			if (!f.match(bean, null))
+			if (!f.match(bean, context))
 				return false;
 		return true;
 	}

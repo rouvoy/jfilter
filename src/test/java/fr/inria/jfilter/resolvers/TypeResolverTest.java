@@ -20,10 +20,11 @@
  */
 package fr.inria.jfilter.resolvers;
 
+import static fr.inria.jfilter.resolvers.TypeResolver.type;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
+import fr.inria.jfilter.ParsingException;
 
 /**
  * Unit test for Type Resolver class.
@@ -38,16 +39,14 @@ public class TypeResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveUnknownKey() throws ParsingException {
-		assertEmpty(TypeResolver.type.getValues(doe.dad, "abc"));
+		assertNull(type.resolve(doe.dad, "abc"));
 	}
 
 	public void testResolveBean() throws ParsingException {
-		assertContains(doe.dad.getClass(),
-				TypeResolver.type.getValues(doe.dad, "objectClass"));
+		assertContains(doe.dad.getClass(), type.resolve(doe.dad, "objectClass"));
 	}
 
 	public void testResolvePerson() throws ParsingException {
-		assertContains(Person.class,
-				TypeResolver.type.getValues(Person.class, "objectClass"));
+		assertContains(Person.class, type.resolve(Person.class, "objectClass"));
 	}
 }

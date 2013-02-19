@@ -32,7 +32,7 @@ public class NotFilter extends FilterImpl {
 	}
 
 	public boolean match(Object bean, Map<String, Object> context) {
-		return !this.delegate.match(bean, null);
+		return !this.delegate.match(bean, context);
 	}
 
 	public String toString() {

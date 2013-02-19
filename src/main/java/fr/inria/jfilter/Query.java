@@ -1,8 +1,9 @@
 package fr.inria.jfilter;
 
+import java.util.Collection;
 import java.util.Map;
 
 
 public interface Query {
-	Object apply(Object nodes, Map<String, Object> context);
+	Collection<Object> apply(Object nodes, Map<String, Object> context);
 }

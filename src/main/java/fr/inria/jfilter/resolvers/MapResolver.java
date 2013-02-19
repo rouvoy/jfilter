@@ -21,20 +21,21 @@
 package fr.inria.jfilter.resolvers;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 
-public class MapResolver extends ValueResolver {
-	public static final ValueResolver map = new MapResolver();
+import fr.inria.jfilter.utils.Views;
+
+public class MapResolver extends AbstractResolver {
+	public static final Resolver map = new MapResolver();
 
 	@SuppressWarnings("unchecked")
-	public Collection<Object> getValues(Object bean, String key) {
+	public Collection<Object> resolve(Object bean, String key,
+			Map<String, Object> ctx) {
 		if (bean instanceof Map) {
 			Map<String, Object> map = (Map<String, Object>) bean;
 			if (map.containsKey(key))
-				return update(new HashSet<Object>(),map.get(key));
+				return Views.asView(map.get(key));
 		}
-		return Collections.emptySet();
+		return null;
 	}
 }

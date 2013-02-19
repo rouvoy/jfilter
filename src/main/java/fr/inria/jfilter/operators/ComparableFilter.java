@@ -20,11 +20,11 @@
  */
 package fr.inria.jfilter.operators;
 
+import static fr.inria.jfilter.resolvers.ValueResolver.instance;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
-
-import fr.inria.jfilter.resolvers.ValueResolver;
 
 public abstract class ComparableFilter extends FilterImpl {
 	protected final String value, operator;
@@ -36,8 +36,9 @@ public abstract class ComparableFilter extends FilterImpl {
 		this.operator = operator;
 	}
 
-	public Collection<Object> getLeftValue(Object input) {
-		return ValueResolver.instance.getValues(input, this.attribute);
+	public Collection<Object> resolveValue(Object input,
+			Map<String, Object> context) {
+		return instance.resolve(input, this.attribute, context);
 	}
 
 	protected <T extends Comparable<T>> boolean compare(T left, T right) {
@@ -47,19 +48,22 @@ public abstract class ComparableFilter extends FilterImpl {
 	protected abstract boolean convert(int result);
 
 	public boolean match(Object bean, Map<String, Object> context) {
-		final boolean check = check(bean);
+		final boolean check = check(bean, context);
 		if (!check && bean instanceof Collection<?>) {
 			Collection<?> col = (Collection<?>) bean;
 			for (Object elt : col)
-				if (check(elt))
+				if (check(elt, context))
 					return true;
 		}
 		return check;
 	}
 
-	protected boolean check(Object bean) {
-		for (Object value : getLeftValue(bean))
-			if (eval(value))
+	protected boolean check(Object bean, Map<String, Object> context) {
+		Collection<?> values = resolveValue(bean, context);
+		if (values == null)
+			return false;
+		for (Object val : values)
+			if (eval(val))
 				return true;
 		return false;
 	}

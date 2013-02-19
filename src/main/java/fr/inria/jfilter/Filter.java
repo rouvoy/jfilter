@@ -24,7 +24,9 @@ import java.util.Collection;
 import java.util.Map;
 
 public interface Filter {
+	boolean match(Object bean);
 	boolean match(Object bean, Map<String, Object> context);
 
+	<E> Collection<E> filter(Collection<E> collection);
 	<E> Collection<E> filter(Collection<E> collection, Map<String, Object> context);
 }

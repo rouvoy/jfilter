@@ -20,12 +20,11 @@
  */
 package fr.inria.jfilter.resolvers;
 
-import java.util.Collection;
-
+import static fr.inria.jfilter.resolvers.BeanResolver.bean;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.FilterTestCase;
+import fr.inria.jfilter.ParsingException;
 
 /**
  * Unit test for Bean Resolver class.
@@ -43,99 +42,42 @@ public class BeanResolverTest extends FilterTestCase {
 	}
 
 	public void testResolveWithUnknownKey() throws ParsingException {
-		assertEmpty(BeanResolver.bean.getValues(doe.dad, "abc"));
+		assertNull(bean.resolve(doe.dad, "abc"));
 	}
 
 	public void testResolveFieldAsBean() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, "dad");
-		assertContains(doe.dad, val);
+		assertContains(doe.dad, bean.resolve(doe, "dad"));
 	}
 
 	public void testResolveFieldAsString() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe.dad,
-				"firstname");
-		assertContains(doe.dad.firstname, val);
+		assertContains(doe.dad.firstname, bean.resolve(doe.dad, "firstname"));
 	}
 
 	public void testResolveFieldAsInt() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "age");
-		assertContains(doe.dad.age, val);
+		assertContains(doe.dad.age, bean.resolve(doe.dad, "age"));
 	}
 
 	public void testResolveFieldAsDouble() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "height");
-		assertContains(doe.dad.height, val);
+		assertContains(doe.dad.height, bean.resolve(doe.dad, "height"));
 	}
 
 	public void testResolveFieldAsBoolean() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe.dad, "male");
-		assertContains(doe.dad.male, val);
+		assertContains(doe.dad.male, bean.resolve(doe.dad, "male"));
 	}
 
 	public void testResolveFieldAsCollection() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, "childs");
-		assertSize(1,val);
-		assertContains(doe.childs, val);
+		assertIs(doe.childs, bean.resolve(doe, "childs"));
+	}
+
+	public void testResolveMethodAsInt() throws ParsingException {
+		assertContains(doe.childs.size(), bean.resolve(doe.childs, "size"));
 	}
 
 	public void testResolveGetterAsString() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, "name");
-		assertContains(doe.getName(), val);
+		assertContains(doe.getName(), bean.resolve(doe, "name"));
 	}
 
 	public void testResolveMethodAsCollection() throws ParsingException {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, "members");
-		assertSize(1,val);
-		assertContains(doe.members(), val);
-	}
-
-	public void testResolvePathAsString() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"dad", "address", "city" });
-		assertSize(1,val);
-		assertContains(doe.dad.address.city, val);
-	}
-
-	public void testResolvePathAsEmptyCollection() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"dad", "hobbies", "size" });
-		assertSize(1,val);
-		assertContains(doe.dad.hobbies.size(), val);
-	}
-
-	public void testResolvePathAsInt() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"dad", "childs", "size" });
-		assertSize(1,val);
-		assertContains(doe.dad.childs.size(), val);
-	}
-	
-	public void testResolvePathAsBeans() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"dad", "address", "country" });
-		assertSize(1,val);
-		assertContains(doe.dad.address.country(), val);
-	}
-
-	public void testResolveMultiPathAsBean() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"childs", "address" });
-		assertSize(1,val);
-		assertContains(doe.dad.address, val);
-	}
-
-	public void testResolveMultiPathAsString() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"childs", "address", "country" });
-		assertSize(1,val);
-		assertContains(doe.dad.address.country(), val);
-	}
-
-	public void testResolveLongPathAsBeans() {
-		Collection<Object> val = BeanResolver.bean.getValues(doe, new String[] {
-				"dad", "childs", "family", "mom", "childs", "family", "childs",
-				"address", "postcode" });
-		assertSize(1,val);
-		assertContains(doe.dad.address.postcode, val);
+		assertIs(doe.members(), bean.resolve(doe, "members"));
 	}
 }
