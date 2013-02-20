@@ -8,7 +8,7 @@ import java.util.Map;
 import fr.inria.jfilter.Query;
 import fr.inria.jfilter.utils.Views;
 
-public class Path implements Query {
+public class Path extends AbstractQuery {
 	private final List<Query> steps = new LinkedList<Query>();
 
 	public Collection<Object> apply(Object node, Map<String, Object> context) {

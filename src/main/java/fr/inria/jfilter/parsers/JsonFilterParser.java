@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 
 
 import fr.inria.jfilter.Filter;
-import fr.inria.jfilter.Parser;
+import fr.inria.jfilter.FilterParser;
 import fr.inria.jfilter.utils.Option;
 
-public class JsonFilterParser extends Parser {
+public class JsonFilterParser extends FilterParser {
 	// filter = "{" filtercomp "}"
 	private final Pattern filterRule = compile("^\\x7B(.+)\\x7D$");
 	// filtercomp = item , filtercomp

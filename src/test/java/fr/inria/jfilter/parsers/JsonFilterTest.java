@@ -20,7 +20,7 @@
  */
 package fr.inria.jfilter.parsers;
 
-import static fr.inria.jfilter.Parser.json;
+import static fr.inria.jfilter.FilterParser.json;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import fr.inria.jfilter.Filter;

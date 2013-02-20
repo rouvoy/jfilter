@@ -21,7 +21,7 @@
 package fr.inria.jfilter.parsers;
 
 import fr.inria.jfilter.ParsingException;
-import fr.inria.jfilter.Parser;
+import fr.inria.jfilter.FilterParser;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -40,10 +40,10 @@ public class DefaultFilterTest extends TestCase {
 	}
 
 	public void testJSONFilterParser() throws ParsingException {
-		assertNotNull(Parser.instance.parse("{name:Doe}"));
+		assertNotNull(FilterParser.filter.parse("{name:Doe}"));
 	}
 
 	public void testLDAPFilterParser() throws ParsingException {
-		assertNotNull(Parser.instance.parse("(name=Doe)"));
+		assertNotNull(FilterParser.filter.parse("(name=Doe)"));
 	}
 }

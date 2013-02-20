@@ -20,7 +20,7 @@
  */
 package fr.inria.jfilter.parsers;
 
-import static fr.inria.jfilter.Parser.ldap;
+import static fr.inria.jfilter.FilterParser.ldap;
 
 
 import fr.inria.jfilter.Filter;

@@ -6,9 +6,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import fr.inria.jfilter.Filter;
-import fr.inria.jfilter.Query;
 
-public class Step implements Query {
+public class Step extends AbstractQuery {
 	private final String[] elements;
 	private final Filter predicate;
 
@@ -29,6 +28,11 @@ public class Step implements Query {
 	}
 
 	public String toString() {
-		return this.elements + ":" + this.predicate;
+		StringBuffer buf = new StringBuffer();
+		for (String s : this.elements) {
+			buf.append(s + ".");
+		}
+		buf.append("(" + this.predicate + ")");
+		return buf.toString();
 	}
 }
