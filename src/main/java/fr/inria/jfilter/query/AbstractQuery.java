@@ -7,7 +7,7 @@ import fr.inria.jfilter.Query;
 
 public abstract class AbstractQuery implements Query{
 
-	public Collection<Object> apply(Object nodes) {
-		return apply(nodes,Context.newContext());
+	public Collection<Object> select(Object nodes) {
+		return select(nodes,Context.newContext());
 	}
 }

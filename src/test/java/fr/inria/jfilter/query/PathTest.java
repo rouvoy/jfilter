@@ -39,9 +39,9 @@ public class PathTest extends FilterTestCase {
 		Path path = new Path();
 		path.expand(new Step(new String[] { "members" }, new EqualsToFilter(
 				new String[] { "firstname" }, doe.dad.firstname)));
-		assertFalse(path.apply(doe).isEmpty());
-		assertSize(1, path.apply(doe));
-		assertContains(doe.dad, path.apply(doe));
+		assertFalse(path.select(doe).isEmpty());
+		assertSize(1, path.select(doe));
+		assertContains(doe.dad, path.select(doe));
 	}
 
 	public void testComplexPath() throws ParsingException {
@@ -52,8 +52,8 @@ public class PathTest extends FilterTestCase {
 				new String[] { "age" }, "" + doe.dad.age)));
 		path.expand(new Step(new String[] {}, new EqualsToFilter(new String[] {
 				"address", "postcode" }, "10014")));
-		assertFalse(path.apply(doe).isEmpty());
-		assertSize(1, path.apply(doe));
-		assertContains(doe.dad, path.apply(doe));
+		assertFalse(path.select(doe).isEmpty());
+		assertSize(1, path.select(doe));
+		assertContains(doe.dad, path.select(doe));
 	}
 }

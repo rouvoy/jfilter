@@ -21,6 +21,7 @@
 package fr.inria.jfilter.parsers;
 
 import static fr.inria.jfilter.parsers.BeanQueryParser.bean;
+import static fr.inria.jfilter.parsers.BeanQueryParser.xpath;
 
 import java.util.Collection;
 
@@ -39,27 +40,51 @@ public class BeanQueryTest extends FilterTestCase {
 		return new TestSuite(BeanQueryTest.class);
 	}
 
-	public void testSimplePath() throws ParsingException {
+	public void testSimpleBeanPath() throws ParsingException {
 		Query query = bean.parse("members(firstname=John)");
-		
-		Collection<Object> res = query.apply(doe);
+		Collection<Object> res = query.select(doe);
 		assertFalse(res.isEmpty());
 		assertSize(1, res);
 		assertContains(doe.dad, res);
 	}
 
-	public void testDeepPath() throws ParsingException {
+	public void testDeepBeanPath() throws ParsingException {
 		Query query = bean
 				.parse("members(lastname=Doe).address(postcode=10014)");
-		Collection<Object> res = query.apply(doe);
+		Collection<Object> res = query.select(doe);
 		assertFalse(res.isEmpty());
 		assertSize(1, res);
 		assertContains(doe.dad.address, res);
 	}
 
-	public void testComplexPath() throws ParsingException {
+	public void testComplexBeanPath() throws ParsingException {
 		Query query = bean.parse("members.address(postcode=10014).country");
-		Collection<Object> res = query.apply(doe);
+		Collection<Object> res = query.select(doe);
+		assertFalse(res.isEmpty());
+		assertSize(1, res);
+		assertContains(doe.dad.address.country(), res);
+	}
+
+	public void testSimpleXpath() throws ParsingException {
+		Query query = xpath.parse("members[firstname=John]");
+		Collection<Object> res = query.select(doe);
+		assertFalse(res.isEmpty());
+		assertSize(1, res);
+		assertContains(doe.dad, res);
+	}
+
+	public void testDeepXpath() throws ParsingException {
+		Query query = xpath
+				.parse("members[lastname=Doe]/address[postcode=10014]");
+		Collection<Object> res = query.select(doe);
+		assertFalse(res.isEmpty());
+		assertSize(1, res);
+		assertContains(doe.dad.address, res);
+	}
+
+	public void testComplexXpath() throws ParsingException {
+		Query query = xpath.parse("members/address[postcode=10014]/country");
+		Collection<Object> res = query.select(doe);
 		assertFalse(res.isEmpty());
 		assertSize(1, res);
 		assertContains(doe.dad.address.country(), res);

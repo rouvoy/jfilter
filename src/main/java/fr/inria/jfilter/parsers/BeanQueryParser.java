@@ -25,7 +25,6 @@ import static fr.inria.jfilter.FilterParser.filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fr.inria.jfilter.Parser;
 import fr.inria.jfilter.ParsingException;
 import fr.inria.jfilter.Query;
 import fr.inria.jfilter.QueryParser;
@@ -39,11 +38,23 @@ public class BeanQueryParser extends QueryParser {
 	private final Logger log = Logger
 			.getLogger(BeanQueryParser.class.getName());
 
-	public static final Parser<Query> bean = new BeanQueryParser();
+	public static final QueryParser bean = new BeanQueryParser("Bean", '.',
+			'(', ')'), xpath = new BeanQueryParser("XPath", '/', '[', ']');
+
+	private final char open, close, split;
+	public final String type;
+
+	public BeanQueryParser(String type, char split, char open, char close) {
+		this.type = type;
+		this.split = split;
+		this.open = open;
+		this.close = close;
+	}
 
 	protected Option<Query> tryToParse(String query) throws ParsingException {
 		if (log.isLoggable(Level.FINE))
-			log.fine("Trying to parse \"" + query + "\" as a Bean query");
+			log.fine("Trying to parse \"" + query + "\" as a " + type
+					+ " query");
 		Path path = new Path();
 		int start = 0;
 		while (true) {
@@ -52,7 +63,7 @@ public class BeanQueryParser extends QueryParser {
 				break;
 			if (start == -1)
 				return none;
-			if (query.charAt(start) == '.')
+			if (query.charAt(start) == split)
 				start++;
 		}
 		return Some.some((Query) path);
@@ -60,12 +71,12 @@ public class BeanQueryParser extends QueryParser {
 
 	private int process(String query, Path path, int start)
 			throws ParsingException {
-		int from = query.indexOf("(", start) + 1, to = query.length();
+		int from = query.indexOf(open, start) + 1, to = query.length();
 		Step s;
 		if (from == 0)
 			s = new Step(identifier(query.substring(start)), null);
 		else {
-			to = split(query, from, new char[] { '(', ')' });
+			to = split(query, from);
 			if (to == -1)
 				return -1;
 			s = new Step(identifier(query.substring(start, from - 1)),
@@ -75,14 +86,14 @@ public class BeanQueryParser extends QueryParser {
 		return to + 1;
 	}
 
-	private int split(String query, int start, char[] tokens) {
+	private int split(String query, int start) {
 		int current = start;
 		int depth = 0;
 		while (current < query.length()) {
 			char car = query.charAt(current);
-			if (car == tokens[0])
+			if (car == open)
 				depth++;
-			if (car == tokens[1])
+			if (car == close)
 				if (depth == 0)
 					return current;
 				else
@@ -93,7 +104,7 @@ public class BeanQueryParser extends QueryParser {
 	}
 
 	private String[] identifier(String filter) {
-		String[] res = filter.split("\\.");
+		String[] res = filter.split("\\" + split);
 		return res.length > 0 ? res : new String[] { filter };
 	}
 }

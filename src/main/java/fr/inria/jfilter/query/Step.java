@@ -20,7 +20,7 @@ public class Step extends AbstractQuery {
 		this(new String[] { elt }, pred);
 	}
 
-	public Collection<Object> apply(Object pojo, Map<String, Object> context) {
+	public Collection<Object> select(Object pojo, Map<String, Object> context) {
 		Collection<Object> val = instance.resolve(pojo, elements, context);
 		if (val.isEmpty() || this.predicate == null)
 			return val;

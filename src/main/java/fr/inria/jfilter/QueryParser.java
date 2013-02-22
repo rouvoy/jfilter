@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import fr.inria.jfilter.parsers.BeanQueryParser;
 import fr.inria.jfilter.utils.None;
 import fr.inria.jfilter.utils.Option;
 import fr.inria.jfilter.utils.Some;
@@ -34,7 +35,8 @@ public class QueryParser implements Parser<Query> {
 
 	public static final QueryParser query = new QueryParser();
 
-	public static final QueryParser[] parsers = new QueryParser[] {};
+	public static final QueryParser[] parsers = new QueryParser[] {
+			BeanQueryParser.bean, BeanQueryParser.xpath };
 
 	protected QueryParser() {
 	}

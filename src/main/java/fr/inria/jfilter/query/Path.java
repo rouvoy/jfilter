@@ -11,10 +11,10 @@ import fr.inria.jfilter.utils.Views;
 public class Path extends AbstractQuery {
 	private final List<Query> steps = new LinkedList<Query>();
 
-	public Collection<Object> apply(Object node, Map<String, Object> context) {
+	public Collection<Object> select(Object node, Map<String, Object> context) {
 		Collection<Object> result = Views.asView(node);
 		for (Query step : this.steps) {
-			result = step.apply(result, context);
+			result = step.select(result, context);
 			if (result.isEmpty())
 				break;
 		}
