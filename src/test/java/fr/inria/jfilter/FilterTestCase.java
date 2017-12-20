@@ -204,6 +204,7 @@ public abstract class FilterTestCase extends TestCase {
 	}
 
 	protected final Family doe;
+	protected final Person galt;
 
 	public FilterTestCase(String name) {
 		super(name);
@@ -212,6 +213,7 @@ public abstract class FilterTestCase extends TestCase {
 		this.doe = new Family(dad, mom);
 		this.doe.addChild(new Child("Junior", "Doe", true, 10, 1.2));
 		this.doe.addChild(new Child("Julie", "Doe", false, 8, 1));
+		this.galt = new Person("John", null, true, 35, 1.8);
 	}
 
 	protected static final void assertEmpty(Collection<?> coll) {

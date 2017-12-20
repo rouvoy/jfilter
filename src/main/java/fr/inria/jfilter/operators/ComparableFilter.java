@@ -70,6 +70,8 @@ public abstract class ComparableFilter extends FilterImpl {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private boolean eval(Object bean) {
+		if (bean == null)
+			return value == null;
 		if (bean instanceof Byte)
 			return compare((Byte) bean, new Byte(value));
 		if (bean instanceof Integer)

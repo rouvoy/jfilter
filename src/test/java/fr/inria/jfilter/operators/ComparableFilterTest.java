@@ -202,4 +202,10 @@ public class ComparableFilterTest extends FilterTestCase {
 		assertSize(3, filter.filter(doe.members()));
 		assertSize(3, filter.filter(doe.members()));
 	}
+
+	public void testEqualsToFilterNullString() {
+		EqualsToFilter filter = new EqualsToFilter(
+				new String[] { "lastname" }, "Galt");
+		assertFalse(filter.match(galt));
+	}
 }
