@@ -202,4 +202,16 @@ public class ComparableFilterTest extends FilterTestCase {
 		assertSize(3, filter.filter(doe.members()));
 		assertSize(3, filter.filter(doe.members()));
 	}
+
+	public void testEqualsToFilterNullStringNotNullValue() throws ParsingException {
+		EqualsToFilter notNullValueFilter = new EqualsToFilter(
+				new String[] { "lastname" }, "Galt");
+		assertFalse(notNullValueFilter.match(galt));
+	}
+
+	public void testEqualsToFilterNullStringWithNullValue() throws ParsingException {
+		EqualsToFilter nullValueFilter = new EqualsToFilter(
+				new String[] { "lastname" }, null);
+		assertTrue(nullValueFilter.match(galt));
+	}
 }
